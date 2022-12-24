@@ -1,6 +1,6 @@
-import { Form, Button } from '@components';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Form, Button } from '@components'
+import { StatusBar } from 'expo-status-bar'
+import { StyleSheet, Text, View } from 'react-native'
 
 export default function App() {
   return (
@@ -8,17 +8,17 @@ export default function App() {
       <StatusBar style="auto" />
       <Text style={styles.title}>Sign In</Text>
       <Text>Please sign in to using our app</Text>
-      <Form/>
-      <Button/>
+      <Form />
+      <Button />
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
+    backgroundColor: '#fff',
+    flex: 1,
     justifyContent: 'center',
     padding: 40
   },
@@ -26,4 +26,4 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold'
   }
-});
+})
