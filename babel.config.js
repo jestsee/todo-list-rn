@@ -3,7 +3,7 @@ module.exports = function (api) {
   return {
     presets: ["babel-preset-expo"],
     plugins: [
-      //if you already have other plugin just paste this lines below
+      "nativewind/babel",
       [
         "module-resolver",
         {
