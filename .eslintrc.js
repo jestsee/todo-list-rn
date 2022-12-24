@@ -18,7 +18,7 @@ module.exports = {
       jsx: true
     }
   },
-  plugins: ['react', 'react-native', '@typescript-eslint'],
+  plugins: ['react', 'react-native', '@typescript-eslint', 'prettier'],
   rules: {
     indent: ['error', 2],
     'linebreak-style': ['error', 'windows'],
@@ -31,6 +31,12 @@ module.exports = {
       'error',
       'asc',
       { ignoreClassNames: false, ignoreStyleProperties: false }
+    ],
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto'
+      }
     ]
   },
   settings: {
