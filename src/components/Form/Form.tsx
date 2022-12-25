@@ -3,49 +3,41 @@ import { Text, TextInput, View } from 'react-native'
 import { FieldError } from 'react-hook-form'
 import { styles } from './styles'
 import { useCapitalize } from '@hooks/useCapitalize'
-import Ionicon from '@expo/vector-icons/Ionicons'
-import { useToggle } from '@hooks/useToggle'
 
-interface Props {
+export interface Props {
   control: Control
   name: string
   placeholder?: string
   error?: FieldError
   label?: string
-  password?: boolean
+  suffix?: React.ReactNode
+  secureTextEntry?: boolean
 }
 
 export const Form: React.FC<Props> = ({
   placeholder,
   error,
   label,
-  password,
+  suffix,
+  secureTextEntry,
   ...rest
 }) => {
-  const { show, toggleClick } = useToggle()
-
   return (
     <View style={styles.container}>
-      <Text>{label ?? useCapitalize(rest.name)}</Text>
+      <Text style={styles.label}>{label ?? useCapitalize(rest.name)}</Text>
       <Controller
         {...rest}
         render={({ field: { onChange, onBlur, value } }) => (
           <View style={styles.form}>
             <TextInput
+              style={styles.input}
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
               placeholder={placeholder}
-              secureTextEntry={!show}
+              secureTextEntry={secureTextEntry}
             />
-            {password && (
-              <Ionicon
-                name={!show ? 'eye-outline' : 'eye-off-outline'}
-                size={24}
-                color="darkgrey"
-                onPress={toggleClick}
-              />
-            )}
+            {suffix}
           </View>
         )}
       />

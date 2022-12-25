@@ -1,5 +1,5 @@
 import { Button, StyleSheet, View } from 'react-native'
-import { Form } from '@components'
+import { Form, PasswordForm } from '@components'
 import { useForm } from 'react-hook-form'
 import { validationSchema } from '../validationSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -34,12 +34,7 @@ export const SignUp = () => {
         placeholder="example@mail.com"
         error={errors.email}
       />
-      <Form
-        control={control}
-        name="password"
-        error={errors.password}
-        password
-      />
+      <PasswordForm control={control} name="password" error={errors.password} />
       <Button title="Submit" onPress={handleSubmit(onSubmit)} />
     </View>
   )

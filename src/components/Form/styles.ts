@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
   container: {
+    marginBottom: 12,
     width: '100%'
   },
   error: {
@@ -9,11 +10,19 @@ export const styles = StyleSheet.create({
   },
   form: {
     borderColor: 'darkgrey',
-    borderRadius: 12,
+    borderRadius: 16,
     borderWidth: 1.2,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 18,
-    paddingVertical: 10
+    marginBottom: 4,
+    paddingHorizontal: 20,
+    paddingVertical: 12
+  },
+  input: {
+    flex: 1
+  },
+  label: {
+    paddingBottom: 4,
+    paddingLeft: 8
   }
 })
