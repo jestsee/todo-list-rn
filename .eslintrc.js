@@ -12,32 +12,32 @@ module.exports = {
   overrides: [],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
     ecmaFeatures: {
       jsx: true
-    }
+    },
+    ecmaVersion: 'latest',
+    sourceType: 'module'
   },
   plugins: ['react', 'react-native', '@typescript-eslint', 'prettier'],
   rules: {
-    indent: ['error', 2],
+    indent: ['warn', 2],
     'linebreak-style': ['error', 'windows'],
-    quotes: ['error', 'single'],
-    semi: ['error', 'never'],
-    'react/react-in-jsx-scope': 'off',
-    'react-native/no-unused-styles': 2,
-    'react-native/no-raw-text': 2,
-    'react-native/sort-styles': [
-      'error',
-      'asc',
-      { ignoreClassNames: false, ignoreStyleProperties: false }
-    ],
     'prettier/prettier': [
-      'error',
+      'warn',
       {
-        endOfLine: 'auto'
+        endOfLine: 'crlf'
       }
-    ]
+    ],
+    quotes: ['error', 'single'],
+    'react-native/no-raw-text': 1,
+    'react-native/no-unused-styles': 1,
+    'react-native/sort-styles': ['error', 'asc'],
+    'react/prop-types': 'off',
+    'react/react-in-jsx-scope': 'off',
+    semi: ['error', 'never'],
+    'sort-imports': 'warn',
+    'sort-keys': 'warn',
+    'sort-vars': 'warn'
   },
   settings: {
     react: {

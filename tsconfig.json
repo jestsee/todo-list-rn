@@ -4,16 +4,32 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "*": ["src/*"],
-      "tests": ["tests/*"],
-      "@components": ["src/components/index"]
+      "@components": [
+        "src/components/index"
+      ],
+      "@constants/*": [
+        "src/constants/*"
+      ],
+      "@hooks/*": [
+        "src/hooks/*"
+      ],
+      "@modules/*": [
+        "src/modules/*"
+      ],
     },
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     // sets types for project using src/types folder
-    "typeRoots": ["node_modules/@types", "src/types"],
+    "typeRoots": [
+      "node_modules/@types",
+      "src/types"
+    ],
     "jsx": "react-native",
-    "lib": ["es6", "dom", "esnext"],
+    "lib": [
+      "es6",
+      "dom",
+      "esnext"
+    ],
     "target": "esnext",
     "skipLibCheck": true
   },
