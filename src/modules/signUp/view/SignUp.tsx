@@ -1,45 +1,11 @@
-import { Button, StyleSheet, View } from 'react-native'
-import { Form, PasswordForm } from '@components'
-import { useForm } from 'react-hook-form'
-import { validationSchema } from '../validationSchema'
-import { zodResolver } from '@hookform/resolvers/zod'
-
-interface FormData {
-  name: string
-  email: string
-  password: string
-}
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { SignUpForm } from './SignUpForm'
+import { customPadding } from '@constants/styles'
 
 export const SignUp = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors }
-  } = useForm<FormData>({
-    resolver: zodResolver(validationSchema)
-  })
-  const onSubmit = (data: FormData) => console.log(data)
-
   return (
-    <View style={styles.container}>
-      <Form
-        control={control}
-        name="name"
-        placeholder="John Doe"
-        error={errors.name}
-      />
-      <Form
-        control={control}
-        name="email"
-        placeholder="example@mail.com"
-        error={errors.email}
-      />
-      <PasswordForm control={control} name="password" error={errors.password} />
-      <Button title="Submit" onPress={handleSubmit(onSubmit)} />
-    </View>
+    <SafeAreaView style={{ padding: customPadding }}>
+      <SignUpForm />
+    </SafeAreaView>
   )
 }
-
-const styles = StyleSheet.create({
-  container: { width: '100%' }
-})

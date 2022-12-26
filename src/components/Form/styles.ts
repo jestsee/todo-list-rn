@@ -15,11 +15,12 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 4,
-    paddingHorizontal: 20,
+    paddingHorizontal: 24,
     paddingVertical: 12
   },
   input: {
-    flex: 1
+    flex: 1,
+    fontSize: 16
   },
   label: {
     paddingBottom: 4,
