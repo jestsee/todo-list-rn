@@ -1,29 +1,29 @@
-import { Form, Button } from '@components';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native'
+import { NavigationContainer } from '@react-navigation/native'
+import { SignUp } from '@modules/signUp'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+
+const Stack = createNativeStackNavigator()
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <Text style={styles.title}>Sign In</Text>
-      <Text>Please sign in to using our app</Text>
-      <Form/>
-      <Button/>
-    </View>
-  );
+    // <View style={styles.container}>
+    //   <SignUp />
+    // </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Sign Up" component={SignUp} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
+    backgroundColor: 'white',
+    flex: 1,
     justifyContent: 'center',
-    padding: 40
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold'
+    padding: 32
   }
-});
+})
