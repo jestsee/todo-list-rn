@@ -4,6 +4,7 @@ import { SignUpForm } from '../components/SignUpForm'
 import { styles } from '../styles/styles'
 import { useNavigation } from '@react-navigation/native'
 import { NavigationType } from '@custom-types/route'
+import { SUPABASE_URL } from '@constants/env'
 
 export enum AuthType {
   signUp = 'Sign Up',
