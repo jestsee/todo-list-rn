@@ -1,29 +1,23 @@
-import { StyleSheet, View } from 'react-native'
+import { SignIn, SignUp } from '@modules/auth'
 import { NavigationContainer } from '@react-navigation/native'
-import { SignUp } from '@modules/signUp'
+import { RootStackParamList } from '@custom-types/route'
+import { baseStyles } from '@constants/styles'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-const Stack = createNativeStackNavigator()
+const Stack = createNativeStackNavigator<RootStackParamList>()
 
 export default function App() {
   return (
-    // <View style={styles.container}>
-    //   <SignUp />
-    // </View>
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Sign Up" component={SignUp} />
+      <Stack.Navigator
+        screenOptions={{
+          contentStyle: baseStyles.contentStyle,
+          headerShown: false
+        }}
+      >
+        <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="SignIn" component={SignIn} />
       </Stack.Navigator>
     </NavigationContainer>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    backgroundColor: 'white',
-    flex: 1,
-    justifyContent: 'center',
-    padding: 32
-  }
-})

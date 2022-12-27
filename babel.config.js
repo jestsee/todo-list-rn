@@ -14,7 +14,8 @@ module.exports = function (api) {
             '@components': './src/components/index',
             '@constants': './src/constants',
             '@hooks': './src/hooks',
-            '@modules': './src/modules'
+            '@modules': './src/modules',
+            '@custom-types': './src/types'
           }
         }
       ]

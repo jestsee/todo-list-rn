@@ -16,6 +16,9 @@
       "@modules/*": [
         "src/modules/*"
       ],
+      "@custom-types/*": [
+        "src/types/*"
+      ],
     },
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
