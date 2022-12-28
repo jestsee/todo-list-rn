@@ -13,4 +13,5 @@ export type SignInResponse = {
   session: Session | null
 }
 
+export type AuthState = Omit<SignInResponse, 'user'>
 export type AuthError = { message: string }

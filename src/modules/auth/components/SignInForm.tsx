@@ -1,6 +1,6 @@
-import { Button, Text } from 'react-native'
-import { Form, PasswordForm } from '@components'
-import { SignInPayload as Payload } from '@custom-types/auth'
+import { Button, Form, PasswordForm } from '@components'
+import { SignInPayload } from '@custom-types/auth'
+import { Text } from 'react-native'
 import { useForm } from 'react-hook-form'
 import { useSignInMutation } from '@redux/api/supabaseApi'
 import { validationSchema } from '../validationSchema'
@@ -13,11 +13,11 @@ export const SignInForm = () => {
     control,
     handleSubmit,
     formState: { errors, dirtyFields }
-  } = useForm<Payload>({
+  } = useForm<SignInPayload>({
     resolver: zodResolver(validationSchema.omit({ name: true }))
   })
 
-  if (isLoading) return <Text>Loading...</Text>
+  // if (isLoading) return <Text>Loading...</Text>
   if (isError) return <Text>{error?.message}</Text>
   if (isSuccess) return <Text>{data?.user?.email}</Text>
 
@@ -35,7 +35,11 @@ export const SignInForm = () => {
         error={errors.password}
         touched={dirtyFields.password}
       />
-      <Button title="Submit" onPress={handleSubmit(signIn)} />
+      <Button
+        title="Submit"
+        onPress={handleSubmit(signIn)}
+        loading={isLoading}
+      />
     </>
   )
 }
