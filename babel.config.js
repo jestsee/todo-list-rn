@@ -14,6 +14,7 @@ module.exports = function (api) {
             '@constants': './src/constants',
             '@hooks': './src/hooks',
             '@modules': './src/modules',
+            '@redux': './src/redux',
             '@custom-types': './src/types'
           }
         }

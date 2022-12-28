@@ -16,6 +16,9 @@
       "@modules/*": [
         "src/modules/*"
       ],
+      "@redux/*": [
+        "src/redux/*"
+      ],
       "@custom-types/*": [
         "src/types/*"
       ],
