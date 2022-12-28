@@ -12,3 +12,5 @@ export type SignInResponse = {
   user: User | null
   session: Session | null
 }
+
+export type AuthError = { message: string }
