@@ -1,4 +1,4 @@
-import { selectCurrentSession } from '@redux/authSlice'
+import { selectCurrentSession } from '@redux/slice/authSlice'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 

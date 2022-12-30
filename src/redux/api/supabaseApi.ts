@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys */
 import type {
-  AuthError,
+  CustomError,
   SignInPayload,
   SignInResponse
 } from '@custom-types/auth'
@@ -10,7 +10,7 @@ import { supabase } from '@constants/supabase'
 
 export const supabaseApi = createApi({
   reducerPath: 'supabaseApi',
-  baseQuery: fakeBaseQuery<AuthError>(),
+  baseQuery: fakeBaseQuery<CustomError>(),
   endpoints: (builder) => ({
     signIn: builder.mutation<SignInResponse, SignInPayload>({
       async queryFn(credentials) {
@@ -32,7 +32,6 @@ export const supabaseApi = createApi({
       async queryFn() {
         const { data, error } = await supabase.auth.getSession()
         if (error) return { error: { message: error.message } }
-        console.log('getSession fired', data.session)
         return { data }
       }
     })

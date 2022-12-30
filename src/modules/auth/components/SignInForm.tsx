@@ -5,10 +5,10 @@ import { useForm } from 'react-hook-form'
 import { useSignInMutation } from '@redux/api/supabaseApi'
 import { validationSchema } from '../validationSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useSnackbar } from '@hooks/useSnackbar'
 
 export const SignInForm = () => {
-  const [signIn, { isLoading, isError, error, isSuccess, data }] =
-    useSignInMutation()
+  const [signIn, { isLoading, isSuccess, data }] = useSignInMutation()
   const {
     control,
     handleSubmit,
@@ -16,9 +16,9 @@ export const SignInForm = () => {
   } = useForm<SignInPayload>({
     resolver: zodResolver(validationSchema.omit({ name: true }))
   })
+  const { showSnackbar } = useSnackbar()
 
-  // if (isLoading) return <Text>Loading...</Text>
-  if (isError) return <Text>{error?.message}</Text>
+  // if (isError) return <Text>{error?.message}</Text>
   if (isSuccess) return <Text>{data?.user?.email}</Text>
 
   return (
@@ -37,7 +37,7 @@ export const SignInForm = () => {
       />
       <Button
         title="Submit"
-        onPress={handleSubmit(signIn)}
+        onPress={() => showSnackbar()}
         loading={isLoading}
       />
     </>

@@ -14,4 +14,4 @@ export type SignInResponse = {
 }
 
 export type AuthState = Omit<SignInResponse, 'user'>
-export type AuthError = { message: string }
+export type CustomError = { message: string }

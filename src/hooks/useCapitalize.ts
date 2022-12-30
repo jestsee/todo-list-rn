@@ -15,3 +15,5 @@ export const useCapitalize = (
     })
     .join(' ')
 }
+
+// TODO pindahin jadi utils aja kah? fungsi biasa gitu
