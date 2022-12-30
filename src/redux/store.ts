@@ -2,8 +2,8 @@
 import { authReducer } from './slice/authSlice'
 import { configureStore } from '@reduxjs/toolkit'
 import { errorHandler } from './middleware/errorHandler'
-import { supabaseApi } from '@redux/api/supabaseApi'
 import { snackbarReducer } from './slice/snackBarSlice'
+import { supabaseApi } from '@redux/api/supabaseApi'
 
 export const store = configureStore({
   reducer: {

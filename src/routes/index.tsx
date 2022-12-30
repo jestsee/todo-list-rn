@@ -8,15 +8,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useAuth } from '@hooks/useAuth'
 import { useGetSessionQuery } from '@redux/api/supabaseApi'
 import { useTrackAuth } from '@hooks/useTrackAuth'
-import { Snackbar } from '@components'
-import { useSnackbar } from '@hooks/useSnackbar'
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
 export const Routes = () => {
   const { isFetching } = useGetSessionQuery()
   const { session } = useAuth()
-  const { show } = useSnackbar()
+
   useTrackAuth()
 
   if (isFetching) {
@@ -44,7 +42,6 @@ export const Routes = () => {
           {/* <Stack.Group screenOptions={{ presentation: 'modal' }}></Stack.Group> */}
         </Stack.Navigator>
       </NavigationContainer>
-      {show && <Snackbar message="cihuy" />}
     </>
   )
 }

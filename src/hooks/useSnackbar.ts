@@ -1,18 +1,39 @@
-import { selectSnackbarState, setSnackbar } from '@redux/slice/snackBarSlice'
-import { useDispatch, useSelector } from 'react-redux'
-import { useMemo } from 'react'
+/* eslint-disable sort-keys */
+import { Duration, ShowSnackbarPayload, Variant } from '@custom-types/snackbar'
+import actions from '@redux/slice/snackBarSlice'
+import { useDispatch } from 'react-redux'
 
 export const useSnackbar = () => {
   const dispatch = useDispatch()
-  const { show: showState } = useSelector(selectSnackbarState)
-  const show = useMemo(() => showState, [showState])
+  const { hide, show } = actions
 
-  const showSnackbar = () => {
-    dispatch(setSnackbar({ show: true }))
-    // setTimeout(() => {
-    //   dispatch(setSnackbar({ show: false }))
-    // }, 3000) // LONG SHORT ...
+  const showSnackbar = ({
+    message,
+    dismissable = false,
+    duration = Duration.SHORT,
+    manualClose = false,
+    variant = Variant.SUCCESS
+  }: ShowSnackbarPayload) => {
+    console.log('snackbar called')
+    dispatch(show({ message, dismissable, duration, manualClose, variant }))
+
+    if (!manualClose)
+      setTimeout(() => {
+        dispatch(hide())
+      }, duration * 1000)
   }
 
-  return { show, showSnackbar }
+  const errorSnackbar = (payload: ShowSnackbarPayload) => {
+    showSnackbar({ ...payload, variant: Variant.ERROR })
+  }
+
+  const warnSnackbar = (payload: ShowSnackbarPayload) => {
+    showSnackbar({ ...payload, variant: Variant.WARN })
+  }
+
+  const infoSnackbar = (payload: ShowSnackbarPayload) => {
+    showSnackbar({ ...payload, variant: Variant.INFO })
+  }
+
+  return { showSnackbar, errorSnackbar, warnSnackbar, infoSnackbar }
 }

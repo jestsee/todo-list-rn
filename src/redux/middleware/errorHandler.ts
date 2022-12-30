@@ -9,9 +9,7 @@ import { isRejectedWithValue } from '@reduxjs/toolkit'
 export const errorHandler: Middleware =
   () => (next) => (action: PayloadAction<CustomError>) => {
     if (isRejectedWithValue(action)) {
-      console.warn('We got a rejected action!', action.payload.message)
       ToastAndroid.show(action.payload.message, ToastAndroid.LONG)
     }
-
     return next(action)
   }
