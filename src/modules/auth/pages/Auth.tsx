@@ -42,7 +42,13 @@ export const Auth: React.FC<Props> = ({ type }) => {
       <View style={styles.footer}>
         <Text>Don&apos;t have an account?</Text>
         <Text
-          onPress={() => infoSnackbar({ message: 'hah' })}
+          onPress={() =>
+            infoSnackbar({
+              message: 'hah',
+              dismissable: true,
+              manualClose: true
+            })
+          }
           style={styles.link}
         >
           Sign Up

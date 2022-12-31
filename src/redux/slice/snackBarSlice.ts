@@ -8,6 +8,8 @@ import {
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '../store'
 
+type Payload = PayloadAction<ShowSnackbarPayload>
+
 const initialState: SnackbarPayload = {
   show: false,
   message: '',
@@ -21,11 +23,24 @@ const snackbarSlice = createSlice({
   name: 'snackbar',
   initialState,
   reducers: {
-    show: (state, { payload }: PayloadAction<ShowSnackbarPayload>) => {
-      return { ...state, show: true, ...payload }
-    },
     hide: (state) => {
       state.show = false
+    },
+    show: (state, { payload }: Payload) => {
+      console.log('masuk show')
+      return { ...state, ...payload, show: true, variant: Variant.SUCCESS }
+    },
+    error: (state, { payload }: Payload) => {
+      console.log('masuk show')
+      return { ...state, ...payload, show: true, variant: Variant.ERROR }
+    },
+    warn: (state, { payload }: Payload) => {
+      console.log('masuk show')
+      return { ...state, ...payload, show: true, variant: Variant.WARN }
+    },
+    info: (state, { payload }: Payload) => {
+      console.log('masuk show')
+      return { ...state, ...payload, show: true, variant: Variant.INFO }
     }
   }
 })

@@ -12,6 +12,7 @@ const authSlice = createSlice({
       state,
       { payload: { session } }: PayloadAction<{ session: Session | null }>
     ) => {
+      console.log('set session called')
       state.session = session
     }
   }
