@@ -14,9 +14,9 @@ export const Snackbar = () => {
   const {
     message,
     show,
-    dismissable,
+    dismissable = false,
     duration = 3,
-    manualClose,
+    manualClose = false,
     variant = Variant.SUCCESS
   } = useSelector(selectSnackbarState)
 
@@ -34,7 +34,6 @@ export const Snackbar = () => {
 
   useEffect(() => {
     if (show && !manualClose) {
-      console.log('masuk useEffect show', duration)
       handleTimeOut()
     }
     return () => {

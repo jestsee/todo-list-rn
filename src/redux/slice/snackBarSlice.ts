@@ -27,19 +27,15 @@ const snackbarSlice = createSlice({
       state.show = false
     },
     show: (state, { payload }: Payload) => {
-      console.log('masuk show')
       return { ...state, ...payload, show: true, variant: Variant.SUCCESS }
     },
     error: (state, { payload }: Payload) => {
-      console.log('masuk show')
       return { ...state, ...payload, show: true, variant: Variant.ERROR }
     },
     warn: (state, { payload }: Payload) => {
-      console.log('masuk show')
       return { ...state, ...payload, show: true, variant: Variant.WARN }
     },
     info: (state, { payload }: Payload) => {
-      console.log('masuk show')
       return { ...state, ...payload, show: true, variant: Variant.INFO }
     }
   }

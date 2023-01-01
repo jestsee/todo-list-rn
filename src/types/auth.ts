@@ -1,4 +1,4 @@
-import { Session, User } from '@supabase/supabase-js'
+import { AuthChangeEvent, Session, User } from '@supabase/supabase-js'
 
 export type SignUpPayload = {
   name: string
@@ -13,5 +13,9 @@ export type SignInResponse = {
   session: Session | null
 }
 
-export type AuthState = Omit<SignInResponse, 'user'>
+export type AuthState = {
+  session: Session | null
+  event: AuthChangeEvent | 'INITIAL'
+}
+
 export type CustomError = { message: string }
