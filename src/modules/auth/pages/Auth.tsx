@@ -1,9 +1,10 @@
 import { Text, View } from 'react-native'
 import { SignInForm } from '../components/SignInForm'
 import { SignUpForm } from '../components/SignUpForm'
-import { styles } from '../styles/styles'
+import { styles } from '../styles'
 import { useNavigation } from '@react-navigation/native'
 import { NavigationType } from '@custom-types/route'
+import { OAuth } from '../components/OAuth'
 
 export enum AuthType {
   signUp = 'Sign Up',
@@ -50,6 +51,7 @@ export const Auth: React.FC<Props> = ({ type }) => {
     <View>
       <Text style={styles.title}>{type}</Text>
       {type === AuthType.signUp ? signUp : signIn}
+      <OAuth />
     </View>
   )
 }

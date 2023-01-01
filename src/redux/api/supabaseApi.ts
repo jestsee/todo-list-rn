@@ -5,8 +5,8 @@ import type {
   SignInResponse,
   SignUpPayload
 } from '@custom-types/auth'
+import { Provider, Session } from '@supabase/supabase-js'
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
-import { Session } from '@supabase/supabase-js'
 import { supabase } from '@constants/supabase'
 
 export const supabaseApi = createApi({
@@ -17,11 +17,7 @@ export const supabaseApi = createApi({
       async queryFn({ name, ...rest }) {
         const { data, error } = await supabase.auth.signUp({
           ...rest,
-          options: {
-            data: {
-              name
-            }
-          }
+          options: { data: { name } }
         })
         if (error) return { error: { message: error.message } }
         return { data }
@@ -32,6 +28,15 @@ export const supabaseApi = createApi({
         const { data, error } = await supabase.auth.signInWithPassword(
           credentials
         )
+        if (error) return { error: { message: error.message } }
+        return { data }
+      }
+    }),
+    signInGithub: builder.mutation<{ provider: Provider; url?: string }, void>({
+      async queryFn() {
+        const { data, error } = await supabase.auth.signInWithOAuth({
+          provider: 'github'
+        })
         if (error) return { error: { message: error.message } }
         return { data }
       }
@@ -54,8 +59,9 @@ export const supabaseApi = createApi({
 })
 
 export const {
+  useSignUpMutation,
   useSignInMutation,
+  useSignInGithubMutation,
   useSignOutMutation,
-  useGetSessionQuery,
-  useSignUpMutation
+  useGetSessionQuery
 } = supabaseApi

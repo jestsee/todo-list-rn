@@ -11,6 +11,16 @@ export const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 4
   },
+  logo: { height: 60, margin: 12, width: 60 },
+  logoContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    marginTop: 16
+  },
+  oAuthContainer: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   subtitle: {
     marginBottom: 16,
     marginTop: 2,
