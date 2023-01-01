@@ -15,8 +15,7 @@ const initialState: SnackbarPayload = {
   message: '',
   dismissable: false,
   variant: Variant.SUCCESS,
-  duration: Duration.SHORT,
-  manualClose: false
+  duration: Duration.SHORT
 }
 
 const snackbarSlice = createSlice({
@@ -26,17 +25,17 @@ const snackbarSlice = createSlice({
     hide: (state) => {
       state.show = false
     },
-    show: (state, { payload }: Payload) => {
-      return { ...state, ...payload, show: true, variant: Variant.SUCCESS }
+    show: (_, { payload }: Payload) => {
+      return { ...payload, show: true, variant: Variant.SUCCESS }
     },
-    error: (state, { payload }: Payload) => {
-      return { ...state, ...payload, show: true, variant: Variant.ERROR }
+    error: (_, { payload }: Payload) => {
+      return { ...payload, show: true, variant: Variant.ERROR }
     },
-    warn: (state, { payload }: Payload) => {
-      return { ...state, ...payload, show: true, variant: Variant.WARN }
+    warn: (_, { payload }: Payload) => {
+      return { ...payload, show: true, variant: Variant.WARN }
     },
-    info: (state, { payload }: Payload) => {
-      return { ...state, ...payload, show: true, variant: Variant.INFO }
+    info: (_, { payload }: Payload) => {
+      return { ...payload, show: true, variant: Variant.INFO }
     }
   }
 })

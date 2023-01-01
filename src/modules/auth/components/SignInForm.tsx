@@ -6,7 +6,6 @@ import { validationSchema } from '../validationSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 export const SignInForm = () => {
-  const [signIn, { isLoading }] = useSignInMutation()
   const {
     control,
     handleSubmit,
@@ -14,6 +13,7 @@ export const SignInForm = () => {
   } = useForm<SignInPayload>({
     resolver: zodResolver(validationSchema.omit({ name: true }))
   })
+  const [signIn, { isLoading }] = useSignInMutation()
 
   return (
     <>

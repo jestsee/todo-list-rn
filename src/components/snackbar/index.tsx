@@ -16,7 +16,6 @@ export const Snackbar = () => {
     show,
     dismissable = false,
     duration = 3,
-    manualClose = false,
     variant = Variant.SUCCESS
   } = useSelector(selectSnackbarState)
 
@@ -33,7 +32,7 @@ export const Snackbar = () => {
   }
 
   useEffect(() => {
-    if (show && !manualClose) {
+    if (show && !dismissable) {
       handleTimeOut()
     }
     return () => {
@@ -49,15 +48,13 @@ export const Snackbar = () => {
           styleColor[variant as keyof typeof styleColor]
         ]}
       >
-        <View style={styles.info}>
-          <MaterialIcons
-            name={styleIcon[variant as keyof typeof styleIcon]}
-            size={24}
-            color="white"
-            style={styles.separator}
-          />
-          <Text style={styles.text}>{message}</Text>
-        </View>
+        <MaterialIcons
+          name={styleIcon[variant as keyof typeof styleIcon]}
+          size={24}
+          color="white"
+          style={styles.prefix}
+        />
+        <Text style={styles.text}>{message}</Text>
         {dismissable && (
           <MaterialIcons
             name="close"

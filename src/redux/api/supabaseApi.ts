@@ -2,7 +2,8 @@
 import type {
   CustomError,
   SignInPayload,
-  SignInResponse
+  SignInResponse,
+  SignUpPayload
 } from '@custom-types/auth'
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Session } from '@supabase/supabase-js'
@@ -12,6 +13,20 @@ export const supabaseApi = createApi({
   reducerPath: 'supabaseApi',
   baseQuery: fakeBaseQuery<CustomError>(),
   endpoints: (builder) => ({
+    signUp: builder.mutation<SignInResponse, SignUpPayload>({
+      async queryFn({ name, ...rest }) {
+        const { data, error } = await supabase.auth.signUp({
+          ...rest,
+          options: {
+            data: {
+              name
+            }
+          }
+        })
+        if (error) return { error: { message: error.message } }
+        return { data }
+      }
+    }),
     signIn: builder.mutation<SignInResponse, SignInPayload>({
       async queryFn(credentials) {
         const { data, error } = await supabase.auth.signInWithPassword(
@@ -38,5 +53,9 @@ export const supabaseApi = createApi({
   })
 })
 
-export const { useSignInMutation, useSignOutMutation, useGetSessionQuery } =
-  supabaseApi
+export const {
+  useSignInMutation,
+  useSignOutMutation,
+  useGetSessionQuery,
+  useSignUpMutation
+} = supabaseApi

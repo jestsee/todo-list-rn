@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     bottom: 0,
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 24,
@@ -12,15 +13,12 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     width: '100%'
   },
-  info: {
-    alignItems: 'center',
-    flexDirection: 'row'
-  },
-  separator: {
+  prefix: {
     marginRight: 8
   },
   text: {
     color: 'white',
+    flex: 1,
     fontSize: 15
   }
 })

@@ -7,7 +7,6 @@ export type SnackbarProps = {
 
 export type SnackbarPayload = SnackbarProps & {
   duration?: Duration
-  manualClose?: boolean
 }
 
 export type ShowSnackbarPayload = Omit<SnackbarPayload, 'show'>

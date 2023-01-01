@@ -4,7 +4,6 @@ import { SignUpForm } from '../components/SignUpForm'
 import { styles } from '../styles/styles'
 import { useNavigation } from '@react-navigation/native'
 import { NavigationType } from '@custom-types/route'
-import { useSnackbar } from '@hooks/useSnackbar'
 
 export enum AuthType {
   signUp = 'Sign Up',
@@ -17,7 +16,6 @@ interface Props {
 
 export const Auth: React.FC<Props> = ({ type }) => {
   const { navigate } = useNavigation<NavigationType>()
-  const { infoSnackbar } = useSnackbar()
   const signUp = (
     <>
       <Text style={styles.subtitle}>
@@ -41,16 +39,7 @@ export const Auth: React.FC<Props> = ({ type }) => {
       <SignInForm />
       <View style={styles.footer}>
         <Text>Don&apos;t have an account?</Text>
-        <Text
-          onPress={() =>
-            infoSnackbar({
-              message: 'hah',
-              dismissable: true,
-              manualClose: true
-            })
-          }
-          style={styles.link}
-        >
+        <Text onPress={() => navigate('SignUp')} style={styles.link}>
           Sign Up
         </Text>
       </View>
