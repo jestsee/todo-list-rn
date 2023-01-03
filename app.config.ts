@@ -9,6 +9,7 @@ export default {
     orientation: 'portrait',
     icon: './assets/icon.png',
     userInterfaceStyle: 'light',
+    scheme: 'io.supabase.todolist',
     splash: {
       image: './assets/splash.png',
 
@@ -28,14 +29,29 @@ export default {
         foregroundImage: './assets/adaptive-icon.png',
 
         backgroundColor: '#FFFFFF'
-      }
+      },
+      intentFilters: [
+        {
+          action: 'VIEW',
+          autoVerify: true,
+          data: [
+            {
+              scheme: 'io.supabase.todolist',
+              host: 'login-callback',
+              pathPrefix: '/'
+            }
+          ],
+          category: ['BROWSABLE', 'DEFAULT']
+        }
+      ]
     },
     web: {
       favicon: './assets/favicon.png'
     },
     extra: {
       supabaseUrl: process.env.SUPABASE_URL,
-      supabaseSecret: process.env.SUPABASE_SECRET
+      supabaseSecret: process.env.SUPABASE_SECRET,
+      redirectLink: process.env.REDIRECT_LINK
     }
   }
 }

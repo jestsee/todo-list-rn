@@ -25,6 +25,9 @@
       "@custom-types/*": [
         "src/types/*"
       ],
+      "src/*": [
+        "src/*"
+      ],
     },
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,

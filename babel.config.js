@@ -16,7 +16,8 @@ module.exports = function (api) {
             '@hooks': './src/hooks',
             '@modules': './src/modules',
             '@redux': './src/redux',
-            '@custom-types': './src/types'
+            '@custom-types': './src/types',
+            src: './src'
           }
         }
       ]

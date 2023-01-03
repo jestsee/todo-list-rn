@@ -35,7 +35,8 @@ export const supabaseApi = createApi({
     signInGithub: builder.mutation<{ provider: Provider; url?: string }, void>({
       async queryFn() {
         const { data, error } = await supabase.auth.signInWithOAuth({
-          provider: 'github'
+          provider: 'github',
+          options: { redirectTo: 'io.supabase.todolist://login-callback/' }
         })
         if (error) return { error: { message: error.message } }
         return { data }

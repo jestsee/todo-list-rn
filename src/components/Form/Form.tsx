@@ -1,8 +1,8 @@
 import { Control, Controller } from 'react-hook-form'
 import { Text, TextInput, View } from 'react-native'
 import { FieldError } from 'react-hook-form'
+import { capitalize } from 'src/utils'
 import { styles } from './styles'
-import { useCapitalize } from '@hooks/useCapitalize'
 
 export interface Props {
   control: Control
@@ -24,7 +24,7 @@ export const Form: React.FC<Props> = ({
 }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{label ?? useCapitalize(rest.name)}</Text>
+      <Text style={styles.label}>{label ?? capitalize(rest.name)}</Text>
       <Controller
         {...rest}
         render={({ field: { onChange, onBlur, value } }) => (

@@ -1,9 +1,8 @@
 import { Button, Form, PasswordForm } from '@components'
 import { SignUpPayload as Payload } from '@custom-types/auth'
-import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSignUpMutation } from '@redux/api/supabaseApi'
-import { useSnackbar } from '@hooks/useSnackbar'
+import { useSuccessSnackbar } from '@hooks/useSuccessSnackbar'
 import { validationSchema } from '../validationSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -15,17 +14,13 @@ export const SignUpForm = () => {
   } = useForm<Payload>({
     resolver: zodResolver(validationSchema)
   })
-  const [signUp, { isLoading, isSuccess }] = useSignUpMutation()
-  const { showSnackbar } = useSnackbar()
+  const [signUp, { isLoading, isSuccess, data }] = useSignUpMutation()
 
-  useEffect(() => {
-    if (isSuccess)
-      showSnackbar({
-        dismissable: true,
-        message:
-          'Registration completed successfully, please check your email for email verification'
-      })
-  }, [isSuccess])
+  useSuccessSnackbar({
+    dismissable: true,
+    isSuccess,
+    message: `An email has been sent to ${data?.user?.email}, please check your email to complete the registration`
+  })
 
   return (
     <>
