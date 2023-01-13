@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native'
+import { Animated, Text } from 'react-native'
 import { styleColor, styleIcon, styles } from './styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { MaterialIcons } from '@expo/vector-icons'
@@ -6,16 +6,18 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Variant } from '@custom-types/snackbar'
 import actions from '@redux/slice/snackBarSlice'
 import { selectSnackbarState } from '@redux/slice/snackBarSlice'
+import { useAnimFade } from '@hooks/useAnimFade'
 import { useEffect } from 'react'
 
 export const Snackbar = () => {
   const dispatch = useDispatch()
+  const { fadeAnim, fadeIn, fadeOut } = useAnimFade()
   const { hide } = actions
   const {
     message,
     show,
     dismissable = false,
-    duration = 3,
+    duration = 2,
     variant = Variant.SUCCESS
   } = useSelector(selectSnackbarState)
 
@@ -40,12 +42,18 @@ export const Snackbar = () => {
     }
   }, [show, timer])
 
-  if (show)
-    return (
-      <SafeAreaView
+  useEffect(() => {
+    if (show) return fadeIn()
+    fadeOut()
+  })
+
+  return (
+    <SafeAreaView>
+      <Animated.View
         style={[
           styles.container,
-          styleColor[variant as keyof typeof styleColor]
+          styleColor[variant as keyof typeof styleColor],
+          { opacity: fadeAnim }
         ]}
       >
         <MaterialIcons
@@ -63,7 +71,7 @@ export const Snackbar = () => {
             onPress={handleClose}
           />
         )}
-      </SafeAreaView>
-    )
-  return <></>
+      </Animated.View>
+    </SafeAreaView>
+  )
 }

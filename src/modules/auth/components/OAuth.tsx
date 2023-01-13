@@ -20,11 +20,11 @@ export const OAuth = () => {
     <View style={styles.oAuthContainer}>
       <Text style={{ fontSize: 12, marginTop: 24 }}>Or connect with:</Text>
       <View style={styles.logoContainer}>
-        <TouchableOpacity onPress={() => signInGithub()}>
-          <Image style={styles.logo} source={require('@assets/github.png')} />
-        </TouchableOpacity>
         <TouchableOpacity>
           <Image style={styles.logo} source={require('@assets/google.png')} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => signInGithub()}>
+          <Image style={styles.logo} source={require('@assets/github.png')} />
         </TouchableOpacity>
       </View>
     </View>

@@ -19,6 +19,6 @@ export enum Variant {
 }
 
 export enum Duration {
-  SHORT = 3,
-  LONG = 5
+  SHORT = 2,
+  LONG = 4
 }
