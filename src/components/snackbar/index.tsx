@@ -6,12 +6,16 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Variant } from '@custom-types/snackbar'
 import actions from '@redux/slice/snackBarSlice'
 import { selectSnackbarState } from '@redux/slice/snackBarSlice'
-import { useAnimFade } from '@hooks/useAnimFade'
+import { useAnimSlide } from '@hooks/useAnimSlide'
 import { useEffect } from 'react'
 
 export const Snackbar = () => {
   const dispatch = useDispatch()
-  const { fadeAnim, fadeIn, fadeOut } = useAnimFade()
+  const { slideAnim, slideUp, slideDown } = useAnimSlide({
+    initialValue: 100,
+    slideDownValue: 100,
+    slideUpValue: 0
+  })
   const { hide } = actions
   const {
     message,
@@ -43,8 +47,8 @@ export const Snackbar = () => {
   }, [show, timer])
 
   useEffect(() => {
-    if (show) return fadeIn()
-    fadeOut()
+    if (show) return slideUp()
+    slideDown()
   })
 
   return (
@@ -53,7 +57,7 @@ export const Snackbar = () => {
         style={[
           styles.container,
           styleColor[variant as keyof typeof styleColor],
-          { opacity: fadeAnim }
+          { transform: [{ translateY: slideAnim }] }
         ]}
       >
         <MaterialIcons
