@@ -8,14 +8,16 @@ module.exports = function (api) {
       [
         'module-resolver',
         {
-          // root: ['./src'],
           extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
           alias: {
+            '@assets': './assets',
             '@components': './src/components/index',
             '@constants': './src/constants',
             '@hooks': './src/hooks',
             '@modules': './src/modules',
-            '@custom-types': './src/types'
+            '@redux': './src/redux',
+            '@custom-types': './src/types',
+            src: './src'
           }
         }
       ]

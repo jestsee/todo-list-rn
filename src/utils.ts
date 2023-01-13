@@ -1,7 +1,4 @@
-export const useCapitalize = (
-  words: string,
-  firstWordOnly?: boolean
-): string => {
+export const capitalize = (words: string, firstWordOnly?: boolean): string => {
   const tempWords = words.split(' ')
 
   if (firstWordOnly) {

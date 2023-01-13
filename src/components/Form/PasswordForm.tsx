@@ -1,12 +1,23 @@
+/* eslint-disable indent */
+import { FieldPath, FieldValues } from 'react-hook-form'
 import { Form, Props as FormProps } from './Form'
 import Ionicon from '@expo/vector-icons/Ionicons'
 import { useToggle } from '@hooks/useToggle'
 
-interface Props extends Omit<FormProps, 'suffix' | 'secureTextEntry'> {
+interface Props<
+  TFieldValues extends FieldValues,
+  TName extends FieldPath<TFieldValues>
+> extends Omit<FormProps<TFieldValues, TName>, 'suffix' | 'secureTextEntry'> {
   touched?: boolean
 }
 
-export const PasswordForm: React.FC<Props> = ({ touched, ...formProps }) => {
+export const PasswordForm = <
+  TFieldValues extends FieldValues,
+  TName extends FieldPath<TFieldValues>
+>({
+  touched,
+  ...formProps
+}: Props<TFieldValues, TName>) => {
   const { show, toggleClick } = useToggle()
   return (
     <Form

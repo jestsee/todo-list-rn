@@ -1,7 +1,8 @@
-import { Form, PasswordForm } from '@components'
-import { Button } from 'react-native'
+import { Button, Form, PasswordForm } from '@components'
 import { SignUpPayload as Payload } from '@custom-types/auth'
 import { useForm } from 'react-hook-form'
+import { useSignUpMutation } from '@redux/api/supabaseApi'
+import { useSuccessSnackbar } from '@hooks/useSuccessSnackbar'
 import { validationSchema } from '../validationSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -13,7 +14,13 @@ export const SignUpForm = () => {
   } = useForm<Payload>({
     resolver: zodResolver(validationSchema)
   })
-  const onSubmit = (data: Payload) => console.log(data)
+  const [signUp, { isLoading, isSuccess, data }] = useSignUpMutation()
+
+  useSuccessSnackbar({
+    dismissable: true,
+    isSuccess,
+    message: `An email has been sent to ${data?.user?.email}, please check your email to complete the registration`
+  })
 
   return (
     <>
@@ -35,7 +42,11 @@ export const SignUpForm = () => {
         error={errors.password}
         touched={dirtyFields.password}
       />
-      <Button title="Submit" onPress={handleSubmit(onSubmit)} />
+      <Button
+        title="Submit"
+        onPress={handleSubmit(signUp)}
+        loading={isLoading}
+      />
     </>
   )
 }

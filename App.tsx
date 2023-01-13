@@ -1,23 +1,15 @@
-import { SignIn, SignUp } from '@modules/auth'
-import { NavigationContainer } from '@react-navigation/native'
-import { RootStackParamList } from '@custom-types/route'
-import { baseStyles } from '@constants/styles'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-
-const Stack = createNativeStackNavigator<RootStackParamList>()
+import 'react-native-url-polyfill/auto'
+// TODO import * as Linking from 'expo-linking'
+import { Provider } from 'react-redux'
+import { Routes } from './src/routes'
+import { Snackbar } from '@components'
+import { store } from '@redux/store'
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          contentStyle: baseStyles.contentStyle,
-          headerShown: false
-        }}
-      >
-        <Stack.Screen name="SignUp" component={SignUp} />
-        <Stack.Screen name="SignIn" component={SignIn} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <Routes />
+      <Snackbar />
+    </Provider>
   )
 }

@@ -4,6 +4,9 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
+      "@assets/*": [
+        "assets/*"
+      ],
       "@components": [
         "src/components/index"
       ],
@@ -16,8 +19,14 @@
       "@modules/*": [
         "src/modules/*"
       ],
+      "@redux/*": [
+        "src/redux/*"
+      ],
       "@custom-types/*": [
         "src/types/*"
+      ],
+      "src/*": [
+        "src/*"
       ],
     },
     "allowSyntheticDefaultImports": true,
