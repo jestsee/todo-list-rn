@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { baseStyles } from '@constants/styles'
 
 const gap = 28
 
@@ -13,11 +14,9 @@ export const styles = StyleSheet.create({
     flex: 1
   },
   middleContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     marginBottom: gap / 2,
-    marginTop: gap
+    marginTop: gap,
+    ...baseStyles.rowBetween
   },
   ongoingTask: {
     fontSize: 28,

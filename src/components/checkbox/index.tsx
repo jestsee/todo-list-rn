@@ -1,15 +1,18 @@
-import ExpoCheckbox from 'expo-checkbox/build/ExpoCheckbox'
-import { View } from 'react-native'
+import { GestureResponderEvent, TouchableOpacity } from 'react-native'
+import { MaterialIcons } from '@expo/vector-icons'
 
 interface Props {
-  children?: React.ReactNode
+  checked?: boolean
+  onPress?: (event: GestureResponderEvent) => void
 }
-export const Checkbox: React.FC<Props> = (props) => {
-  const { children } = props
+export const Checkbox: React.FC<Props> = ({ checked, ...rest }) => {
   return (
-    <View>
-      <ExpoCheckbox />
-      {children}
-    </View>
+    <TouchableOpacity {...rest}>
+      <MaterialIcons
+        name={checked ? 'check-box' : 'check-box-outline-blank'}
+        size={25}
+        color="darkgray"
+      />
+    </TouchableOpacity>
   )
 }

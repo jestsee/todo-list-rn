@@ -1,11 +1,22 @@
-import { Text, View } from 'react-native'
-import Checkbox from 'expo-checkbox'
+import { StyleProp, Text, View, ViewStyle } from 'react-native'
+import { Checkbox } from '@components'
+import { styles } from '../styles/styles'
 
-export const Task = () => {
+interface Props {
+  text: string
+  checked?: boolean
+  style?: StyleProp<ViewStyle>
+}
+
+export const Task = ({ text, style, ...rest }: Props) => {
   return (
-    <View>
-      <Checkbox />
-      <Text>hadeh</Text>
+    <View style={[styles.taskContainer, style]}>
+      <Checkbox {...rest} />
+      <Text
+        style={[styles.taskText, rest.checked ? styles.taskDone : undefined]}
+      >
+        {text}
+      </Text>
     </View>
   )
 }

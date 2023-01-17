@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native'
+import { baseStyles } from '@constants/styles'
 
-const gap = 28
+const gap = 16
 
 export const styles = StyleSheet.create({
   container: {
@@ -9,8 +10,30 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 16
   },
+  gap: {
+    marginBottom: 8
+  },
+  taskContainer: {
+    alignItems: 'center',
+    flexDirection: 'row'
+  },
+  taskDone: {
+    textDecorationLine: 'line-through',
+    textDecorationStyle: 'solid'
+  },
+  taskInfoContainer: {
+    ...baseStyles.rowBetween,
+    marginBottom: gap
+  },
   taskName: {
     fontSize: 22,
     fontWeight: 'bold'
+  },
+  taskNameContainer: {
+    ...baseStyles.rowBetween,
+    marginBottom: gap * 0.5
+  },
+  taskText: {
+    marginLeft: 12
   }
 })

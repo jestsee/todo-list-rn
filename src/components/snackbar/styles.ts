@@ -3,15 +3,13 @@ import { baseStyles } from '@constants/styles'
 
 export const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     bottom: 0,
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     paddingHorizontal: 24,
     paddingVertical: 16,
     position: 'absolute',
-    width: '100%'
+    width: '100%',
+    ...baseStyles.rowBetween
   },
   prefix: {
     marginRight: 8
