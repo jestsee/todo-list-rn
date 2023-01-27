@@ -1,7 +1,7 @@
 import { Button, Form, PasswordForm } from '@components'
 import { SignInPayload } from '@custom-types/auth'
 import { useForm } from 'react-hook-form'
-import { useSignInMutation } from '@redux/api/supabaseApi'
+import { useSignInMutation } from '@redux/api/authApi'
 import { validationSchema } from '../validationSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 

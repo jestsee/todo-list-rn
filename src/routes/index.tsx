@@ -6,7 +6,7 @@ import { SplashScreen } from '@modules/splashScreen'
 import { baseStyles } from '@constants/styles'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useAuth } from '@hooks/useAuth'
-import { useGetSessionQuery } from '@redux/api/supabaseApi'
+import { useGetSessionQuery } from '@redux/api/authApi'
 import { useTrackAuth } from '@hooks/useTrackAuth'
 
 const Stack = createNativeStackNavigator<RootStackParamList>()

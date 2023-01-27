@@ -3,7 +3,7 @@ import { AuthChangeEvent, Session } from '@supabase/supabase-js'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { AuthState } from '@custom-types/auth'
 import { RootState } from '../store'
-import { supabaseApi } from '@redux/api/supabaseApi'
+import { authApi } from '@redux/api/authApi'
 
 const authSlice = createSlice({
   name: 'auth',
@@ -23,12 +23,9 @@ const authSlice = createSlice({
     }
   },
   extraReducers(builder) {
-    builder.addMatcher(
-      supabaseApi.endpoints.getSession.matchFulfilled,
-      (state) => {
-        return { ...state, event: state.session ? 'SIGNED_IN' : 'SIGNED_OUT' }
-      }
-    )
+    builder.addMatcher(authApi.endpoints.getSession.matchFulfilled, (state) => {
+      return { ...state, event: state.session ? 'SIGNED_IN' : 'SIGNED_OUT' }
+    })
   }
 })
 

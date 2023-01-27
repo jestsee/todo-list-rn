@@ -9,8 +9,8 @@ import { Provider, Session } from '@supabase/supabase-js'
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
 import { supabase } from '@constants/supabase'
 
-export const supabaseApi = createApi({
-  reducerPath: 'supabaseApi',
+export const authApi = createApi({
+  reducerPath: 'authApi',
   baseQuery: fakeBaseQuery<CustomError>(),
   endpoints: (builder) => ({
     signUp: builder.mutation<SignInResponse, SignUpPayload>({
@@ -65,4 +65,4 @@ export const {
   useSignInGithubMutation,
   useSignOutMutation,
   useGetSessionQuery
-} = supabaseApi
+} = authApi

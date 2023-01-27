@@ -1,18 +1,23 @@
 /* eslint-disable sort-keys */
+import { authApi, profileApi } from '@redux/api'
 import { authReducer } from './slice/authSlice'
 import { configureStore } from '@reduxjs/toolkit'
 import { errorHandler } from './middleware/errorHandler'
 import { snackbarReducer } from './slice/snackBarSlice'
-import { supabaseApi } from '@redux/api/supabaseApi'
 
 export const store = configureStore({
   reducer: {
-    [supabaseApi.reducerPath]: supabaseApi.reducer,
+    [authApi.reducerPath]: authApi.reducer,
+    [profileApi.reducerPath]: profileApi.reducer,
     auth: authReducer,
     snackbar: snackbarReducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat([supabaseApi.middleware, errorHandler])
+    getDefaultMiddleware().concat([
+      authApi.middleware,
+      profileApi.middleware,
+      errorHandler
+    ])
 })
 
 // setupListeners(store.dispatch)
