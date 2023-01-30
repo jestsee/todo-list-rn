@@ -7,7 +7,12 @@ export const Red = '#ff0000'
 
 // styles
 export const baseStyles = StyleSheet.create({
-  contentStyle: { flex: 1, justifyContent: 'center', padding: 36 },
+  contentStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 40,
+    paddingTop: 52
+  },
   errorColor: { backgroundColor: 'red' },
   infoColor: { backgroundColor: 'lightslategrey' },
   successColor: { backgroundColor: 'mediumseagreen' },
