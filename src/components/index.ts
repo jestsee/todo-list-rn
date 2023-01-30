@@ -1,3 +1,6 @@
 export { Form, PasswordForm } from './form'
 export { Button } from './button'
 export { Snackbar } from './snackbar'
+export { Search } from './search'
+export { Badge } from './badge'
+export { Checkbox } from './checkbox'

@@ -1,7 +1,7 @@
 import { Button, Form, PasswordForm } from '@components'
 import { SignUpPayload as Payload } from '@custom-types/auth'
 import { useForm } from 'react-hook-form'
-import { useSignUpMutation } from '@redux/api/supabaseApi'
+import { useSignUpMutation } from '@redux/api/authApi'
 import { useSuccessSnackbar } from '@hooks/useSuccessSnackbar'
 import { validationSchema } from '../validationSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -43,7 +43,7 @@ export const SignUpForm = () => {
         touched={dirtyFields.password}
       />
       <Button
-        title="Submit"
+        title="Sign up"
         onPress={handleSubmit(signUp)}
         loading={isLoading}
       />

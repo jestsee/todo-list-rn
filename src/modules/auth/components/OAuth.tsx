@@ -1,7 +1,7 @@
 import { Image, Linking, Text, TouchableOpacity, View } from 'react-native'
 import { styles } from '../styles'
 import { useEffect } from 'react'
-import { useSignInGithubMutation } from '@redux/api/supabaseApi'
+import { useSignInGithubMutation } from '@redux/api/authApi'
 
 export const OAuth = () => {
   const [signInGithub, { isSuccess, data }] = useSignInGithubMutation()
