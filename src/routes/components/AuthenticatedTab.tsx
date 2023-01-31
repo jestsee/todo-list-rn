@@ -10,6 +10,7 @@ const Tab = createBottomTabNavigator()
 const AuthenticatedTab = () => {
   return (
     <Tab.Navigator
+      initialRouteName="Home"
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
           const iconName = route.name as keyof typeof icon
@@ -17,7 +18,13 @@ const AuthenticatedTab = () => {
         },
         tabBarActiveTintColor: 'tomato',
         tabBarInactiveTintColor: 'gray',
-        headerShown: false
+        headerShown: false,
+        tabBarStyle: {
+          paddingBottom: 12,
+          height: 70,
+          alignContent: 'center',
+          alignItems: 'center'
+        }
       })}
     >
       <Tab.Screen name="Home" component={Home} />
