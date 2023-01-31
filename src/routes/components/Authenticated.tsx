@@ -1,27 +1,28 @@
-import { HomeScreen } from '@modules/index'
-import { FontAwesome5 as Icon } from '@expo/vector-icons'
-import { Task } from '@modules/task'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { bottomNavigationIcon as icon } from '../constant'
+import { AuthStackParamList } from '@custom-types/route'
+import AuthenticatedTab from './AuthenticatedTab'
+import { TaskModal } from '@modules/taskModal'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-const Tab = createBottomTabNavigator()
+const Stack = createNativeStackNavigator<AuthStackParamList>()
 
 const Authenticated = () => {
   return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
-          const iconName = route.name.toLowerCase() as keyof typeof icon
-          return <Icon name={icon[iconName]} size={size} color={color} />
-        },
-        tabBarActiveTintColor: 'tomato',
-        tabBarInactiveTintColor: 'gray',
+    <Stack.Navigator
+      screenOptions={{
         headerShown: false
-      })}
+      }}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Task" component={Task} />
-    </Tab.Navigator>
+      <Stack.Screen name="Main" component={AuthenticatedTab} />
+      <Stack.Group
+        screenOptions={{
+          presentation: 'modal',
+          animation: 'slide_from_bottom',
+          animationDuration: 5000
+        }}
+      >
+        <Stack.Screen name="TaskModal" component={TaskModal} />
+      </Stack.Group>
+    </Stack.Navigator>
   )
 }
 

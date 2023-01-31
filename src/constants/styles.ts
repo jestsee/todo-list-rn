@@ -9,8 +9,8 @@ export const Red = '#ff0000'
 export const baseStyles = StyleSheet.create({
   contentStyle: {
     flex: 1,
-    justifyContent: 'center',
-    padding: 40,
+    // justifyContent: 'center',
+    padding: 36,
     paddingTop: 52
   },
   errorColor: { backgroundColor: 'red' },

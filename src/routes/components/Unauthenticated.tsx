@@ -1,9 +1,9 @@
 import { SignIn, SignUp } from '@modules/auth'
-import { RootStackParamList } from '@custom-types/route'
+import { UnauthStackParamList } from '@custom-types/route'
 import { baseStyles } from '@constants/styles'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-const Stack = createNativeStackNavigator<RootStackParamList>()
+const Stack = createNativeStackNavigator<UnauthStackParamList>()
 
 const Unauthenticated = () => {
   return (
@@ -13,10 +13,9 @@ const Unauthenticated = () => {
           contentStyle: baseStyles.contentStyle
         }}
       >
-        <Stack.Screen name="SignIn" component={SignIn} />
-        <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="SignInScreen" component={SignIn} />
+        <Stack.Screen name="SignUpScreen" component={SignUp} />
       </Stack.Group>
-      {/* <Stack.Group screenOptions={{ presentation: 'modal' }}></Stack.Group> */}
     </Stack.Navigator>
   )
 }
