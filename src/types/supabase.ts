@@ -1,3 +1,5 @@
+import { Subtask } from './task'
+
 export type Json =
   | string
   | number
@@ -25,100 +27,80 @@ export interface Database {
       }
       profiles: {
         Row: {
+          avatar_url?: string
           id: string
-          updated_at: string | null
-          username: string | null
           name: string
-          avatar_url: string | null
-          website: string | null
+          updated_at?: string
+          username?: string
+          website?: string
         }
         Insert: {
+          avatar_url?: string
           id: string
-          updated_at?: string | null
-          username?: string | null
           name: string
-          avatar_url?: string | null
-          website?: string | null
+          updated_at?: string
+          username?: string
+          website?: string
         }
         Update: {
+          avatar_url?: string
           id?: string
-          updated_at?: string | null
-          username?: string | null
           name?: string
-          avatar_url?: string | null
-          website?: string | null
-        }
-      }
-      subtask: {
-        Row: {
-          id: number
-          description: string
-          done: boolean | null
-          task_id: number | null
-          created_at: string | null
-        }
-        Insert: {
-          id?: number
-          description: string
-          done?: boolean | null
-          task_id?: number | null
-          created_at?: string | null
-        }
-        Update: {
-          id?: number
-          description?: string
-          done?: boolean | null
-          task_id?: number | null
-          created_at?: string | null
+          updated_at?: string
+          username?: string
+          website?: string
         }
       }
       task: {
         Row: {
-          id: number
-          title: string
-          group_id: number | null
-          longitude: number | null
-          latitude: number | null
-          priority: string | null
-          deadline: string | null
-          created_at: string | null
+          created_at?: string
           created_by: string
+          deadline?: string
+          group_id?: number
+          id: string
+          latitude?: number
+          longitude?: number
+          priority?: string
+          subtask?: Subtask[]
+          title: string
         }
         Insert: {
-          id?: number
-          title: string
-          group_id?: number | null
-          longitude?: number | null
-          latitude?: number | null
-          priority?: string | null
-          deadline?: string | null
-          created_at?: string | null
+          created_at?: string
           created_by: string
+          deadline?: string
+          group_id?: number
+          id?: string
+          latitude?: number
+          longitude?: number
+          priority?: string
+          subtask?: Subtask[]
+          title: string
         }
         Update: {
-          id?: number
-          title?: string
-          group_id?: number | null
-          longitude?: number | null
-          latitude?: number | null
-          priority?: string | null
-          deadline?: string | null
-          created_at?: string | null
+          created_at?: string
           created_by?: string
+          deadline?: string
+          group_id?: number
+          id?: string
+          latitude?: number
+          longitude?: number
+          priority?: string
+          subtask?: Subtask[]
+          title?: string
         }
       }
       users_group: {
         Row: {
-          user_id: string
           group_id: number
+          user_id: string
         }
         Insert: {
-          user_id: string
           group_id: number
+          user_id: string
         }
         Update: {
-          user_id?: string
           group_id?: number
+          user_id?: string
         }
       }
     }
@@ -129,6 +111,9 @@ export interface Database {
       [_ in never]: never
     }
     Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
       [_ in never]: never
     }
   }
