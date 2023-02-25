@@ -1,6 +1,7 @@
 import { Button, Search } from '@components'
 import { Text, View } from 'react-native'
 import { Todo } from '@modules/task/components/todo'
+import { baseStyles } from '@constants/styles'
 import { styles } from './styles'
 import { useGetProfileQuery } from '@redux/api/profileApi'
 import { useSignOutMutation } from '@redux/api/authApi'
@@ -19,7 +20,7 @@ export const Home = () => {
 
   return (
     <>
-      <View style={styles.container}>
+      <View style={baseStyles.contentStyle}>
         <View style={styles.topContainer}>
           <View>
             <Text style={styles.title}>Hi, {profile.name}!</Text>

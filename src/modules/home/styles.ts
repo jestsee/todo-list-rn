@@ -19,12 +19,12 @@ export const styles = StyleSheet.create({
     ...baseStyles.rowBetween
   },
   ongoingTask: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 'bold'
   },
   seeAll: {
     color: 'dodgerblue',
-    fontSize: 18
+    fontSize: 16
   },
   seeAllContainer: {
     borderBottomColor: 'dodgerblue',
@@ -35,7 +35,7 @@ export const styles = StyleSheet.create({
     fontSize: 18
   },
   title: {
-    fontSize: 44,
+    fontSize: 36,
     fontWeight: 'bold'
   },
   topContainer: {

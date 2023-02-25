@@ -36,7 +36,7 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     semi: ['error', 'never'],
     'sort-imports': 'warn',
-    'sort-keys': 'warn',
+    // 'sort-keys': 'warn',
     'sort-vars': 'warn'
   },
   settings: {

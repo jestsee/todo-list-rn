@@ -3,7 +3,7 @@ import { SignInForm } from '../components/SignInForm'
 import { SignUpForm } from '../components/SignUpForm'
 import { styles } from '../styles'
 import { useNavigation } from '@react-navigation/native'
-import { NavigationType } from '@custom-types/route'
+import { UnauthNavigationType } from '@custom-types/route'
 import { OAuth } from '../components/OAuth'
 
 export enum AuthType {
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export const Auth: React.FC<Props> = ({ type }) => {
-  const { navigate } = useNavigation<NavigationType>()
+  const { navigate } = useNavigation<UnauthNavigationType>()
   const signUp = (
     <>
       <Text style={styles.subtitle}>
@@ -25,7 +25,7 @@ export const Auth: React.FC<Props> = ({ type }) => {
       <SignUpForm />
       <View style={styles.footer}>
         <Text>Already have an account?</Text>
-        <Text onPress={() => navigate('SignIn')} style={styles.link}>
+        <Text onPress={() => navigate('SignInScreen')} style={styles.link}>
           Sign In
         </Text>
       </View>
@@ -40,7 +40,7 @@ export const Auth: React.FC<Props> = ({ type }) => {
       <SignInForm />
       <View style={styles.footer}>
         <Text>Don&apos;t have an account?</Text>
-        <Text onPress={() => navigate('SignUp')} style={styles.link}>
+        <Text onPress={() => navigate('SignUpScreen')} style={styles.link}>
           Sign Up
         </Text>
       </View>
