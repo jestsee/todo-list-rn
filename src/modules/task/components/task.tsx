@@ -3,7 +3,7 @@ import { StyleProp, Text, View, ViewStyle } from 'react-native'
 import { Badge } from '@components'
 import { Ionicons } from '@expo/vector-icons'
 import { Subtask } from '@custom-types/task'
-import { Task as TaskType } from './subtask'
+import { Subtask as TaskType } from './subtask'
 import { styles } from '../styles/styles'
 
 interface Props {
