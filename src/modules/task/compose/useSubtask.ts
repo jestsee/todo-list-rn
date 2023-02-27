@@ -10,7 +10,8 @@ const useSubtask = (subtaskType?: boolean) => {
 
   useEffect(() => {
     subtaskRefs.current = subtaskRefs.current.slice(0, subtask.length)
-  }, [subtask])
+    console.log(`[effect] ${subtaskRefs.current.length}`)
+  }, [subtask.length])
 
   const setSubtaskRef = (idx: number, e?: TextInput) => {
     subtaskRefs.current[idx] = e
@@ -22,9 +23,10 @@ const useSubtask = (subtaskType?: boolean) => {
   ) => {
     const tempSubtask = [...subtask]
     tempSubtask.splice(idx, 0, newSubtask)
-    subtaskRefs.current[idx]?.focus()
     setSubtask(tempSubtask)
-    console.log(tempSubtask)
+
+    console.log(`[insert] ${subtaskRefs.current[idx]}`)
+    subtaskRefs.current[idx]?.focus()
   }
 
   const add = (newSubtask?: Subtask) => {
@@ -39,7 +41,13 @@ const useSubtask = (subtaskType?: boolean) => {
     })
   }
 
-  return { subtask, insertAt, add, editText, setSubtaskRef }
+  return {
+    subtask,
+    insertAt,
+    add,
+    editText,
+    setSubtaskRef
+  }
 }
 
 export default useSubtask

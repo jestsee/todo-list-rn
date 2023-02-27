@@ -3,6 +3,7 @@ import {
   NativeSyntheticEvent,
   StyleProp,
   TextInput,
+  TextInputChangeEventData,
   TextInputSubmitEditingEventData,
   TouchableHighlight,
   View,
@@ -20,6 +21,7 @@ interface Props {
   style?: StyleProp<ViewStyle>
   onRemove?: (event: GestureResponderEvent) => void
   onSubmit?: (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => void
+  onChange?: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void
   onChangeText?: (text: string) => void
 }
 
@@ -31,6 +33,7 @@ const Subtask = forwardRef<TextInput, Props>((props, ref) => {
     onRemove,
     onSubmit,
     onChangeText,
+    onChange,
     ...rest
   } = props
   const [focus, setFocus] = useState(false)
@@ -46,10 +49,11 @@ const Subtask = forwardRef<TextInput, Props>((props, ref) => {
           placeholder={placeholder}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
+          onChange={onChange}
           onChangeText={onChangeText}
           onSubmitEditing={onSubmit}
+          blurOnSubmit={false}
           ref={ref}
-          autoFocus
         />
       </View>
       {focus && (
