@@ -6,12 +6,19 @@ type CustomTextInput = TextInput | undefined
 
 const useSubtask = (subtaskType?: boolean) => {
   const [subtask, setSubtask] = useState<Subtask[]>([])
+  const [isLastIdx, setIsLastIdx] = useState(false)
   const subtaskRefs = useRef<CustomTextInput[]>([])
 
   useEffect(() => {
     subtaskRefs.current = subtaskRefs.current.slice(0, subtask.length)
-    console.log(`[effect] ${subtaskRefs.current.length}`)
   }, [subtask.length])
+
+  useEffect(() => {
+    if (isLastIdx) {
+      subtaskRefs.current[subtask.length - 1]?.focus()
+      setIsLastIdx(false)
+    }
+  }, [subtaskRefs.current.length, isLastIdx])
 
   const setSubtaskRef = (idx: number, e?: TextInput) => {
     subtaskRefs.current[idx] = e
@@ -25,8 +32,11 @@ const useSubtask = (subtaskType?: boolean) => {
     tempSubtask.splice(idx, 0, newSubtask)
     setSubtask(tempSubtask)
 
-    console.log(`[insert] ${subtaskRefs.current[idx]}`)
-    subtaskRefs.current[idx]?.focus()
+    if (idx != subtask.length) {
+      subtaskRefs.current[idx]?.focus()
+      return
+    }
+    setIsLastIdx(true)
   }
 
   const add = (newSubtask?: Subtask) => {
