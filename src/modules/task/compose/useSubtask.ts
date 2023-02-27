@@ -29,7 +29,7 @@ const useSubtask = (subtaskType?: boolean) => {
     newSubtask: Subtask = { checked: subtaskType, text: '' }
   ) => {
     const tempSubtask = [...subtask]
-    tempSubtask.splice(idx, 0, newSubtask)
+    tempSubtask.splice(idx, 0, { ...newSubtask, checked: subtaskType })
     setSubtask(tempSubtask)
 
     if (idx != subtask.length) {
@@ -51,11 +51,28 @@ const useSubtask = (subtaskType?: boolean) => {
     })
   }
 
+  const editCheck = (idx: number) => {
+    setSubtask((prevSubtask) => {
+      const newSubtask = [...prevSubtask]
+      newSubtask[idx].checked = !newSubtask[idx].checked
+      return newSubtask
+    })
+  }
+
+  const remove = (idx: number) => {
+    subtaskRefs.current[idx]?.blur()
+    const tempSubtask = [...subtask]
+    tempSubtask.splice(idx, 1)
+    setSubtask(tempSubtask)
+  }
+
   return {
     subtask,
     insertAt,
     add,
     editText,
+    editCheck,
+    remove,
     setSubtaskRef
   }
 }

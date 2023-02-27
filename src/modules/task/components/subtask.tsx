@@ -3,7 +3,6 @@ import {
   NativeSyntheticEvent,
   StyleProp,
   TextInput,
-  TextInputChangeEventData,
   TextInputSubmitEditingEventData,
   TouchableHighlight,
   View,
@@ -21,8 +20,8 @@ interface Props {
   style?: StyleProp<ViewStyle>
   onRemove?: (event: GestureResponderEvent) => void
   onSubmit?: (e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => void
-  onChange?: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void
   onChangeText?: (text: string) => void
+  onPress?: (event: GestureResponderEvent) => void
 }
 
 const Subtask = forwardRef<TextInput, Props>((props, ref) => {
@@ -33,7 +32,7 @@ const Subtask = forwardRef<TextInput, Props>((props, ref) => {
     onRemove,
     onSubmit,
     onChangeText,
-    onChange,
+    onPress,
     ...rest
   } = props
   const [focus, setFocus] = useState(false)
@@ -42,14 +41,13 @@ const Subtask = forwardRef<TextInput, Props>((props, ref) => {
       style={[styles.taskContainer, style, { justifyContent: 'space-between' }]}
     >
       <View style={{ flexDirection: 'row' }}>
-        <Checkbox {...rest} />
+        <Checkbox onPress={onPress} {...rest} />
         <TextInput
           style={[styles.taskText, rest.checked ? styles.taskDone : undefined]}
           defaultValue={text}
           placeholder={placeholder}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
-          onChange={onChange}
           onChangeText={onChangeText}
           onSubmitEditing={onSubmit}
           blurOnSubmit={false}
