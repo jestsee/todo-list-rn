@@ -1,9 +1,11 @@
 import {
   ActivityIndicator,
   GestureResponderEvent,
+  StyleProp,
   Text,
   TouchableOpacity,
-  View
+  View,
+  ViewStyle
 } from 'react-native'
 import { styles } from './styles'
 
@@ -11,6 +13,7 @@ interface Props {
   title: string
   loading?: boolean
   disabled?: boolean
+  style?: StyleProp<ViewStyle>
   onPress?: (event: GestureResponderEvent) => void
 }
 
@@ -18,7 +21,8 @@ export const Button: React.FC<Props> = ({
   loading,
   title,
   onPress,
-  disabled
+  disabled,
+  style
 }) => {
   return (
     <TouchableOpacity
@@ -26,6 +30,7 @@ export const Button: React.FC<Props> = ({
       onPress={onPress}
       style={[
         styles.container,
+        style,
         disabled || loading ? styles.disabled : styles.active
       ]}
     >

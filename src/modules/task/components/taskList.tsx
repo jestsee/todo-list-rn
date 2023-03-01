@@ -1,4 +1,4 @@
-import { ScrollView, Text, View } from 'react-native'
+import { ScrollView, Text } from 'react-native'
 import { Task } from './task'
 import { useGetTasksQuery } from '@redux/api/taskApi'
 
