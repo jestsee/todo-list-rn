@@ -24,3 +24,8 @@ export {
   AddTaskPayload,
   UpdateTaskPayload
 }
+
+// TODO
+// hook useTask -> addTask, deleteTask, ..
+// kalo berhasil add maka nambah arraynya
+// delete & update juga berubah arraynya

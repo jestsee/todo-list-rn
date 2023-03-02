@@ -4,7 +4,7 @@ import { TextInput } from 'react-native'
 
 type CustomTextInput = TextInput | undefined
 
-const useSubtask = (subtaskType?: boolean) => {
+const useSubtask = (subtaskType?: boolean, existingSubtask?: Subtask[]) => {
   const [subtask, setSubtask] = useState<Subtask[]>([])
   const [isLastIdx, setIsLastIdx] = useState(false)
   const subtaskRefs = useRef<CustomTextInput[]>([])
@@ -19,6 +19,10 @@ const useSubtask = (subtaskType?: boolean) => {
       setIsLastIdx(false)
     }
   }, [subtaskRefs.current.length, isLastIdx])
+
+  useEffect(() => {
+    if (!subtaskType) add()
+  }, [])
 
   const setSubtaskRef = (idx: number, e?: TextInput) => {
     subtaskRefs.current[idx] = e

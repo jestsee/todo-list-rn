@@ -5,50 +5,44 @@ import {
   TouchableOpacity,
   View
 } from 'react-native'
-import { useEffect, useState } from 'react'
+import { useAddTaskMutation, useUpdateTaskMutation } from '@redux/api/taskApi'
 import { Button } from '@components'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Subtask } from '@modules/task/components/subtask'
-import { Subtask as SubtaskType } from '@custom-types/task'
-import { useAddTaskMutation } from '@redux/api/taskApi'
-import { useAuth } from '@hooks/useAuth'
+import { Task } from '@custom-types/task'
+import { useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import useSubtask from '@modules/task/compose/useSubtask'
+import useTask from '@modules/task/composables/useTask'
 
-export const TaskModal = () => {
+export const TaskModal = (task: Task) => {
   const navigation = useNavigation()
-  const { subtask, add, insertAt, setSubtaskRef, editText, remove } =
-    useSubtask()
-  const [addTask, { isLoading, isError, isSuccess }] = useAddTaskMutation()
-  const { session } = useAuth()
-  const [taskProperty, setTaskProperty] = useState<{ title: string }>({
-    title: ''
-  })
+  const [addTask, { isLoading, isSuccess }] = useAddTaskMutation()
+  const [updateTask, { isLoading: updateLoading, isSuccess: updateSuccess }] =
+    useUpdateTaskMutation()
+
+  const {
+    subtask,
+    add,
+    insertAt,
+    setSubtaskRef,
+    editText,
+    remove,
+    checkedSubtask,
+    insertChecked,
+    setRefChecked,
+    editTextChecked,
+    removeChecked,
+    changeTitle,
+    check,
+    uncheck,
+    prepareTask
+  } = useTask()
 
   useEffect(() => {
     if (isSuccess) navigation.goBack()
   }, [isSuccess])
-
-  const {
-    subtask: checkedSubtask,
-    insertAt: insertChecked,
-    add: addChecked,
-    setSubtaskRef: setRefChecked,
-    editText: editTextChecked,
-    remove: removeChecked
-  } = useSubtask(true)
-
-  const check = (idx: number, item: SubtaskType) => {
-    remove(idx)
-    addChecked(item)
-  }
-
-  const uncheck = (idx: number, item: SubtaskType) => {
-    removeChecked(idx)
-    add(item)
-  }
 
   return (
     <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
@@ -56,11 +50,7 @@ export const TaskModal = () => {
         <TextInput
           style={styles.taskTitle}
           placeholder="Task title "
-          onChangeText={(text) =>
-            setTaskProperty((val) => {
-              return { ...val, title: text }
-            })
-          }
+          onChangeText={(text) => changeTitle(text)}
         />
         <Ionicons
           onPress={() => navigation.goBack()}
@@ -122,14 +112,7 @@ export const TaskModal = () => {
         <Button
           title="Save"
           loading={isLoading}
-          onPress={() => {
-            if (session?.user.id)
-              addTask({
-                ...taskProperty,
-                subtask: [...subtask, ...checkedSubtask],
-                created_by: session?.user.id
-              })
-          }}
+          onPress={() => addTask(prepareTask())}
         />
       </View>
     </SafeAreaView>

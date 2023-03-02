@@ -4,6 +4,7 @@ import { authReducer } from './slice/authSlice'
 import { configureStore } from '@reduxjs/toolkit'
 import { errorHandler } from './middleware/errorHandler'
 import { snackbarReducer } from './slice/snackBarSlice'
+import { tasksReducer } from './slice/tasksSlice'
 
 export const store = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export const store = configureStore({
     [profileApi.reducerPath]: profileApi.reducer,
     [taskApi.reducerPath]: taskApi.reducer,
     auth: authReducer,
-    snackbar: snackbarReducer
+    snackbar: snackbarReducer,
+    tasks: tasksReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([

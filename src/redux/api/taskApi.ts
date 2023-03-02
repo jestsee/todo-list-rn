@@ -28,18 +28,18 @@ export const taskApi = createApi({
         return { data }
       }
     }),
-    updateTask: builder.mutation<string, UpdateTaskPayload>({
+    updateTask: builder.mutation<UpdateTaskPayload, UpdateTaskPayload>({
       async queryFn(updatedTask) {
         const { error } = await updateTask(updatedTask)
         if (error) return { error: { message: error.message } }
-        return { data: 'success' }
+        return { data: updatedTask }
       }
     }),
     deleteTask: builder.mutation<string, string>({
       async queryFn(id) {
         const { error } = await deleteTask(id)
         if (error) return { error: { message: error.message } }
-        return { data: 'success' }
+        return { data: id }
       }
     })
   })
