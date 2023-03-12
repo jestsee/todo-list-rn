@@ -36,4 +36,3 @@ const tasksSlice = createSlice({
 
 export const { reducer: tasksReducer } = tasksSlice
 export const selectCurrentTasks = (state: RootState) => state.tasks
-

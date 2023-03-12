@@ -1,3 +1,4 @@
+import { Button, Chip } from '@components'
 import {
   FlatList,
   StyleSheet,
@@ -7,14 +8,14 @@ import {
   View
 } from 'react-native'
 import { useAddTaskMutation, useUpdateTaskMutation } from '@redux/api/taskApi'
+import { useEffect, useState } from 'react'
 import { AuthStackParamList } from '@custom-types/route'
-import { Button } from '@components'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Subtask } from '@modules/task/components/subtask'
-import { useEffect } from 'react'
+import { usePriorityChip } from './composables/usePriorityChip'
 import useTask from '@modules/task/composables/useTask'
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'TaskModal'>
@@ -26,6 +27,9 @@ export const TaskModal = ({ route, navigation }: Props) => {
   const [addTask, { isLoading, isSuccess }] = useAddTaskMutation()
   const [updateTask, { isLoading: updateLoading, isSuccess: updateSuccess }] =
     useUpdateTaskMutation()
+
+  const { priority, switchPriority } = usePriorityChip()
+  const [title, setTitle] = useState(params?.task?.title ?? '')
 
   const {
     subtask,
@@ -39,9 +43,9 @@ export const TaskModal = ({ route, navigation }: Props) => {
     setRefChecked,
     editTextChecked,
     removeChecked,
-    changeTitle,
     check,
     uncheck,
+    changeTaskAttribute,
     prepareTask
   } = useTask(params?.task)
 
@@ -49,13 +53,17 @@ export const TaskModal = ({ route, navigation }: Props) => {
     if (isSuccess || updateSuccess) navigation.goBack()
   }, [isSuccess, updateSuccess])
 
+  useEffect(() => {
+    changeTaskAttribute({ title, priority: priority.name })
+  }, [title, priority])
+
   return (
     <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
       <View style={styles.titleContainer}>
         <TextInput
           style={styles.taskTitle}
           placeholder="Task title "
-          onChangeText={(text) => changeTitle(text)}
+          onChangeText={(text) => setTitle(text)}
           defaultValue={isEditing() ? params.task?.title : ''}
         />
         <Ionicons
@@ -129,6 +137,19 @@ export const TaskModal = ({ route, navigation }: Props) => {
           onPress={() =>
             isEditing() ? updateTask(prepareTask()) : addTask(prepareTask())
           }
+        />
+        <View
+          style={{
+            borderTopWidth: 0.5,
+            borderColor: 'grey',
+            paddingTop: 20,
+            marginTop: 20
+          }}
+        />
+        <Chip
+          text={priority.name}
+          color={priority.color.backgroundColor}
+          onPress={switchPriority}
         />
       </View>
     </SafeAreaView>

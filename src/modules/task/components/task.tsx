@@ -1,7 +1,8 @@
 /* eslint-disable sort-keys */
 import {
   GestureHandlerRootView,
-  RectButton
+  RectButton,
+  Swipeable
 } from 'react-native-gesture-handler'
 import { StyleProp, Text, View, ViewStyle } from 'react-native'
 import { AuthNavigationType } from '@custom-types/route'
@@ -9,7 +10,6 @@ import { Badge } from '@components'
 import { Ionicons } from '@expo/vector-icons'
 import RightSwipeActions from './rightSwipeAction'
 import { Subtask as SubtaskType } from './subtask'
-import Swipeable from 'react-native-gesture-handler/Swipeable'
 import { Task as TaskType } from '@custom-types/task'
 import { styles } from '../styles/styles'
 import { useDeleteTaskMutation } from '@redux/api/taskApi'
