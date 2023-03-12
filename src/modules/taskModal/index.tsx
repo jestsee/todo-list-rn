@@ -124,7 +124,7 @@ export const TaskModal = ({ route, navigation }: Props) => {
       )}
       <View style={{ position: 'absolute', bottom: 20, width: '100%' }}>
         <Button
-          title="Save"
+          title={isEditing() ? 'Update' : 'Save'}
           loading={isLoading || updateLoading}
           onPress={() =>
             isEditing() ? updateTask(prepareTask()) : addTask(prepareTask())

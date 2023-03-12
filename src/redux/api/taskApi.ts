@@ -40,6 +40,7 @@ export const taskApi = createApi({
     }),
     deleteTask: builder.mutation<string, string>({
       async queryFn(id, { dispatch }) {
+        dispatch(snackbar.info({ message: 'Deleting task...' }))
         const { error } = await deleteTask(id)
         if (error) return { error: { message: error.message } }
         dispatch(snackbar.show({ message: 'Task successfully deleted' }))
