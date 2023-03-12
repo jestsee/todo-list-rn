@@ -1,9 +1,15 @@
 /* eslint-disable sort-keys */
-import { StyleProp, Text, View, ViewStyle } from 'react-native'
+import {
+  StyleProp,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle
+} from 'react-native'
 import { Badge } from '@components'
 import { Ionicons } from '@expo/vector-icons'
 import { Subtask } from '@custom-types/task'
-import { Task as TaskType } from './subtask'
+import { Subtask as TaskType } from './subtask'
 import { styles } from '../styles/styles'
 
 interface Props {
@@ -17,7 +23,7 @@ interface Props {
 export const Task: React.FC<Props> = (item) => {
   const { style, title, deadline, group_id, subtask } = item
   return (
-    <View style={[styles.container, style]}>
+    <TouchableOpacity style={[styles.container, style]}>
       <View style={styles.taskNameContainer}>
         <Text style={styles.taskName}>{title}</Text>
         <Badge text="Priority" />
@@ -43,6 +49,6 @@ export const Task: React.FC<Props> = (item) => {
           style={{ marginBottom: idx !== subtask.length - 1 ? 12 : 8 }}
         />
       ))}
-    </View>
+    </TouchableOpacity>
   )
 }
