@@ -21,22 +21,18 @@ const tasksSlice = createSlice({
         taskApi.endpoints.addTask.matchFulfilled,
         (state, { payload }) => [...state, ...(payload as Task[])]
       )
-      // TODO belom dicek bisa apa ngga
       .addMatcher(
         taskApi.endpoints.updateTask.matchFulfilled,
-        (state, { payload }) => {
-          return [
-            ...state.map((item) =>
-              item.id === payload.id ? { ...item, ...payload } : item
-            )
-          ]
-        }
+        (state, { payload }) => [
+          ...state.map((item) =>
+            item.id === payload.id ? { ...item, ...payload } : item
+          )
+        ]
       )
+      // TODO belom dicek bisa apa ngga
       .addMatcher(
         taskApi.endpoints.deleteTask.matchFulfilled,
-        (state, { payload }) => {
-          state = state.filter((item) => item.id !== payload)
-        }
+        (state, { payload }) => [...state.filter((item) => item.id !== payload)]
       )
   }
 })

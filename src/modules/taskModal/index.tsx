@@ -1,4 +1,5 @@
 import {
+  FlatList,
   StyleSheet,
   Text,
   TextInput,
@@ -64,18 +65,22 @@ export const TaskModal = ({ route, navigation }: Props) => {
         />
       </View>
       <View>
-        {subtask.map((item, idx) => (
-          <Subtask
-            key={idx}
-            placeholder="Subtask"
-            onSubmit={() => insertAt(idx + 1)}
-            ref={(e) => setSubtaskRef(idx, e ?? undefined)}
-            onChangeText={(val) => editText(idx, val)}
-            onPress={() => check(idx, item)}
-            onRemove={() => remove(idx)}
-            {...item}
-          />
-        ))}
+        <FlatList
+          data={subtask}
+          keyExtractor={(_, index) => index.toString()}
+          renderItem={({ item, index: idx }) => (
+            <Subtask
+              key={idx}
+              placeholder="Subtask"
+              onSubmit={() => insertAt(idx + 1)}
+              ref={(e) => setSubtaskRef(idx, e ?? undefined)}
+              onChangeText={(val) => editText(idx, val)}
+              onPress={() => check(idx, item)}
+              onRemove={() => remove(idx)}
+              {...item}
+            />
+          )}
+        />
       </View>
       <TouchableOpacity
         style={{
@@ -99,18 +104,22 @@ export const TaskModal = ({ route, navigation }: Props) => {
             marginTop: 16
           }}
         >
-          {checkedSubtask.map((item, idx) => (
-            <Subtask
-              key={idx}
-              placeholder="Subtask"
-              onSubmit={() => insertChecked(idx + 1)}
-              ref={(e) => setRefChecked(idx, e ?? undefined)}
-              onChangeText={(val) => editTextChecked(idx, val)}
-              onPress={() => uncheck(idx, item)}
-              onRemove={() => removeChecked(idx)}
-              {...item}
-            />
-          ))}
+          <FlatList
+            data={checkedSubtask}
+            keyExtractor={(_, index) => index.toString()}
+            renderItem={({ item, index: idx }) => (
+              <Subtask
+                key={idx}
+                placeholder="Subtask"
+                onSubmit={() => insertChecked(idx + 1)}
+                ref={(e) => setRefChecked(idx, e ?? undefined)}
+                onChangeText={(val) => editTextChecked(idx, val)}
+                onPress={() => uncheck(idx, item)}
+                onRemove={() => removeChecked(idx)}
+                {...item}
+              />
+            )}
+          />
         </View>
       )}
       <View style={{ position: 'absolute', bottom: 20, width: '100%' }}>
