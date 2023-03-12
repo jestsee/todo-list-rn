@@ -5,6 +5,7 @@ const gap = 16
 
 export const styles = StyleSheet.create({
   container: {
+    backgroundColor: 'white',
     borderColor: 'darkgray',
     borderRadius: 4,
     borderWidth: 1,

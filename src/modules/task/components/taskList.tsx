@@ -1,4 +1,4 @@
-import { ScrollView, Text } from 'react-native'
+import { FlatList, Text, View } from 'react-native'
 import { Task } from './task'
 import { selectCurrentTasks } from '@redux/slice/tasksSlice'
 import { useGetTasksQuery } from '@redux/api/taskApi'
@@ -11,14 +11,15 @@ export const TodoList = () => {
   if (isFetching) return <Text>Loading</Text>
   if (isError) return <Text>{error.message}</Text>
   return (
-    <ScrollView>
-      {tasks?.map((item, idx) => (
-        <Task
-          key={item.id}
-          style={{ marginBottom: idx !== tasks.length - 1 ? 16 : 0 }}
-          {...item}
-        />
-      ))}
-    </ScrollView>
+    <FlatList
+      data={tasks}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => <Task {...item} />}
+      ItemSeparatorComponent={Separator}
+    />
   )
+}
+
+const Separator = () => {
+  return <View style={{ height: 20 }} />
 }
