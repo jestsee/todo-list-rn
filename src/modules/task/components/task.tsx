@@ -23,10 +23,7 @@ export const Task: React.FC<Props> = (item) => {
   const { title, deadline, group_id, subtask } = task
   const { navigate } = useNavigation<AuthNavigationType>()
   return (
-    <TouchableOpacity
-      style={[styles.container, style]}
-      onPress={() => navigate('TaskModal', { task })}
-    >
+    <TouchableOpacity style={[styles.container, style]}>
       <View style={styles.taskNameContainer}>
         <Text style={styles.taskName}>{title}</Text>
         <Badge text="Priority" />
