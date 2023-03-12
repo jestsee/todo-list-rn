@@ -4,8 +4,6 @@ import { createSlice } from '@reduxjs/toolkit'
 import { taskApi } from '@redux/api'
 
 // TODO bisa dimasukin ke local storage kah?
-// task slice dipakein redux karena mau diakses di 2 halaman berbeda
-// halaman home dan tasks
 const initialState: Task[] = []
 const tasksSlice = createSlice({
   name: 'tasks',
@@ -29,7 +27,6 @@ const tasksSlice = createSlice({
           )
         ]
       )
-      // TODO belom dicek bisa apa ngga
       .addMatcher(
         taskApi.endpoints.deleteTask.matchFulfilled,
         (state, { payload }) => [...state.filter((item) => item.id !== payload)]

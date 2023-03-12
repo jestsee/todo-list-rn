@@ -23,9 +23,23 @@ const authSlice = createSlice({
     }
   },
   extraReducers(builder) {
-    builder.addMatcher(authApi.endpoints.getSession.matchFulfilled, (state) => {
-      return { ...state, event: state.session ? 'SIGNED_IN' : 'SIGNED_OUT' }
-    })
+    builder
+      .addMatcher(
+        authApi.endpoints.getSession.matchFulfilled,
+        (_, { payload: { session } }) => {
+          return { session, event: session ? 'SIGNED_IN' : 'SIGNED_OUT' }
+        }
+      )
+      // TODO pake isAny kalo yg signIn via github dah bisa
+      .addMatcher(
+        authApi.endpoints.signIn.matchFulfilled,
+        (_, { payload: { session } }) => {
+          return { session, event: 'SIGNED_IN' }
+        }
+      )
+      .addMatcher(authApi.endpoints.signOut.matchFulfilled, () => {
+        return { session: null, event: 'SIGNED_OUT' }
+      })
   }
 })
 

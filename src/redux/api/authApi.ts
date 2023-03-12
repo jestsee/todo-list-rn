@@ -7,6 +7,7 @@ import type {
 } from '@custom-types/auth'
 import { Provider, Session } from '@supabase/supabase-js'
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
+import snackbar from '@redux/slice/snackBarSlice'
 import { supabase } from '@constants/supabase'
 
 export const authApi = createApi({
@@ -14,21 +15,28 @@ export const authApi = createApi({
   baseQuery: fakeBaseQuery<CustomError>(),
   endpoints: (builder) => ({
     signUp: builder.mutation<SignInResponse, SignUpPayload>({
-      async queryFn({ name, ...rest }) {
+      async queryFn({ name, ...rest }, { dispatch }) {
         const { data, error } = await supabase.auth.signUp({
           ...rest,
           options: { data: { name } }
         })
         if (error) return { error: { message: error.message } }
+        dispatch(
+          snackbar.show({
+            message: `An email has been sent to ${data?.user?.email}, please check your email to complete the registration`,
+            dismissable: true
+          })
+        )
         return { data }
       }
     }),
     signIn: builder.mutation<SignInResponse, SignInPayload>({
-      async queryFn(credentials) {
+      async queryFn(credentials, { dispatch }) {
         const { data, error } = await supabase.auth.signInWithPassword(
           credentials
         )
         if (error) return { error: { message: error.message } }
+        dispatch(snackbar.show({ message: 'Successfully signed in' }))
         return { data }
       }
     }),
@@ -43,9 +51,10 @@ export const authApi = createApi({
       }
     }),
     signOut: builder.mutation<string, void>({
-      async queryFn() {
+      async queryFn(_, { dispatch }) {
         const { error } = await supabase.auth.signOut()
         if (error) return { error: { message: error.message } }
+        dispatch(snackbar.show({ message: 'Signed out' }))
         return { data: 'success' }
       }
     }),

@@ -12,8 +12,8 @@ import { Subtask as SubtaskType } from './subtask'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
 import { Task as TaskType } from '@custom-types/task'
 import { styles } from '../styles/styles'
-import { useNavigation } from '@react-navigation/native'
 import { useDeleteTaskMutation } from '@redux/api/taskApi'
+import { useNavigation } from '@react-navigation/native'
 interface Props extends TaskType {
   style?: StyleProp<ViewStyle>
 }
@@ -23,7 +23,7 @@ export const Task: React.FC<Props> = (item) => {
   const { id, title, deadline, group_id, subtask } = task
 
   const { navigate } = useNavigation<AuthNavigationType>()
-  const [deleteTask, { isLoading, isSuccess }] = useDeleteTaskMutation()
+  const [deleteTask] = useDeleteTaskMutation()
 
   return (
     <GestureHandlerRootView>
