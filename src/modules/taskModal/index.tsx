@@ -6,18 +6,22 @@ import {
   View
 } from 'react-native'
 import { useAddTaskMutation, useUpdateTaskMutation } from '@redux/api/taskApi'
+import { AuthStackParamList } from '@custom-types/route'
 import { Button } from '@components'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Subtask } from '@modules/task/components/subtask'
-import { Task } from '@custom-types/task'
 import { useEffect } from 'react'
-import { useNavigation } from '@react-navigation/native'
 import useTask from '@modules/task/composables/useTask'
 
-export const TaskModal = (task: Task) => {
-  const navigation = useNavigation()
+type Props = NativeStackScreenProps<AuthStackParamList, 'TaskModal'>
+
+export const TaskModal = ({ route, navigation }: Props) => {
+  const { params } = route
+  const isEditing = () => params?.task !== undefined
+
   const [addTask, { isLoading, isSuccess }] = useAddTaskMutation()
   const [updateTask, { isLoading: updateLoading, isSuccess: updateSuccess }] =
     useUpdateTaskMutation()
@@ -38,11 +42,11 @@ export const TaskModal = (task: Task) => {
     check,
     uncheck,
     prepareTask
-  } = useTask()
+  } = useTask(params?.task)
 
   useEffect(() => {
-    if (isSuccess) navigation.goBack()
-  }, [isSuccess])
+    if (isSuccess || updateSuccess) navigation.goBack()
+  }, [isSuccess, updateSuccess])
 
   return (
     <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
@@ -51,6 +55,7 @@ export const TaskModal = (task: Task) => {
           style={styles.taskTitle}
           placeholder="Task title "
           onChangeText={(text) => changeTitle(text)}
+          defaultValue={isEditing() ? params.task?.title : ''}
         />
         <Ionicons
           onPress={() => navigation.goBack()}
@@ -111,8 +116,10 @@ export const TaskModal = (task: Task) => {
       <View style={{ position: 'absolute', bottom: 20, width: '100%' }}>
         <Button
           title="Save"
-          loading={isLoading}
-          onPress={() => addTask(prepareTask())}
+          loading={isLoading || updateLoading}
+          onPress={() =>
+            isEditing() ? updateTask(prepareTask()) : addTask(prepareTask())
+          }
         />
       </View>
     </SafeAreaView>

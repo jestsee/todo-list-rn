@@ -25,9 +25,11 @@ const tasksSlice = createSlice({
       .addMatcher(
         taskApi.endpoints.updateTask.matchFulfilled,
         (state, { payload }) => {
-          state = state.map((item) =>
-            item.id === payload.id ? { ...item, ...payload } : item
-          )
+          return [
+            ...state.map((item) =>
+              item.id === payload.id ? { ...item, ...payload } : item
+            )
+          ]
         }
       )
       .addMatcher(

@@ -1,6 +1,6 @@
 import { Subtask, Task } from '@custom-types/task'
-import { useAuth } from '@hooks/useAuth'
 import { useEffect, useState } from 'react'
+import { useAuth } from '@hooks/useAuth'
 import useSubtask from './useSubtask'
 
 type TaskProperty = Omit<Task, 'id' | 'created_by' | 'subtask'>
@@ -15,7 +15,7 @@ const useTask = (task?: Task) => {
 
   // for unchecked subtasks
   const { subtask, add, insertAt, setSubtaskRef, editText, remove } =
-    useSubtask()
+    useSubtask(false, task?.subtask)
 
   // for checked subtasks
   const {
@@ -25,7 +25,7 @@ const useTask = (task?: Task) => {
     setSubtaskRef: setRefChecked,
     editText: editTextChecked,
     remove: removeChecked
-  } = useSubtask(true)
+  } = useSubtask(true, task?.subtask)
 
   const changeTitle = (text: string) => {
     setTaskProperty((val) => {

@@ -1,4 +1,5 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types'
+import { Task } from './task'
 
 export type UnauthStackParamList = {
   SignUpScreen: undefined
@@ -9,7 +10,7 @@ export type UnauthNavigationType =
 
 export type AuthStackParamList = {
   Main: undefined
-  TaskModal: { id?: string }
+  TaskModal: { task?: Task }
 }
 export type AuthNavigationType = NativeStackNavigationProp<AuthStackParamList>
 

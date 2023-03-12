@@ -21,7 +21,10 @@ const useSubtask = (subtaskType?: boolean, existingSubtask?: Subtask[]) => {
   }, [subtaskRefs.current.length, isLastIdx])
 
   useEffect(() => {
-    if (!subtaskType) add()
+    if (!subtaskType && !existingSubtask) add()
+    if (existingSubtask) {
+      setSubtask(existingSubtask.filter((item) => item.checked === subtaskType))
+    }
   }, [])
 
   const setSubtaskRef = (idx: number, e?: TextInput) => {

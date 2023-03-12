@@ -6,22 +6,22 @@ import {
   View,
   ViewStyle
 } from 'react-native'
+import { AuthNavigationType } from '@custom-types/route'
 import { Badge } from '@components'
 import { Ionicons } from '@expo/vector-icons'
-import { Subtask } from '@custom-types/task'
-import { Subtask as TaskType } from './subtask'
+import { Subtask as SubtaskType } from './subtask'
+import { Task as TaskType } from '@custom-types/task'
 import { styles } from '../styles/styles'
+import { useNavigation } from '@react-navigation/native'
 
-interface Props {
+interface Props extends TaskType {
   style?: StyleProp<ViewStyle>
-  title: string
-  deadline?: string
-  group_id?: number
-  subtask?: Subtask[]
 }
 
 export const Task: React.FC<Props> = (item) => {
-  const { style, title, deadline, group_id, subtask } = item
+  const { style, ...task } = item
+  const { title, deadline, group_id, subtask } = task
+  const { navigate } = useNavigation<AuthNavigationType>()
   return (
     <TouchableOpacity style={[styles.container, style]}>
       <View style={styles.taskNameContainer}>
@@ -43,7 +43,7 @@ export const Task: React.FC<Props> = (item) => {
         )}
       </View>
       {subtask?.map((item, idx) => (
-        <TaskType
+        <SubtaskType
           {...item}
           key={idx}
           style={{ marginBottom: idx !== subtask.length - 1 ? 12 : 8 }}
