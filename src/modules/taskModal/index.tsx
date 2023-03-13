@@ -28,7 +28,7 @@ export const TaskModal = ({ route, navigation }: Props) => {
   const [updateTask, { isLoading: updateLoading, isSuccess: updateSuccess }] =
     useUpdateTaskMutation()
 
-  const { priority, switchPriority } = usePriorityChip()
+  const { priority, switchPriority } = usePriorityChip(params?.task?.priority)
   const [title, setTitle] = useState(params?.task?.title ?? '')
 
   const {

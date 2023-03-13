@@ -8,9 +8,12 @@ const priorityData = [
 ]
 
 // TODO tambahin params buat existing priority (update task)
-export const usePriorityChip = () => {
-  const [index, setIndex] = useState(0)
-  const [priority, setPriority] = useState(priorityData[0])
+export const usePriorityChip = (current?: string) => {
+  const initialIndex = priorityData.findIndex((item) => item.name === current)
+  const [index, setIndex] = useState(current ? initialIndex : 0)
+  const [priority, setPriority] = useState(
+    current ? priorityData[initialIndex] : priorityData[0]
+  )
 
   const switchPriority = () => {
     setIndex((val) => val + 1)

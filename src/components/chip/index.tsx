@@ -1,4 +1,5 @@
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
+import { BaseButton } from 'react-native-gesture-handler'
 
 interface Props {
   text: string
@@ -8,7 +9,7 @@ interface Props {
 
 export const Chip = ({ text, color, onPress }: Props) => {
   return (
-    <TouchableOpacity
+    <BaseButton
       onPress={onPress}
       style={[styles.container, { backgroundColor: color ?? 'mediumseagreen' }]}
     >
@@ -22,7 +23,7 @@ export const Chip = ({ text, color, onPress }: Props) => {
       >
         {text}
       </Text>
-    </TouchableOpacity>
+    </BaseButton>
   )
 }
 
