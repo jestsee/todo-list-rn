@@ -27,9 +27,9 @@ const useTask = (task?: Task) => {
     remove: removeChecked
   } = useSubtask(true, task?.subtask)
 
-  const changeTitle = (text: string) => {
+  const changeTaskAttribute = (prop: TaskProperty) => {
     setTaskProperty((val) => {
-      return { ...val, title: text }
+      return { ...val, ...prop }
     })
   }
 
@@ -65,9 +65,9 @@ const useTask = (task?: Task) => {
     setRefChecked,
     editTextChecked,
     removeChecked,
-    changeTitle,
     check,
     uncheck,
+    changeTaskAttribute,
     prepareTask
   }
 }
