@@ -30,6 +30,11 @@ export default {
 
         backgroundColor: '#FFFFFF'
       },
+      config: {
+        googleMaps: {
+          apiKey: 'AIzaSyD3WgQy_SlkDEBx9jliZVyli0FazV03ciY'
+        }
+      },
       intentFilters: [
         {
           action: 'VIEW',
@@ -52,6 +57,15 @@ export default {
       supabaseUrl: process.env.SUPABASE_URL,
       supabaseSecret: process.env.SUPABASE_SECRET,
       redirectLink: process.env.REDIRECT_LINK
-    }
+    },
+    plugins: [
+      [
+        'expo-location',
+        {
+          isAndroidBackgroundLocationEnabled:
+            'Allow Todo List to use your location.'
+        }
+      ]
+    ]
   }
 }
