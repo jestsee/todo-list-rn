@@ -1,23 +1,28 @@
-import { StyleSheet, Text } from 'react-native'
+import { StyleProp, StyleSheet, Text, ViewStyle } from 'react-native'
 import { BaseButton } from 'react-native-gesture-handler'
 
 interface Props {
   text: string
   color?: string
   onPress?: () => void
+  style?: StyleProp<ViewStyle>
 }
 
-export const Chip = ({ text, color, onPress }: Props) => {
+export const Chip = ({ text, color, onPress, style }: Props) => {
   return (
     <BaseButton
       onPress={onPress}
-      style={[styles.container, { backgroundColor: color ?? 'mediumseagreen' }]}
+      style={[
+        styles.container,
+        { backgroundColor: color ?? 'mediumseagreen' },
+        style
+      ]}
     >
       <Text
         style={{
           color: 'white',
           fontWeight: 'bold',
-          fontSize: 12,
+          fontSize: 14,
           textAlign: 'center'
         }}
       >

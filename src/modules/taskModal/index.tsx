@@ -1,3 +1,4 @@
+import 'dayjs/locale/id'
 import { Button, Chip } from '@components'
 import {
   FlatList,
@@ -10,17 +11,22 @@ import {
 import { useAddTaskMutation, useUpdateTaskMutation } from '@redux/api/taskApi'
 import { useEffect, useState } from 'react'
 import { AuthStackParamList } from '@custom-types/route'
+import { BaseButton } from 'react-native-gesture-handler'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Subtask } from '@modules/task/components/subtask'
+import dayjs from 'dayjs'
+import { useDatePicker } from '@hooks/useDatePicker'
 import { usePriorityChip } from './composables/usePriorityChip'
 import useTask from '@modules/task/composables/useTask'
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'TaskModal'>
 
 export const TaskModal = ({ route, navigation }: Props) => {
+  dayjs.locale('id')
+
   const { params } = route
   const isEditing = () => params?.task !== undefined
 
@@ -28,8 +34,9 @@ export const TaskModal = ({ route, navigation }: Props) => {
   const [updateTask, { isLoading: updateLoading, isSuccess: updateSuccess }] =
     useUpdateTaskMutation()
 
-  const { priority, switchPriority } = usePriorityChip(params?.task?.priority)
   const [title, setTitle] = useState(params?.task?.title ?? '')
+  const { priority, switchPriority } = usePriorityChip(params?.task?.priority)
+  const { showDatepicker, date } = useDatePicker(params?.task?.deadline)
 
   const {
     subtask,
@@ -54,8 +61,12 @@ export const TaskModal = ({ route, navigation }: Props) => {
   }, [isSuccess, updateSuccess])
 
   useEffect(() => {
-    changeTaskAttribute({ title, priority: priority.name })
-  }, [title, priority])
+    changeTaskAttribute({
+      title,
+      priority: priority.name,
+      deadline: date?.toDateString()
+    })
+  }, [title, priority, date])
 
   return (
     <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
@@ -146,17 +157,52 @@ export const TaskModal = ({ route, navigation }: Props) => {
             marginTop: 20
           }}
         />
-        <Chip
-          text={priority.name}
-          color={priority.color.backgroundColor}
-          onPress={switchPriority}
-        />
+        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+          <Chip
+            text={priority.name}
+            color={priority.color.backgroundColor}
+            onPress={switchPriority}
+            style={{ width: 100 }}
+          />
+          <Gap />
+          <BaseButton onPress={showDatepicker} style={styles.attributeButton}>
+            <Ionicons
+              name="calendar-sharp"
+              style={{ color: 'dimgrey' }}
+              size={20}
+              color="black"
+            />
+            {date && (
+              <Text
+                style={{ color: 'dimgrey', marginLeft: 8, fontWeight: 'bold' }}
+              >
+                {dayjs(date).format('D MMM YYYY')}
+              </Text>
+            )}
+          </BaseButton>
+          <Gap />
+          <BaseButton>
+            <Ionicons name="ios-location-sharp" size={24} color="black" />
+          </BaseButton>
+        </View>
       </View>
     </SafeAreaView>
   )
 }
 
+const Gap = () => {
+  return <View style={{ width: 12 }}></View>
+}
+
 const styles = StyleSheet.create({
+  attributeButton: {
+    alignItems: 'center',
+    backgroundColor: 'lightgray',
+    borderRadius: 100,
+    flexDirection: 'row',
+    overflow: 'hidden',
+    paddingHorizontal: 16
+  },
   taskTitle: {
     fontSize: 20,
     fontWeight: 'bold'
