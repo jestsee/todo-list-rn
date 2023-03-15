@@ -4,31 +4,29 @@ import MapView, {
   MarkerDragStartEndEvent
 } from 'react-native-maps'
 import { Modal, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useLocation } from '@hooks/useLocation'
 
 interface Props {
   visible: boolean
+  marker?: LatLng
   onClose: () => void
+  handleMarker: (coord: LatLng) => void
 }
-export default function MapModal({ visible, onClose }: Props) {
+export default function MapModal(props: Props) {
+  const { visible, onClose, marker, handleMarker } = props
   const { currentLocation, getCurrentLocation, loading } = useLocation()
-  const [markerCoords, setMarkerCoords] = useState<LatLng>()
 
   useEffect(() => {
     if (visible) getCurrentLocation()
   }, [visible])
 
   useEffect(() => {
-    if (currentLocation) setMarkerCoords(currentLocation.coords)
+    if (currentLocation) handleMarker(currentLocation.coords)
   }, [currentLocation])
 
   const handleMarkerChange = (e: MarkerDragStartEndEvent) => {
-    const {
-      nativeEvent: { coordinate }
-    } = e
-    console.log('coord', coordinate)
-    setMarkerCoords(e.nativeEvent.coordinate)
+    handleMarker(e.nativeEvent.coordinate)
   }
 
   return (
@@ -55,10 +53,10 @@ export default function MapModal({ visible, onClose }: Props) {
                 longitudeDelta: 0.0421
               }}
             >
-              {markerCoords && (
+              {marker && (
                 <Marker
                   draggable
-                  coordinate={markerCoords}
+                  coordinate={marker}
                   onDragEnd={handleMarkerChange}
                 />
               )}

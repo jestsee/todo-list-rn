@@ -20,6 +20,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Subtask } from '@modules/task/components/subtask'
 import dayjs from 'dayjs'
 import { useDatePicker } from '@hooks/useDatePicker'
+import { useMarkerLocation } from './composables/useMarkerLocation'
 import { usePriorityChip } from './composables/usePriorityChip'
 import useTask from '@modules/task/composables/useTask'
 import { useToggle } from '@hooks/useToggle'
@@ -40,6 +41,7 @@ export const TaskModal = ({ route, navigation }: Props) => {
   const [title, setTitle] = useState(params?.task?.title ?? '')
   const { priority, switchPriority } = usePriorityChip(params?.task?.priority)
   const { showDatepicker, date } = useDatePicker(params?.task?.deadline)
+  const { markerCoords, handleMarkerChange } = useMarkerLocation()
 
   const {
     subtask,
@@ -67,13 +69,20 @@ export const TaskModal = ({ route, navigation }: Props) => {
     changeTaskAttribute({
       title,
       priority: priority.name,
-      deadline: date?.toDateString()
+      deadline: date?.toDateString(),
+      latitude: markerCoords?.latitude,
+      longitude: markerCoords?.longitude
     })
-  }, [title, priority, date])
+  }, [title, priority, date, markerCoords])
 
   return (
     <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
-      <MapModal visible={show} onClose={toggleClick} />
+      <MapModal
+        handleMarker={handleMarkerChange}
+        marker={markerCoords}
+        visible={show}
+        onClose={toggleClick}
+      />
       <View style={styles.titleContainer}>
         <TextInput
           style={styles.taskTitle}
@@ -170,12 +179,7 @@ export const TaskModal = ({ route, navigation }: Props) => {
           />
           <Gap />
           <BaseButton onPress={showDatepicker} style={styles.attributeButton}>
-            <Ionicons
-              name="calendar-sharp"
-              style={{ color: 'dimgrey' }}
-              size={20}
-              color="black"
-            />
+            <Ionicons name="calendar-sharp" size={20} color="dimgrey" />
             {date && (
               <Text
                 style={{ color: 'dimgrey', marginLeft: 8, fontWeight: 'bold' }}
@@ -185,8 +189,8 @@ export const TaskModal = ({ route, navigation }: Props) => {
             )}
           </BaseButton>
           <Gap />
-          <BaseButton onPress={toggleClick}>
-            <Ionicons name="ios-location-sharp" size={24} color="black" />
+          <BaseButton onPress={toggleClick} style={styles.attributeButton}>
+            <Ionicons name="ios-location-sharp" size={24} color="dimgrey" />
           </BaseButton>
         </View>
       </View>
