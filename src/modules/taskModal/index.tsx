@@ -14,6 +14,7 @@ import { AuthStackParamList } from '@custom-types/route'
 import { BaseButton } from 'react-native-gesture-handler'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
+import MapModal from './components/mapModal'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Subtask } from '@modules/task/components/subtask'
@@ -21,6 +22,7 @@ import dayjs from 'dayjs'
 import { useDatePicker } from '@hooks/useDatePicker'
 import { usePriorityChip } from './composables/usePriorityChip'
 import useTask from '@modules/task/composables/useTask'
+import { useToggle } from '@hooks/useToggle'
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'TaskModal'>
 
@@ -34,6 +36,7 @@ export const TaskModal = ({ route, navigation }: Props) => {
   const [updateTask, { isLoading: updateLoading, isSuccess: updateSuccess }] =
     useUpdateTaskMutation()
 
+  const { show, toggleClick } = useToggle()
   const [title, setTitle] = useState(params?.task?.title ?? '')
   const { priority, switchPriority } = usePriorityChip(params?.task?.priority)
   const { showDatepicker, date } = useDatePicker(params?.task?.deadline)
@@ -70,6 +73,7 @@ export const TaskModal = ({ route, navigation }: Props) => {
 
   return (
     <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
+      <MapModal visible={show} onClose={toggleClick} />
       <View style={styles.titleContainer}>
         <TextInput
           style={styles.taskTitle}
@@ -181,7 +185,7 @@ export const TaskModal = ({ route, navigation }: Props) => {
             )}
           </BaseButton>
           <Gap />
-          <BaseButton>
+          <BaseButton onPress={toggleClick}>
             <Ionicons name="ios-location-sharp" size={24} color="black" />
           </BaseButton>
         </View>

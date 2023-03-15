@@ -7,7 +7,6 @@ const priorityData = [
   { name: 'high', color: baseStyles.errorColor }
 ]
 
-// TODO tambahin params buat existing priority (update task)
 export const usePriorityChip = (current?: string) => {
   const initialIndex = priorityData.findIndex((item) => item.name === current)
   const [index, setIndex] = useState(current ? initialIndex : 0)
