@@ -108,6 +108,7 @@ export const TaskModal = ({ route, navigation }: Props) => {
           data={subtask}
           keyExtractor={(_, index) => index.toString()}
           ItemSeparatorComponent={Separator}
+          keyboardShouldPersistTaps="handled"
           renderItem={({ item, index: idx }) => (
             <Subtask
               key={idx}
