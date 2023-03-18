@@ -4,8 +4,7 @@ import { useState } from 'react'
 export const useMarkerLocation = () => {
   const [markerCoords, setMarkerCoords] = useState<LatLng>()
 
-  const handleMarkerChange = (coord: LatLng) => {
-    console.log('coord', coord)
+  const handleMarkerChange = (coord?: LatLng) => {
     setMarkerCoords(coord)
   }
 

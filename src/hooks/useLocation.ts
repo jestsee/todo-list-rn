@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 export const useLocation = () => {
   const [loading, setLoading] = useState(false)
-  const [currentLocation, setCurrentLocation] =
+  const [initialLocation, setInitialLocation] =
     useState<Location.LocationObject>()
 
   const requestLocationPermission = async () => {
@@ -20,13 +20,14 @@ export const useLocation = () => {
     }
   }
 
-  const getCurrentLocation = async () => {
+  const getInitialLocation = async () => {
     setLoading(true)
     try {
       const location = await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.High
       })
-      setCurrentLocation(location)
+      setInitialLocation(location)
+
       setLoading(false)
     } catch (err) {
       // TODO snackbar error
@@ -36,9 +37,9 @@ export const useLocation = () => {
   }
 
   return {
-    currentLocation,
+    initialLocation,
     loading,
     requestLocationPermission,
-    getCurrentLocation
+    getInitialLocation
   }
 }
