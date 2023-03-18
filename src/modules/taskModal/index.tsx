@@ -76,7 +76,14 @@ export const TaskModal = ({ route, navigation }: Props) => {
   }, [title, priority, date, markerCoords])
 
   return (
-    <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        flexDirection: 'column',
+        paddingHorizontal: 18,
+        paddingVertical: 8
+      }}
+    >
       <MapModal
         handleMarker={handleMarkerChange}
         marker={markerCoords}
@@ -100,6 +107,7 @@ export const TaskModal = ({ route, navigation }: Props) => {
         <FlatList
           data={subtask}
           keyExtractor={(_, index) => index.toString()}
+          ItemSeparatorComponent={Separator}
           renderItem={({ item, index: idx }) => (
             <Subtask
               key={idx}
@@ -117,7 +125,8 @@ export const TaskModal = ({ route, navigation }: Props) => {
       <TouchableOpacity
         style={{
           flexDirection: 'row',
-          marginVertical: 12,
+          marginBottom: 12,
+          marginTop: 16,
           alignItems: 'center'
         }}
         onPress={() => add()}
@@ -138,6 +147,7 @@ export const TaskModal = ({ route, navigation }: Props) => {
         >
           <FlatList
             data={checkedSubtask}
+            ItemSeparatorComponent={Separator}
             keyExtractor={(_, index) => index.toString()}
             renderItem={({ item, index: idx }) => (
               <Subtask
@@ -154,7 +164,14 @@ export const TaskModal = ({ route, navigation }: Props) => {
           />
         </View>
       )}
-      <View style={{ position: 'absolute', bottom: 20, width: '100%' }}>
+      <View
+        style={{
+          position: 'absolute',
+          alignSelf: 'center',
+          bottom: 20,
+          width: '100%'
+        }}
+      >
         <Button
           title={isEditing() ? 'Update' : 'Save'}
           loading={isLoading || updateLoading}
@@ -182,7 +199,11 @@ export const TaskModal = ({ route, navigation }: Props) => {
             <Ionicons name="calendar-sharp" size={20} color="dimgrey" />
             {date && (
               <Text
-                style={{ color: 'dimgrey', marginLeft: 8, fontWeight: 'bold' }}
+                style={{
+                  color: 'dimgrey',
+                  marginLeft: 8,
+                  fontWeight: 'bold'
+                }}
               >
                 {dayjs(date).format('D MMM YYYY')}
               </Text>
@@ -191,6 +212,17 @@ export const TaskModal = ({ route, navigation }: Props) => {
           <Gap />
           <BaseButton onPress={toggleClick} style={styles.attributeButton}>
             <Ionicons name="ios-location-sharp" size={24} color="dimgrey" />
+            {markerCoords && (
+              <Text
+                style={{
+                  color: 'dimgrey',
+                  marginLeft: 8,
+                  fontWeight: 'bold'
+                }}
+              >
+                Selected
+              </Text>
+            )}
           </BaseButton>
         </View>
       </View>
@@ -200,6 +232,9 @@ export const TaskModal = ({ route, navigation }: Props) => {
 
 const Gap = () => {
   return <View style={{ width: 12 }}></View>
+}
+const Separator = () => {
+  return <View style={{ height: 8 }}></View>
 }
 
 const styles = StyleSheet.create({
@@ -213,7 +248,8 @@ const styles = StyleSheet.create({
   },
   taskTitle: {
     fontSize: 20,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginBottom: 12
   },
   titleContainer: {
     flexDirection: 'row',

@@ -23,12 +23,8 @@ export default function MapModal(props: Props) {
   const mapRef = useRef<MapView>(null)
 
   useEffect(() => {
-    if (visible) getInitialLocation()
-  }, [visible])
-
-  useEffect(() => {
-    if (initialLocation) handleMarker(initialLocation.coords)
-  }, [initialLocation])
+    getInitialLocation()
+  }, [])
 
   useEffect(() => {
     updateAddress()
