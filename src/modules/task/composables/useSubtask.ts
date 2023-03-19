@@ -67,7 +67,7 @@ const useSubtask = (subtaskType?: boolean, existingSubtask?: Subtask[]) => {
   }
 
   const remove = (idx: number) => {
-    subtaskRefs.current[idx]?.blur()
+    // subtaskRefs.current[idx]?.blur()
     const tempSubtask = [...subtask]
     tempSubtask.splice(idx, 1)
     setSubtask(tempSubtask)

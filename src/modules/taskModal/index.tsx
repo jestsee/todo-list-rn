@@ -41,7 +41,11 @@ export const TaskModal = ({ route, navigation }: Props) => {
   const [title, setTitle] = useState(params?.task?.title ?? '')
   const { priority, switchPriority } = usePriorityChip(params?.task?.priority)
   const { showDatepicker, date } = useDatePicker(params?.task?.deadline)
-  const { markerCoords, handleMarkerChange } = useMarkerLocation()
+  const { markerCoords, handleMarkerChange } = useMarkerLocation(
+    params?.task?.latitude && params?.task?.longitude
+      ? { latitude: params.task.latitude, longitude: params.task.longitude }
+      : undefined
+  )
 
   const {
     subtask,
