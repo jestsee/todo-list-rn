@@ -1,14 +1,14 @@
-import { Button, Search } from '@components'
 import { Text, View } from 'react-native'
-import { Task } from '@modules/task/components/task'
+import { Search } from '@components'
 import { baseStyles } from '@constants/styles'
+import { selectCurrentTasks } from '@redux/slice/tasksSlice'
 import { styles } from './styles'
 import { useAuth } from '@hooks/useAuth'
-import { useSignOutMutation } from '@redux/api/authApi'
+import { useSelector } from 'react-redux'
 
 export const Home = () => {
-  const [signOut, { isLoading }] = useSignOutMutation()
   const { session } = useAuth()
+  const tasks = useSelector(selectCurrentTasks)
 
   return (
     <>
@@ -18,7 +18,9 @@ export const Home = () => {
             <Text style={styles.title}>
               Hi, {session?.user.user_metadata['name']}!
             </Text>
-            <Text style={styles.subtitle}>You have 10 ongoing tasks</Text>
+            <Text style={styles.subtitle}>
+              You have {tasks.length} unfinished tasks
+            </Text>
           </View>
           <View style={styles.avatar}></View>
         </View>
@@ -31,7 +33,6 @@ export const Home = () => {
         </View>
         {/* <Task /> */}
       </View>
-      <Button title="Sign Out" loading={isLoading} onPress={() => signOut()} />
     </>
   )
 }

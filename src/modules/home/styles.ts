@@ -32,6 +32,7 @@ export const styles = StyleSheet.create({
     paddingBottom: 1
   },
   subtitle: {
+    color: 'dimgrey',
     fontSize: 18
   },
   title: {
