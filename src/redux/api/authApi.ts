@@ -52,6 +52,7 @@ export const authApi = createApi({
     }),
     signOut: builder.mutation<string, void>({
       async queryFn(_, { dispatch }) {
+        dispatch(snackbar.info({ message: 'Loading...' }))
         const { error } = await supabase.auth.signOut()
         if (error) return { error: { message: error.message } }
         dispatch(snackbar.show({ message: 'Signed out' }))

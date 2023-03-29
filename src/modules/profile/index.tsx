@@ -1,16 +1,20 @@
 import { Image, Text, View } from 'react-native'
 import { CustomButton } from './components/customButton'
 import { MaterialIcons } from '@expo/vector-icons'
+import { RectButton } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { selectCurrentTasks } from '@redux/slice/tasksSlice'
 import { useAuth } from '@hooks/useAuth'
 import { useSelector } from 'react-redux'
 import { useSignOutMutation } from '@redux/api/authApi'
+import { useUploadPhoto } from './composables/useUploadPhoto'
 
 export const Profile = () => {
   const { session } = useAuth()
   const tasks = useSelector(selectCurrentTasks)
-  const [signOut, { isLoading }] = useSignOutMutation()
+  const [signOut] = useSignOutMutation()
+
+  const { uploadPhoto } = useUploadPhoto()
 
   return (
     <SafeAreaView
@@ -26,7 +30,8 @@ export const Profile = () => {
           source={{ uri: session?.user.user_metadata['avatar_url'] }}
           style={{ width: 120, height: 120, borderRadius: 100 }}
         />
-        <View
+        <RectButton
+          onPress={uploadPhoto}
           style={{
             position: 'absolute',
             bottom: 2,
@@ -37,7 +42,7 @@ export const Profile = () => {
           }}
         >
           <MaterialIcons name="edit" size={20} color="white" />
-        </View>
+        </RectButton>
       </View>
       <Text style={{ fontSize: 40, fontWeight: 'bold', marginTop: 20 }}>
         {session?.user.user_metadata['name']}

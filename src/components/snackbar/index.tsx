@@ -13,7 +13,7 @@ export const Snackbar = () => {
   const dispatch = useDispatch()
   const { slideAnim, slideUp, slideDown } = useAnimSlide({
     initialValue: 100,
-    slideDownValue: 100,
+    slideDownValue: 1000,
     slideUpValue: 0
   })
   const { hide } = actions
