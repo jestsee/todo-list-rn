@@ -1,4 +1,4 @@
-import { Image, Text, View } from 'react-native'
+import { ActivityIndicator, Image, Text, View } from 'react-native'
 import { CustomButton } from './components/customButton'
 import { MaterialIcons } from '@expo/vector-icons'
 import { RectButton } from 'react-native-gesture-handler'
@@ -7,14 +7,16 @@ import { selectCurrentTasks } from '@redux/slice/tasksSlice'
 import { useAuth } from '@hooks/useAuth'
 import { useSelector } from 'react-redux'
 import { useSignOutMutation } from '@redux/api/authApi'
+import { useState } from 'react'
 import { useUploadPhoto } from './composables/useUploadPhoto'
 
 export const Profile = () => {
   const { session } = useAuth()
   const tasks = useSelector(selectCurrentTasks)
   const [signOut] = useSignOutMutation()
-
   const { uploadPhoto } = useUploadPhoto()
+
+  const [loading, setLoading] = useState(false)
 
   return (
     <SafeAreaView
@@ -29,7 +31,24 @@ export const Profile = () => {
         <Image
           source={{ uri: session?.user.user_metadata['avatar_url'] }}
           style={{ width: 120, height: 120, borderRadius: 100 }}
+          onLoadStart={() => setLoading(true)}
+          onLoadEnd={() => setLoading(false)}
         />
+        {loading && (
+          <View
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            <ActivityIndicator size={40} />
+          </View>
+        )}
         <RectButton
           onPress={uploadPhoto}
           style={{

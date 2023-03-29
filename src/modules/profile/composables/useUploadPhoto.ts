@@ -1,9 +1,12 @@
+import { useGetSessionQuery } from '@redux/api/authApi'
 import { useImagePicker } from '@hooks/useImagePicker'
 import { useUploadProfilePhotoMutation } from '@redux/api/profileApi'
 
 export const useUploadPhoto = () => {
+  const { refetch } = useGetSessionQuery()
   const { pickImage } = useImagePicker()
-  const [uploadPhotoMutation, { isLoading }] = useUploadProfilePhotoMutation()
+  const [uploadPhotoMutation, { isLoading, isSuccess }] =
+    useUploadProfilePhotoMutation()
 
   const uploadPhoto = async () => {
     const img = await pickImage()
@@ -11,8 +14,6 @@ export const useUploadPhoto = () => {
 
     const ext = img.uri.substring(img.uri.lastIndexOf('.') + 1)
     const fileName = img.uri.replace(/^.*[\\/]/, '')
-
-    console.log('[fileName-ext]', fileName, ext)
 
     const formData = new FormData()
     formData.append('files', {
@@ -27,6 +28,10 @@ export const useUploadPhoto = () => {
       path: fileName,
       fileBody: formData
     })
+      .unwrap()
+      .then((data) => {
+        if (data === 'success') refetch()
+      })
   }
 
   return { uploadPhoto, isLoading }

@@ -5,15 +5,7 @@ import { supabase } from '@constants/supabase'
 
 interface UploadPhotoPayload {
   path: string
-  fileBody:
-  | string
-  | ArrayBuffer
-  | ArrayBufferView
-  | Blob
-  | Buffer
-  | File
-  | FormData
-  | NodeJS.ReadableStream
+  fileBody: FormData
 }
 
 export const profileApi = createApi({
@@ -35,8 +27,6 @@ export const profileApi = createApi({
             .from('avatars')
             .createSignedUrl(path, 60 * 60 * 24 * 365 * 10)
           if (urlError) return { error: { message: urlError.message } }
-
-          console.log('url', data.signedUrl)
 
           // update profile
           const { error: updateError } = await supabase.auth.updateUser({
