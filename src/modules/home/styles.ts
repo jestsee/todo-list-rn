@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
     fontSize: 18
   },
   title: {
-    fontSize: 36,
+    fontSize: 40,
     fontWeight: 'bold'
   },
   topContainer: {

@@ -15,9 +15,9 @@ export const taskApi = createApi({
   reducerPath: 'taskApi',
   baseQuery: fakeBaseQuery<CustomError>(),
   endpoints: (builder) => ({
-    getTasks: builder.query<TasksResponse, void>({
-      async queryFn() {
-        const { data, error } = await getTasks()
+    getTasks: builder.query<TasksResponse, string>({
+      async queryFn(userId) {
+        const { data, error } = await getTasks(userId)
         if (error) return { error: { message: error.message } }
         return { data }
       }

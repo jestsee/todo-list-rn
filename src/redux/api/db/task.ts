@@ -1,7 +1,9 @@
 import { Database } from '@custom-types/supabase'
 import { supabase } from '@constants/supabase'
 
-const getTasks = async () => await supabase.from('task').select('*')
+// TODO get task berdasarkan created_by = id
+const getTasks = async (userId: string) =>
+  await supabase.from('task').select('*').eq('created_by', userId)
 type TasksResponse = Awaited<ReturnType<typeof getTasks>>['data']
 
 type AddTaskPayload = Database['public']['Tables']['task']['Insert']
