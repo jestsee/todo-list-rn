@@ -1,37 +1,38 @@
-import { Button, Search } from '@components'
-import { Text, View } from 'react-native'
-import { Task } from '@modules/task/components/task'
+import { SafeAreaView, Text, TouchableOpacity, View } from 'react-native'
+import { AuthNavigationType } from '@custom-types/route'
+import { Search } from '@components'
+import { TaskList } from '@modules/task/components/taskList'
 import { baseStyles } from '@constants/styles'
+import { selectCurrentTasks } from '@redux/slice/tasksSlice'
 import { styles } from './styles'
 import { useAuth } from '@hooks/useAuth'
-import { useSignOutMutation } from '@redux/api/authApi'
+import { useNavigation } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
 
 export const Home = () => {
-  const [signOut, { isLoading }] = useSignOutMutation()
   const { session } = useAuth()
+  const tasks = useSelector(selectCurrentTasks)
+  const { navigate } = useNavigation<AuthNavigationType>()
 
   return (
-    <>
-      <View style={baseStyles.contentStyle}>
-        <View style={styles.topContainer}>
-          <View>
-            <Text style={styles.title}>
-              Hi, {session?.user.user_metadata['name']}!
-            </Text>
-            <Text style={styles.subtitle}>You have 10 ongoing tasks</Text>
-          </View>
-          <View style={styles.avatar}></View>
-        </View>
-        <Search />
-        <View style={styles.middleContainer}>
-          <Text style={styles.ongoingTask}>Ongoing Tasks</Text>
-          <View style={styles.seeAllContainer}>
-            <Text style={styles.seeAll}>See all</Text>
-          </View>
-        </View>
-        {/* <Task /> */}
+    <SafeAreaView style={baseStyles.contentStyle}>
+      <View style={{ marginBottom: 32 }}>
+        <Text style={styles.title}>
+          Hi, {session?.user.user_metadata['name']}!
+        </Text>
+        <Text style={styles.subtitle}>You have {tasks.length} tasks</Text>
       </View>
-      <Button title="Sign Out" loading={isLoading} onPress={() => signOut()} />
-    </>
+      <Search />
+      <View style={styles.middleContainer}>
+        <Text style={styles.ongoingTask}>Ongoing Tasks</Text>
+        <TouchableOpacity
+          style={styles.seeAllContainer}
+          onPress={() => navigate('Task')}
+        >
+          <Text style={styles.seeAll}>See all</Text>
+        </TouchableOpacity>
+      </View>
+      <TaskList />
+    </SafeAreaView>
   )
 }

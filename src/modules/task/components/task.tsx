@@ -1,9 +1,5 @@
 /* eslint-disable sort-keys */
-import {
-  GestureHandlerRootView,
-  RectButton,
-  Swipeable
-} from 'react-native-gesture-handler'
+import { RectButton, Swipeable } from 'react-native-gesture-handler'
 import { StyleProp, Text, View, ViewStyle } from 'react-native'
 import { AuthNavigationType } from '@custom-types/route'
 import { Badge } from '@components'

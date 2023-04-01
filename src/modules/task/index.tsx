@@ -1,9 +1,10 @@
-import { TodoList } from './components/taskList'
+import { TaskList } from './components/taskList'
 
 export const Task = () => {
+  // TODO searchbar dan filter disini
   return (
     <>
-      <TodoList />
+      <TaskList />
     </>
   )
 }

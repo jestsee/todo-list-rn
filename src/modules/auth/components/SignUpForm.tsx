@@ -1,5 +1,6 @@
 import { Button, Form, PasswordForm } from '@components'
 import { SignUpPayload as Payload } from '@custom-types/auth'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSignUpMutation } from '@redux/api/authApi'
 import { validationSchema } from '../validationSchema'
@@ -9,11 +10,16 @@ export const SignUpForm = () => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors, dirtyFields }
   } = useForm<Payload>({
     resolver: zodResolver(validationSchema)
   })
-  const [signUp, { isLoading }] = useSignUpMutation()
+  const [signUp, { isLoading, isSuccess }] = useSignUpMutation()
+
+  useEffect(() => {
+    if (isSuccess) reset()
+  }, [isSuccess])
 
   return (
     <>

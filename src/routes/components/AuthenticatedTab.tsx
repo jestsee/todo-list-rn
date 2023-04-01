@@ -1,6 +1,7 @@
 import { Home } from '@modules/home'
 import { FontAwesome5 as Icon } from '@expo/vector-icons'
 import { Mock } from '@components'
+import { Profile } from '@modules/profile'
 import { Task } from '@modules/task'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { bottomNavigationIcon as icon } from '../constant'
@@ -40,7 +41,7 @@ const AuthenticatedTab = () => {
         })}
       />
       <Tab.Screen name="Task" component={Task} />
-      <Tab.Screen name="Profile" component={Task} />
+      <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   )
 }

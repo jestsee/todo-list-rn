@@ -12,7 +12,9 @@ export type AuthStackParamList = {
   Main: undefined
   TaskModal: { task?: Task }
 }
-export type AuthNavigationType = NativeStackNavigationProp<AuthStackParamList>
+export type AuthNavigationType = NativeStackNavigationProp<
+  AuthStackParamList & TabParamList
+>
 
 export type TabParamList = {
   Home: undefined

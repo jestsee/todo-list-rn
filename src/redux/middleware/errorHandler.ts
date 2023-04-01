@@ -10,12 +10,13 @@ import snackbar from '@redux/slice/snackBarSlice'
 export const errorHandler: Middleware =
   (store: MiddlewareAPI) => (next) => (action: PayloadAction<CustomError>) => {
     if (isRejectedWithValue(action)) {
-      console.log('middleware hit')
+      console.log('middleware hit', action.payload.message)
 
       store.dispatch(
         snackbar.error({
           duration: Duration.LONG,
-          message: action.payload.message
+          message: action.payload.message,
+          dismissable: true
         })
       )
     }

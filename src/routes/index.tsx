@@ -9,7 +9,7 @@ export const Routes = () => {
   const { isFetching } = useGetSessionQuery()
   const { session } = useAuth()
 
-  if (isFetching) {
+  if (isFetching && !session) {
     return <SplashScreen />
   }
 

@@ -1,11 +1,15 @@
 import { FlatList, Text, View } from 'react-native'
 import { Task } from './task'
 import { selectCurrentTasks } from '@redux/slice/tasksSlice'
+import { useAuth } from '@hooks/useAuth'
 import { useGetTasksQuery } from '@redux/api/taskApi'
 import { useSelector } from 'react-redux'
 
-export const TodoList = () => {
-  const { isFetching, isError, error } = useGetTasksQuery()
+export const TaskList = () => {
+  const { session } = useAuth()
+  const { isFetching, isError, error } = useGetTasksQuery(
+    session?.user.id as string
+  )
   const tasks = useSelector(selectCurrentTasks)
 
   if (isFetching) return <Text>Loading</Text>
