@@ -24,7 +24,7 @@ export const Home = () => {
       </View>
       <Search />
       <View style={styles.middleContainer}>
-        <Text style={styles.ongoingTask}>Ongoing Tasks</Text>
+        <Text style={styles.ongoingTask}>Tasks</Text>
         <TouchableOpacity
           style={styles.seeAllContainer}
           onPress={() => navigate('Task')}

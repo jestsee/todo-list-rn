@@ -9,10 +9,20 @@ export const Red = '#ff0000'
 export const baseStyles = StyleSheet.create({
   contentStyle: {
     flex: 1,
-    justifyContent: 'center',
     padding: 36,
     paddingTop: 52
   },
+
+  pageTitle: {
+    fontSize: 40,
+    fontWeight: 'bold'
+  },
+  pageSubtitle: {
+    fontSize: 18,
+    color: 'dimgrey',
+    marginBottom: 24
+  },
+
   errorColor: { backgroundColor: 'red' },
   infoColor: { backgroundColor: 'lightslategrey' },
   successColor: { backgroundColor: 'mediumseagreen' },

@@ -1,4 +1,4 @@
-import { Contact } from '@modules/contacts'
+import { Contact } from '@modules/contact'
 import { Home } from '@modules/home'
 import { FontAwesome5 as Icon } from '@expo/vector-icons'
 import { Mock } from '@components'

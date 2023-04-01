@@ -9,10 +9,11 @@ export const useContact = () => {
   const requestContactPermission = async () => {
     const { status } = await Contacts.requestPermissionsAsync()
     setStatus(status)
+    console.log('Contact permission', status)
   }
 
   const getContacts = async () => {
-    if (status !== 'granted') {
+    if (status === 'granted') {
       // TODO show snackbar kalo permission nya belum alowed
       return
     }
@@ -25,7 +26,6 @@ export const useContact = () => {
       ]
     })
     setContacts(data)
-    console.log('[contacts]', data)
     setLoading(false)
   }
 
