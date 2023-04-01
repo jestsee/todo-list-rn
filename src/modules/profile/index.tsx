@@ -1,8 +1,10 @@
-import { ActivityIndicator, Image, Text, View } from 'react-native'
+import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native'
 import { CustomButton } from './components/customButton'
+import { Ionicons } from '@expo/vector-icons'
 import { MaterialIcons } from '@expo/vector-icons'
 import { RectButton } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { baseStyles } from '@constants/styles'
 import { selectCurrentTasks } from '@redux/slice/tasksSlice'
 import { useAuth } from '@hooks/useAuth'
 import { useSelector } from 'react-redux'
@@ -20,46 +22,37 @@ export const Profile = () => {
 
   return (
     <SafeAreaView
-      style={{
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 1,
-        padding: 28
-      }}
+      style={[
+        baseStyles.contentStyle,
+        {
+          alignItems: 'center'
+        }
+      ]}
     >
       <View style={{ position: 'relative', width: 120 }}>
-        <Image
-          source={{ uri: session?.user.user_metadata['avatar_url'] }}
-          style={{ width: 120, height: 120, borderRadius: 100 }}
-          onLoadStart={() => setLoading(true)}
-          onLoadEnd={() => setLoading(false)}
-        />
+        {!session?.user.user_metadata['avatar_url'] ? (
+          <View style={styles.avatar}>
+            <Ionicons
+              name="person"
+              size={64}
+              color="dimgrey"
+              style={styles.personIcon}
+            />
+          </View>
+        ) : (
+          <Image
+            source={{ uri: session?.user.user_metadata['avatar_url'] }}
+            style={styles.avatar}
+            onLoadStart={() => setLoading(true)}
+            onLoadEnd={() => setLoading(false)}
+          />
+        )}
         {loading && (
-          <View
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
-          >
+          <View style={styles.loading}>
             <ActivityIndicator size={40} />
           </View>
         )}
-        <RectButton
-          onPress={uploadPhoto}
-          style={{
-            position: 'absolute',
-            bottom: 2,
-            right: 0,
-            borderRadius: 100,
-            backgroundColor: 'dodgerblue',
-            padding: 8
-          }}
-        >
+        <RectButton onPress={uploadPhoto} style={styles.editIcon}>
           <MaterialIcons name="edit" size={20} color="white" />
         </RectButton>
       </View>
@@ -84,3 +77,35 @@ export const Profile = () => {
     </SafeAreaView>
   )
 }
+
+const styles = StyleSheet.create({
+  avatar: {
+    backgroundColor: 'lightgrey',
+    borderRadius: 100,
+    height: 120,
+    width: 120
+  },
+  editIcon: {
+    backgroundColor: 'dodgerblue',
+    borderRadius: 100,
+    bottom: 2,
+    padding: 8,
+    position: 'absolute',
+    right: 0
+  },
+  loading: {
+    alignItems: 'center',
+    bottom: 0,
+    justifyContent: 'center',
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0
+  },
+  personIcon: {
+    left: '50%',
+    position: 'absolute',
+    top: '50%',
+    transform: [{ translateX: -32 }, { translateY: -32 }]
+  }
+})
