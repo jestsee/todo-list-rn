@@ -4,7 +4,7 @@ import {
   StyleProp,
   TextInput,
   TextInputSubmitEditingEventData,
-  TouchableHighlight,
+  TouchableOpacity,
   View,
   ViewStyle
 } from 'react-native'
@@ -55,9 +55,9 @@ const Subtask = forwardRef<TextInput, Props>((props, ref) => {
         />
       </View>
       {focus && (
-        <TouchableHighlight>
-          <Ionicons onPress={onRemove} name="ios-close" size={16} />
-        </TouchableHighlight>
+        <TouchableOpacity onPress={onRemove}>
+          <Ionicons name="ios-close" size={18} />
+        </TouchableOpacity>
       )}
     </View>
   )

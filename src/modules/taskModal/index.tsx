@@ -14,13 +14,16 @@ import { AuthStackParamList } from '@custom-types/route'
 import { BaseButton } from 'react-native-gesture-handler'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
+import MapModal from './components/mapModal'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Subtask } from '@modules/task/components/subtask'
 import dayjs from 'dayjs'
 import { useDatePicker } from '@hooks/useDatePicker'
+import { useMarkerLocation } from './composables/useMarkerLocation'
 import { usePriorityChip } from './composables/usePriorityChip'
 import useTask from '@modules/task/composables/useTask'
+import { useToggle } from '@hooks/useToggle'
 
 type Props = NativeStackScreenProps<AuthStackParamList, 'TaskModal'>
 
@@ -34,9 +37,15 @@ export const TaskModal = ({ route, navigation }: Props) => {
   const [updateTask, { isLoading: updateLoading, isSuccess: updateSuccess }] =
     useUpdateTaskMutation()
 
+  const { show, toggleClick } = useToggle()
   const [title, setTitle] = useState(params?.task?.title ?? '')
   const { priority, switchPriority } = usePriorityChip(params?.task?.priority)
   const { showDatepicker, date } = useDatePicker(params?.task?.deadline)
+  const { markerCoords, handleMarkerChange } = useMarkerLocation(
+    params?.task?.latitude && params?.task?.longitude
+      ? { latitude: params.task.latitude, longitude: params.task.longitude }
+      : undefined
+  )
 
   const {
     subtask,
@@ -64,12 +73,27 @@ export const TaskModal = ({ route, navigation }: Props) => {
     changeTaskAttribute({
       title,
       priority: priority.name,
-      deadline: date?.toDateString()
+      deadline: date?.toDateString(),
+      latitude: markerCoords?.latitude,
+      longitude: markerCoords?.longitude
     })
-  }, [title, priority, date])
+  }, [title, priority, date, markerCoords])
 
   return (
-    <SafeAreaView style={{ flex: 1, flexDirection: 'column' }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        flexDirection: 'column',
+        paddingHorizontal: 18,
+        paddingVertical: 8
+      }}
+    >
+      <MapModal
+        handleMarker={handleMarkerChange}
+        marker={markerCoords}
+        visible={show}
+        onClose={toggleClick}
+      />
       <View style={styles.titleContainer}>
         <TextInput
           style={styles.taskTitle}
@@ -87,6 +111,8 @@ export const TaskModal = ({ route, navigation }: Props) => {
         <FlatList
           data={subtask}
           keyExtractor={(_, index) => index.toString()}
+          ItemSeparatorComponent={Separator}
+          keyboardShouldPersistTaps="handled"
           renderItem={({ item, index: idx }) => (
             <Subtask
               key={idx}
@@ -104,7 +130,8 @@ export const TaskModal = ({ route, navigation }: Props) => {
       <TouchableOpacity
         style={{
           flexDirection: 'row',
-          marginVertical: 12,
+          marginBottom: 12,
+          marginTop: 16,
           alignItems: 'center'
         }}
         onPress={() => add()}
@@ -125,6 +152,7 @@ export const TaskModal = ({ route, navigation }: Props) => {
         >
           <FlatList
             data={checkedSubtask}
+            ItemSeparatorComponent={Separator}
             keyExtractor={(_, index) => index.toString()}
             renderItem={({ item, index: idx }) => (
               <Subtask
@@ -141,7 +169,14 @@ export const TaskModal = ({ route, navigation }: Props) => {
           />
         </View>
       )}
-      <View style={{ position: 'absolute', bottom: 20, width: '100%' }}>
+      <View
+        style={{
+          position: 'absolute',
+          alignSelf: 'center',
+          bottom: 20,
+          width: '100%'
+        }}
+      >
         <Button
           title={isEditing() ? 'Update' : 'Save'}
           loading={isLoading || updateLoading}
@@ -166,23 +201,33 @@ export const TaskModal = ({ route, navigation }: Props) => {
           />
           <Gap />
           <BaseButton onPress={showDatepicker} style={styles.attributeButton}>
-            <Ionicons
-              name="calendar-sharp"
-              style={{ color: 'dimgrey' }}
-              size={20}
-              color="black"
-            />
+            <Ionicons name="calendar-sharp" size={20} color="dimgrey" />
             {date && (
               <Text
-                style={{ color: 'dimgrey', marginLeft: 8, fontWeight: 'bold' }}
+                style={{
+                  color: 'dimgrey',
+                  marginLeft: 8,
+                  fontWeight: 'bold'
+                }}
               >
                 {dayjs(date).format('D MMM YYYY')}
               </Text>
             )}
           </BaseButton>
           <Gap />
-          <BaseButton>
-            <Ionicons name="ios-location-sharp" size={24} color="black" />
+          <BaseButton onPress={toggleClick} style={styles.attributeButton}>
+            <Ionicons name="ios-location-sharp" size={24} color="dimgrey" />
+            {markerCoords && (
+              <Text
+                style={{
+                  color: 'dimgrey',
+                  marginLeft: 8,
+                  fontWeight: 'bold'
+                }}
+              >
+                Selected
+              </Text>
+            )}
           </BaseButton>
         </View>
       </View>
@@ -192,6 +237,9 @@ export const TaskModal = ({ route, navigation }: Props) => {
 
 const Gap = () => {
   return <View style={{ width: 12 }}></View>
+}
+const Separator = () => {
+  return <View style={{ height: 8 }}></View>
 }
 
 const styles = StyleSheet.create({
@@ -205,7 +253,8 @@ const styles = StyleSheet.create({
   },
   taskTitle: {
     fontSize: 20,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginBottom: 12
   },
   titleContainer: {
     flexDirection: 'row',
