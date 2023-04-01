@@ -20,9 +20,7 @@ export const Home = () => {
         <Text style={styles.title}>
           Hi, {session?.user.user_metadata['name']}!
         </Text>
-        <Text style={styles.subtitle}>
-          You have {tasks.length} unfinished tasks
-        </Text>
+        <Text style={styles.subtitle}>You have {tasks.length} tasks</Text>
       </View>
       <Search />
       <View style={styles.middleContainer}>

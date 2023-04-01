@@ -60,7 +60,7 @@ export const Profile = () => {
         {session?.user.user_metadata['name']}
       </Text>
       <Text style={{ fontSize: 18, color: 'dimgrey' }}>
-        {tasks.length} undone tasks
+        {tasks.length} tasks
       </Text>
       <CustomButton icon="edit" text="Change name" style={{ marginTop: 42 }} />
       <CustomButton
