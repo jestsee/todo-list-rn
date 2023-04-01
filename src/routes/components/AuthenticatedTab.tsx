@@ -1,3 +1,4 @@
+import { Contact } from '@modules/contacts'
 import { Home } from '@modules/home'
 import { FontAwesome5 as Icon } from '@expo/vector-icons'
 import { Mock } from '@components'
@@ -29,7 +30,7 @@ const AuthenticatedTab = () => {
       })}
     >
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Group" component={Home} />
+      <Tab.Screen name="Contact" component={Contact} />
       <Tab.Screen
         name="Add Task"
         component={Mock}
