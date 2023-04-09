@@ -11,6 +11,10 @@ export type UnauthNavigationType =
 export type AuthStackParamList = {
   Main: undefined
   TaskModal: { task?: Task }
+  FilterModal: undefined
+  SortModal: undefined
+  NameModal: undefined
+  PasswordModal: undefined
 }
 export type AuthNavigationType = NativeStackNavigationProp<
   AuthStackParamList & TabParamList

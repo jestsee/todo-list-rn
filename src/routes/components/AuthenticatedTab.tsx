@@ -29,8 +29,12 @@ const AuthenticatedTab = () => {
         }
       })}
     >
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Contact" component={Contact} />
+      <Tab.Screen name="Home" component={Home} options={{ title: 'Home' }} />
+      <Tab.Screen
+        name="Contact"
+        component={Contact}
+        options={{ title: 'Contact' }}
+      />
       <Tab.Screen
         name="Add Task"
         component={Mock}
