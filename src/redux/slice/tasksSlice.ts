@@ -3,7 +3,6 @@ import { Task } from '@custom-types/task'
 import { createSlice } from '@reduxjs/toolkit'
 import { taskApi } from '@redux/api'
 
-// TODO bisa dimasukin ke local storage kah?
 const initialState: Task[] = []
 const tasksSlice = createSlice({
   name: 'tasks',

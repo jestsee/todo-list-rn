@@ -15,3 +15,17 @@ export interface Subtask {
   text?: string
   checked?: boolean
 }
+
+export enum TaskSortType {
+  closestDeadline,
+  furthestDeadline,
+  highestPriority,
+  lowestPriority
+}
+
+export interface TaskFilter {
+  search?: string
+  priority?: 'low' | 'medium' | 'high'
+  date?: string
+  sort?: TaskSortType
+}
