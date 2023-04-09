@@ -25,7 +25,8 @@ export const Profile = () => {
       style={[
         baseStyles.contentStyle,
         {
-          alignItems: 'center'
+          alignItems: 'center',
+          justifyContent: 'center'
         }
       ]}
     >

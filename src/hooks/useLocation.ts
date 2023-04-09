@@ -27,7 +27,6 @@ export const useLocation = () => {
         accuracy: Location.Accuracy.High
       })
       setInitialLocation(location)
-
       setLoading(false)
     } catch (err) {
       // TODO snackbar error

@@ -10,13 +10,21 @@ import { Task as TaskType } from '@custom-types/task'
 import { styles } from '../styles/styles'
 import { useDeleteTaskMutation } from '@redux/api/taskApi'
 import { useNavigation } from '@react-navigation/native'
+import { dayjs } from '@hooks/useDayjs'
+import { baseStyles } from '@constants/styles'
 interface Props extends TaskType {
   style?: StyleProp<ViewStyle>
 }
 
+export const priorityColor = {
+  low: baseStyles.successColor,
+  medium: baseStyles.warnColor,
+  high: baseStyles.errorColor
+}
+
 export const Task: React.FC<Props> = (item) => {
   const { style, ...task } = item
-  const { id, title, deadline, group_id, subtask } = task
+  const { id, title, deadline, subtask, priority } = task
 
   const { navigate } = useNavigation<AuthNavigationType>()
   const [deleteTask] = useDeleteTaskMutation()
@@ -35,19 +43,21 @@ export const Task: React.FC<Props> = (item) => {
       >
         <View style={styles.taskNameContainer}>
           <Text style={styles.taskName}>{title}</Text>
-          <Badge text="Priority" />
+          <Badge
+            style={priorityColor[priority as keyof typeof priorityColor]}
+            text="Priority"
+          />
         </View>
         <View style={styles.taskInfoContainer}>
-          <Badge text={group_id ? 'Group' : 'Personal'} outline />
           {deadline && (
             <View style={{ flexDirection: 'row' }}>
               <Ionicons
-                style={{ marginRight: 4 }}
-                name="alarm-outline"
+                style={{ marginRight: 12 }}
+                name="calendar-sharp"
                 size={18}
                 color="black"
               />
-              <Text>{deadline}</Text>
+              <Text>{dayjs(deadline).format('DD MMMM YYYY')}</Text>
             </View>
           )}
         </View>

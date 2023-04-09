@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native'
+import { SafeAreaView, Text, View } from 'react-native'
 import { SignInForm } from '../components/SignInForm'
 import { SignUpForm } from '../components/SignUpForm'
 import { styles } from '../styles'
@@ -48,10 +48,10 @@ export const Auth: React.FC<Props> = ({ type }) => {
   )
 
   return (
-    <View>
+    <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
       <Text style={styles.title}>{type}</Text>
       {type === AuthType.signUp ? signUp : signIn}
       <OAuth />
-    </View>
+    </SafeAreaView>
   )
 }

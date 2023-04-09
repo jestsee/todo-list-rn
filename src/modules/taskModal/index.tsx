@@ -1,4 +1,3 @@
-import 'dayjs/locale/id'
 import { Button, Chip } from '@components'
 import {
   FlatList,
@@ -18,7 +17,7 @@ import MapModal from './components/mapModal'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Subtask } from '@modules/task/components/subtask'
-import dayjs from 'dayjs'
+import { capitalize } from 'src/utils'
 import { useDatePicker } from '@hooks/useDatePicker'
 import { useMarkerLocation } from './composables/useMarkerLocation'
 import { usePriorityChip } from './composables/usePriorityChip'
@@ -28,8 +27,6 @@ import { useToggle } from '@hooks/useToggle'
 type Props = NativeStackScreenProps<AuthStackParamList, 'TaskModal'>
 
 export const TaskModal = ({ route, navigation }: Props) => {
-  dayjs.locale('id')
-
   const { params } = route
   const isEditing = () => params?.task !== undefined
 
@@ -40,7 +37,9 @@ export const TaskModal = ({ route, navigation }: Props) => {
   const { show, toggleClick } = useToggle()
   const [title, setTitle] = useState(params?.task?.title ?? '')
   const { priority, switchPriority } = usePriorityChip(params?.task?.priority)
-  const { showDatepicker, date } = useDatePicker(params?.task?.deadline)
+  const { showDatePicker, showTimePicker, date } = useDatePicker(
+    params?.task?.deadline
+  )
   const { markerCoords, handleMarkerChange } = useMarkerLocation(
     params?.task?.latitude && params?.task?.longitude
       ? { latitude: params.task.latitude, longitude: params.task.longitude }
@@ -73,7 +72,7 @@ export const TaskModal = ({ route, navigation }: Props) => {
     changeTaskAttribute({
       title,
       priority: priority.name,
-      deadline: date?.toDateString(),
+      deadline: date?.toLocaleString(),
       latitude: markerCoords?.latitude,
       longitude: markerCoords?.longitude
     })
@@ -192,43 +191,26 @@ export const TaskModal = ({ route, navigation }: Props) => {
             marginTop: 20
           }}
         />
-        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Chip
-            text={priority.name}
+            text={capitalize(priority.name)}
             color={priority.color.backgroundColor}
             onPress={switchPriority}
             style={{ width: 100 }}
           />
-          <Gap />
-          <BaseButton onPress={showDatepicker} style={styles.attributeButton}>
-            <Ionicons name="calendar-sharp" size={20} color="dimgrey" />
-            {date && (
-              <Text
-                style={{
-                  color: 'dimgrey',
-                  marginLeft: 8,
-                  fontWeight: 'bold'
-                }}
-              >
-                {dayjs(date).format('D MMM YYYY')}
-              </Text>
-            )}
-          </BaseButton>
-          <Gap />
-          <BaseButton onPress={toggleClick} style={styles.attributeButton}>
-            <Ionicons name="ios-location-sharp" size={24} color="dimgrey" />
-            {markerCoords && (
-              <Text
-                style={{
-                  color: 'dimgrey',
-                  marginLeft: 8,
-                  fontWeight: 'bold'
-                }}
-              >
-                Selected
-              </Text>
-            )}
-          </BaseButton>
+          <View style={{ flexDirection: 'row' }}>
+            <BaseButton onPress={showDatePicker} style={styles.attributeButton}>
+              <Ionicons name="calendar-sharp" size={24} color="dimgrey" />
+            </BaseButton>
+            <Gap />
+            <BaseButton onPress={showTimePicker} style={styles.attributeButton}>
+              <Ionicons name="ios-time" size={24} color="dimgrey" />
+            </BaseButton>
+            <Gap />
+            <BaseButton onPress={toggleClick} style={styles.attributeButton}>
+              <Ionicons name="ios-location-sharp" size={24} color="dimgrey" />
+            </BaseButton>
+          </View>
         </View>
       </View>
     </SafeAreaView>
@@ -236,7 +218,7 @@ export const TaskModal = ({ route, navigation }: Props) => {
 }
 
 const Gap = () => {
-  return <View style={{ width: 12 }}></View>
+  return <View style={{ width: 16 }}></View>
 }
 const Separator = () => {
   return <View style={{ height: 8 }}></View>
@@ -249,7 +231,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     flexDirection: 'row',
     overflow: 'hidden',
-    paddingHorizontal: 16
+    paddingHorizontal: 20
   },
   taskTitle: {
     fontSize: 20,

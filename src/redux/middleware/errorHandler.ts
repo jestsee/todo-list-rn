@@ -15,8 +15,7 @@ export const errorHandler: Middleware =
       store.dispatch(
         snackbar.error({
           duration: Duration.LONG,
-          message: action.payload.message,
-          dismissable: true
+          message: action.payload.message
         })
       )
     }

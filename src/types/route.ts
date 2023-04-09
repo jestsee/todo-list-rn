@@ -18,7 +18,7 @@ export type AuthNavigationType = NativeStackNavigationProp<
 
 export type TabParamList = {
   Home: undefined
-  Group: undefined
+  Contact: undefined
   'Add Task': undefined
   Task: undefined
   Profile: undefined
