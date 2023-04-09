@@ -1,7 +1,7 @@
+import { TextInput, View } from 'react-native'
 import { AuthStackParamList } from '@custom-types/route'
 import AuthenticatedTab from './AuthenticatedTab'
 import { FilterModal } from '@modules/filterModal'
-import { Search } from '@components'
 import { TaskModal } from '@modules/taskModal'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
@@ -9,18 +9,11 @@ const Stack = createNativeStackNavigator<AuthStackParamList>()
 
 const Authenticated = () => {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: true
-      }}
-    >
+    <Stack.Navigator>
       <Stack.Screen
         name="Main"
         component={AuthenticatedTab}
-        options={{
-          title: 'Task',
-          headerTitle: Search
-        }}
+        options={{ headerShown: false }}
       />
       <Stack.Group
         screenOptions={{

@@ -20,6 +20,7 @@ import { Subtask } from '@modules/task/components/subtask'
 import { capitalize } from 'src/utils'
 import { useDatePicker } from '@hooks/useDatePicker'
 import { useMarkerLocation } from './composables/useMarkerLocation'
+import { useNavigation } from '@react-navigation/native'
 import { usePriorityChip } from './composables/usePriorityChip'
 import useTask from '@modules/task/composables/useTask'
 import { useToggle } from '@hooks/useToggle'
@@ -28,6 +29,7 @@ type Props = NativeStackScreenProps<AuthStackParamList, 'TaskModal'>
 
 export const TaskModal = ({ route, navigation }: Props) => {
   const { params } = route
+  const { setOptions } = useNavigation()
   const isEditing = () => params?.task !== undefined
 
   const [addTask, { isLoading, isSuccess }] = useAddTaskMutation()
@@ -77,6 +79,10 @@ export const TaskModal = ({ route, navigation }: Props) => {
       longitude: markerCoords?.longitude
     })
   }, [title, priority, date, markerCoords])
+
+  useEffect(() => {
+    setOptions({ headerShown: false })
+  })
 
   return (
     <SafeAreaView
