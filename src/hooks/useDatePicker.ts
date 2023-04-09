@@ -11,6 +11,8 @@ export const useDatePicker = (existingDate?: string) => {
   )
 
   const onChange = (e: DateTimePickerEvent, date?: Date) => {
+    console.log('on change datetime', e, date)
+
     if (e.type === 'set') setDate(date ?? dateNow)
     if (e.type === 'neutralButtonPressed') setDate(undefined)
   }
@@ -26,9 +28,13 @@ export const useDatePicker = (existingDate?: string) => {
     })
   }
 
-  const showDatepicker = () => {
+  const showDatePicker = () => {
     showMode('date')
   }
 
-  return { showDatepicker, date }
+  const showTimePicker = () => {
+    showMode('time')
+  }
+
+  return { showDatePicker, showTimePicker, date }
 }

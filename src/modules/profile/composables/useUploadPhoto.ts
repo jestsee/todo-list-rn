@@ -5,8 +5,7 @@ import { useUploadProfilePhotoMutation } from '@redux/api/profileApi'
 export const useUploadPhoto = () => {
   const { refetch } = useGetSessionQuery()
   const { pickImage } = useImagePicker()
-  const [uploadPhotoMutation, { isLoading, isSuccess }] =
-    useUploadProfilePhotoMutation()
+  const [uploadPhotoMutation, { isLoading }] = useUploadProfilePhotoMutation()
 
   const uploadPhoto = async () => {
     const img = await pickImage()
