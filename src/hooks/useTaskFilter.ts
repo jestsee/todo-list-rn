@@ -15,7 +15,7 @@ export const useTaskFilter = () => {
       tempTasks = tasks.filter((item) => item.title.includes(filter.search!))
     }
     setFilteredTask(tempTasks)
-  }, [filter])
+  }, [filter, tasks])
 
   return { filteredTask }
 }

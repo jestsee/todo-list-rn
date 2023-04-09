@@ -1,4 +1,3 @@
-import { TextInput, View } from 'react-native'
 import { AuthStackParamList } from '@custom-types/route'
 import AuthenticatedTab from './AuthenticatedTab'
 import { FilterModal } from '@modules/filterModal'
@@ -31,7 +30,11 @@ const Authenticated = () => {
           animationDuration: 3000
         }}
       >
-        <Stack.Screen name="FilterModal" component={FilterModal} />
+        <Stack.Screen
+          name="FilterModal"
+          component={FilterModal}
+          options={{ headerShown: false }}
+        />
       </Stack.Group>
     </Stack.Navigator>
   )
