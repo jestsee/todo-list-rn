@@ -25,7 +25,7 @@ export const FilterModal = () => {
   const [priority, setPriority] = useState<Priority | undefined>(
     currentFilter.priority
   )
-  const { selectPriority } = actions
+  const { selectPriority, reset } = actions
   const dispatch = useDispatch()
 
   return (
@@ -67,7 +67,12 @@ export const FilterModal = () => {
             }}
           >
             <Text style={styles.filterTitle}>Priority</Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(reset())
+                navigation.goBack()
+              }}
+            >
               <Text
                 style={[
                   styles.filterTitle,

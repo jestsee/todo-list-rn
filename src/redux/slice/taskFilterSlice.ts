@@ -15,6 +15,9 @@ const tasksFilterSlice = createSlice({
       { payload }: PayloadAction<Priority | undefined>
     ) => {
       state.priority = payload
+    },
+    reset: () => {
+      return {}
     }
     // TODO other filters
   }
