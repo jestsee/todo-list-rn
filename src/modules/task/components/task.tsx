@@ -7,11 +7,11 @@ import { Ionicons } from '@expo/vector-icons'
 import RightSwipeActions from './rightSwipeAction'
 import { Subtask as SubtaskType } from './subtask'
 import { Task as TaskType } from '@custom-types/task'
+import { baseStyles } from '@constants/styles'
+import { dayjs } from '@hooks/useDayjs'
 import { styles } from '../styles/styles'
 import { useDeleteTaskMutation } from '@redux/api/taskApi'
 import { useNavigation } from '@react-navigation/native'
-import { dayjs } from '@hooks/useDayjs'
-import { baseStyles } from '@constants/styles'
 interface Props extends TaskType {
   style?: StyleProp<ViewStyle>
 }

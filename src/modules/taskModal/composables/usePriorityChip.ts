@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { baseStyles } from '@constants/styles'
 
-const priorityData = [
+export const priorityData = [
   { name: 'low', color: baseStyles.successColor },
   { name: 'medium', color: baseStyles.warnColor },
   { name: 'high', color: baseStyles.errorColor }
