@@ -13,7 +13,9 @@ import actions, { selectTaskFilter } from '@redux/slice/taskFilterSlice'
 import { Ionicons } from '@expo/vector-icons'
 import { Priority } from '@custom-types/task'
 import { capitalize } from 'src/utils'
+import { dayjs } from '@hooks/useDayjs'
 import { priorityData } from '@modules/taskModal/composables/usePriorityChip'
+import { useDatePicker } from '@hooks/useDatePicker'
 import { useDispatch } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
@@ -22,12 +24,13 @@ import { useState } from 'react'
 export const FilterModal = () => {
   const navigation = useNavigation()
   const currentFilter = useSelector(selectTaskFilter)
+  const { selectPriority, selectDate } = actions
+  const dispatch = useDispatch()
+
+  const { date, showDatePicker } = useDatePicker(currentFilter.date)
   const [priority, setPriority] = useState<Priority | undefined>(
     currentFilter.priority
   )
-  const { selectPriority, reset } = actions
-  const dispatch = useDispatch()
-
   return (
     <View
       style={{
@@ -69,7 +72,8 @@ export const FilterModal = () => {
             <Text style={styles.filterTitle}>Priority</Text>
             <TouchableOpacity
               onPress={() => {
-                dispatch(reset())
+                dispatch(selectDate(undefined))
+                dispatch(selectPriority(undefined))
                 navigation.goBack()
               }}
             >
@@ -103,7 +107,8 @@ export const FilterModal = () => {
             )}
           />
           <Text style={[styles.filterTitle, { marginBottom: 16 }]}>Date</Text>
-          <View
+          <TouchableOpacity
+            onPress={showDatePicker}
             style={{
               marginBottom: 24,
               paddingHorizontal: 16,
@@ -114,13 +119,19 @@ export const FilterModal = () => {
               borderRadius: 8
             }}
           >
-            <TextInput style={{ flex: 1 }} placeholder="Select a date" />
+            <TextInput
+              value={date ? dayjs(date).format('DD MMMM YYYY') : undefined}
+              style={{ flex: 1, color: 'black' }}
+              placeholder="Select a date"
+              editable={false}
+            />
             <Ionicons name="calendar-sharp" size={24} color="grey" />
-          </View>
+          </TouchableOpacity>
           <Button
             title="Apply"
             onPress={() => {
               dispatch(selectPriority(priority))
+              dispatch(selectDate(date?.toISOString()))
               navigation.goBack()
             }}
           />

@@ -19,6 +19,13 @@ export const useTaskFilter = () => {
     if (filter.priority) {
       tempTasks = tempTasks.filter((item) => item.priority === filter.priority)
     }
+    if (filter.date) {
+      tempTasks = tempTasks.filter((item) => {
+        const currentDate = new Date(item.deadline ? item.deadline : 0)
+        const filterDate = new Date(filter.date!)
+        return currentDate.toDateString() === filterDate.toDateString()
+      })
+    }
     setFilteredTask(tempTasks)
   }, [filter, tasks])
 
