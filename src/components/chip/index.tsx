@@ -1,34 +1,47 @@
-import { StyleProp, StyleSheet, Text, ViewStyle } from 'react-native'
-import { BaseButton } from 'react-native-gesture-handler'
+import {
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle
+} from 'react-native'
 
 interface Props {
   text: string
   color?: string
+  outline?: boolean
   onPress?: () => void
   style?: StyleProp<ViewStyle>
 }
 
-export const Chip = ({ text, color, onPress, style }: Props) => {
+export const Chip = ({ text, color, onPress, style, outline }: Props) => {
   return (
-    <BaseButton
-      onPress={onPress}
-      style={[
-        styles.container,
-        { backgroundColor: color ?? 'mediumseagreen' },
-        style
-      ]}
-    >
-      <Text
-        style={{
-          color: 'white',
-          fontWeight: 'bold',
-          fontSize: 14,
-          textAlign: 'center'
-        }}
+    <View>
+      <Pressable
+        onPress={onPress}
+        style={[
+          style,
+          styles.container,
+          {
+            backgroundColor: !outline ? color ?? 'mediumseagreen' : undefined,
+            borderColor: outline ? color ?? 'mediumseagreen' : undefined,
+            borderWidth: outline ? 1.5 : undefined
+          }
+        ]}
       >
-        {text}
-      </Text>
-    </BaseButton>
+        <Text
+          style={{
+            color: !outline ? 'white' : color,
+            fontWeight: 'bold',
+            fontSize: 14,
+            textAlign: 'center'
+          }}
+        >
+          {text}
+        </Text>
+      </Pressable>
+    </View>
   )
 }
 

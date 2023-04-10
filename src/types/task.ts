@@ -25,7 +25,9 @@ export enum TaskSortType {
 
 export interface TaskFilter {
   search?: string
-  priority?: 'low' | 'medium' | 'high'
+  priority?: Priority
   date?: string
   sort?: TaskSortType
 }
+
+export type Priority = 'low' | 'medium' | 'high'

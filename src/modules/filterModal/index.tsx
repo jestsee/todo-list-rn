@@ -1,16 +1,33 @@
 import {
   Animated,
+  FlatList,
   Pressable,
   StyleSheet,
   Text,
-  View,
-  useWindowDimensions
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native'
+import { Button, Chip } from '@components'
+import actions, { selectTaskFilter } from '@redux/slice/taskFilterSlice'
+import { Ionicons } from '@expo/vector-icons'
+import { Priority } from '@custom-types/task'
+import { capitalize } from 'src/utils'
+import { priorityData } from '@modules/taskModal/composables/usePriorityChip'
+import { useDispatch } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
+import { useState } from 'react'
 
 export const FilterModal = () => {
-  const { height } = useWindowDimensions()
   const navigation = useNavigation()
+  const currentFilter = useSelector(selectTaskFilter)
+  const [priority, setPriority] = useState<Priority | undefined>(
+    currentFilter.priority
+  )
+  const { selectPriority } = actions
+  const dispatch = useDispatch()
+
   return (
     <View
       style={{
@@ -28,31 +45,86 @@ export const FilterModal = () => {
       />
       <Animated.View
         style={{
-          height: height / 2
+          height: '50%',
+          width: '100%',
+          justifyContent: 'flex-end'
         }}
       >
         <View
           style={{
-            flex: 1,
-            padding: 10,
+            padding: 32,
             backgroundColor: 'white',
             borderTopLeftRadius: 24,
             borderTopRightRadius: 24
           }}
         >
-          <Text>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industrys standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
-          </Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: 16
+            }}
+          >
+            <Text style={styles.filterTitle}>Priority</Text>
+            <TouchableOpacity>
+              <Text
+                style={[
+                  styles.filterTitle,
+                  {
+                    fontSize: 16,
+                    color: 'dodgerblue',
+                    textDecorationLine: 'underline'
+                  }
+                ]}
+              >
+                Reset
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            style={{ marginBottom: 20 }}
+            numColumns={3}
+            data={priorityData}
+            keyExtractor={(item) => item.name}
+            renderItem={({ item: { name, color }, index }) => (
+              <Chip
+                text={capitalize(name)}
+                color={color.backgroundColor}
+                style={{ width: 100, marginRight: index < 2 ? 12 : 0 }}
+                onPress={() => setPriority(name as typeof priority)}
+                outline={priority != name}
+              />
+            )}
+          />
+          <Text style={[styles.filterTitle, { marginBottom: 16 }]}>Date</Text>
+          <View
+            style={{
+              marginBottom: 24,
+              paddingHorizontal: 16,
+              paddingVertical: 8,
+              borderColor: 'lightgrey',
+              borderWidth: 1.5,
+              flexDirection: 'row',
+              borderRadius: 8
+            }}
+          >
+            <TextInput style={{ flex: 1 }} placeholder="Select a date" />
+            <Ionicons name="calendar-sharp" size={24} color="grey" />
+          </View>
+          <Button
+            title="Apply"
+            onPress={() => {
+              dispatch(selectPriority(priority))
+              navigation.goBack()
+            }}
+          />
         </View>
       </Animated.View>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  filterTitle: { fontSize: 20, fontWeight: 'bold' }
+})

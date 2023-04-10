@@ -12,7 +12,12 @@ export const useTaskFilter = () => {
   useEffect(() => {
     let tempTasks = tasks
     if (filter.search) {
-      tempTasks = tasks.filter((item) => item.title.includes(filter.search!))
+      tempTasks = tempTasks.filter((item) =>
+        item.title.includes(filter.search!)
+      )
+    }
+    if (filter.priority) {
+      tempTasks = tempTasks.filter((item) => item.priority === filter.priority)
     }
     setFilteredTask(tempTasks)
   }, [filter, tasks])

@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { Priority, TaskFilter } from '@custom-types/task'
 import { RootState } from '@redux/store'
-import { TaskFilter } from '@custom-types/task'
 
 const initialState: TaskFilter = {}
 const tasksFilterSlice = createSlice({
@@ -9,6 +9,12 @@ const tasksFilterSlice = createSlice({
   reducers: {
     search: (state, { payload }: PayloadAction<string>) => {
       state.search = payload
+    },
+    selectPriority: (
+      state,
+      { payload }: PayloadAction<Priority | undefined>
+    ) => {
+      state.priority = payload
     }
     // TODO other filters
   }
