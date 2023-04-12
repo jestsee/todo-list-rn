@@ -1,23 +1,30 @@
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Animated, Text, TouchableOpacity, View } from 'react-native'
+import { useEffect, useState } from 'react'
 import { AuthNavigationType } from '@custom-types/route'
 import { FontAwesome5 } from '@expo/vector-icons'
 import Ionicon from '@expo/vector-icons/Ionicons'
 import { TaskList } from './components/taskList'
 import actions from '@redux/slice/taskFilterSlice'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { useAnimFade } from '@hooks/useAnimFade'
 import { useDispatch } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import { useScroll } from '@hooks/useScroll'
-import { useState } from 'react'
 
 const Task = () => {
   const { navigate } = useNavigation<AuthNavigationType>()
   const { handleScroll, direction } = useScroll()
+  const { fadeAnim, fadeIn, fadeOut } = useAnimFade(true)
+
+  useEffect(() => {
+    if (direction === 'up') return fadeIn()
+    fadeOut()
+  }, [direction])
 
   return (
     <View>
       <TaskList onScroll={handleScroll} />
-      {direction === 'up' && (
+      <Animated.View style={{ opacity: fadeAnim }}>
         <TouchableOpacity
           style={{
             alignItems: 'center',
@@ -43,7 +50,7 @@ const Task = () => {
             <FontAwesome5 name="sort-amount-down" size={12} color="white" />
           </View>
         </TouchableOpacity>
-      )}
+      </Animated.View>
     </View>
   )
 }

@@ -9,7 +9,6 @@ export const useScroll = () => {
     const tempDirection = currentOffset > offset ? 'down' : 'up'
     setOffset(currentOffset)
     setDirection(tempDirection)
-    console.log(tempDirection) // up or down accordingly
   }
 
   return { handleScroll, direction }

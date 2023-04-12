@@ -10,6 +10,7 @@ interface SlideAnimParam {
 
 export const useAnimSlide = (param: SlideAnimParam) => {
   const { initialValue, slideDownValue, slideUpValue } = param
+  // use this value to transform -> translateY
   const slideAnim = useRef(new Animated.Value(initialValue)).current
 
   const slideUp = () => {
