@@ -11,8 +11,6 @@ export const useDatePicker = (existingDate?: string) => {
   )
 
   const onChange = (e: DateTimePickerEvent, date?: Date) => {
-    console.log('on change datetime', e, date)
-
     if (e.type === 'set') setDate(date ?? dateNow)
     if (e.type === 'neutralButtonPressed') setDate(undefined)
   }
