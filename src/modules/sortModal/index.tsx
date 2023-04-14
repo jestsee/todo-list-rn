@@ -85,7 +85,7 @@ export const SortModal = () => {
             renderItem={({ item: { label, value } }) => (
               <TouchableOpacity
                 style={{
-                  padding: 12,
+                  padding: 16,
                   backgroundColor:
                     selectedSort === value ? 'lightsteelblue' : 'transparent',
                   flexDirection: 'row',

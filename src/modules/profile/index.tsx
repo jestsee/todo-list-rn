@@ -1,4 +1,5 @@
 import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native'
+import { AuthNavigationType } from '@custom-types/route'
 import { CustomButton } from './components/customButton'
 import { Ionicons } from '@expo/vector-icons'
 import { MaterialIcons } from '@expo/vector-icons'
@@ -7,14 +8,16 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { baseStyles } from '@constants/styles'
 import { selectCurrentTasks } from '@redux/slice/tasksSlice'
 import { useAuth } from '@hooks/useAuth'
+import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import { useSignOutMutation } from '@redux/api/authApi'
 import { useState } from 'react'
 import { useUploadPhoto } from './composables/useUploadPhoto'
 
 export const Profile = () => {
-  const { session } = useAuth()
   const tasks = useSelector(selectCurrentTasks)
+  const { navigate } = useNavigation<AuthNavigationType>()
+  const { session } = useAuth()
   const [signOut] = useSignOutMutation()
   const { uploadPhoto } = useUploadPhoto()
 
@@ -26,7 +29,8 @@ export const Profile = () => {
         baseStyles.contentStyle,
         {
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          paddingTop: 0
         }
       ]}
     >
@@ -63,7 +67,12 @@ export const Profile = () => {
       <Text style={{ fontSize: 18, color: 'dimgrey' }}>
         {tasks.length} tasks
       </Text>
-      <CustomButton icon="edit" text="Change name" style={{ marginTop: 42 }} />
+      <CustomButton
+        icon="edit"
+        text="Change name"
+        style={{ marginTop: 42 }}
+        onPress={() => navigate('NameModal')}
+      />
       <CustomButton
         icon="lock"
         text="Change password"

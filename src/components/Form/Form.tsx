@@ -6,7 +6,7 @@ import {
   UseControllerProps,
   useController
 } from 'react-hook-form'
-import { Text, TextInput, View } from 'react-native'
+import { StyleProp, Text, TextInput, View, ViewStyle } from 'react-native'
 import { FieldError } from 'react-hook-form'
 import { capitalize } from 'src/utils'
 import { styles } from './styles'
@@ -20,6 +20,7 @@ export type Props<
   TFieldValues extends FieldValues,
   TName extends FieldPath<TFieldValues>
 > = {
+  style?: StyleProp<ViewStyle>
   placeholder?: string
   error?: FieldError
   label?: string
@@ -33,8 +34,16 @@ export const Form = <
 >(
   props: Props<TFieldValues, TName>
 ) => {
-  const { placeholder, error, label, suffix, secureTextEntry, name, control } =
-    props
+  const {
+    placeholder,
+    error,
+    label,
+    suffix,
+    secureTextEntry,
+    name,
+    control,
+    style
+  } = props
   const {
     field: { onBlur, onChange, value }
   } = useController({ name, control })
@@ -42,7 +51,7 @@ export const Form = <
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label ?? capitalize(name)}</Text>
-      <View style={styles.form}>
+      <View style={[styles.form, style]}>
         <TextInput
           style={styles.input}
           onBlur={onBlur}
