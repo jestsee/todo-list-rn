@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { Priority, TaskFilter } from '@custom-types/task'
+import { Priority, SortValue, TaskFilter } from '@custom-types/task'
 import { RootState } from '@redux/store'
 
-const initialState: TaskFilter = {}
+const initialState: TaskFilter = { sort: 'closestDeadline' }
 const tasksFilterSlice = createSlice({
   name: 'tasks',
   initialState,
@@ -18,8 +18,10 @@ const tasksFilterSlice = createSlice({
     },
     selectDate: (state, { payload }: PayloadAction<string | undefined>) => {
       state.date = payload
+    },
+    selectSort: (state, { payload }: PayloadAction<SortValue>) => {
+      state.sort = payload
     }
-    // TODO other filters
   }
 })
 
