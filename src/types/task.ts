@@ -23,11 +23,17 @@ export enum TaskSortType {
   lowestPriority
 }
 
+export type SortValue =
+  | 'closestDeadline'
+  | 'furthestDeadline'
+  | 'highestPriority'
+  | 'lowestPriority'
+
 export interface TaskFilter {
   search?: string
   priority?: Priority
   date?: string
-  sort?: TaskSortType
+  sort: SortValue
 }
 
 export type Priority = 'low' | 'medium' | 'high'

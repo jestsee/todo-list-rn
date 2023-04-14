@@ -15,6 +15,7 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
 import MapModal from './components/mapModal'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { Priority } from '@custom-types/task'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Subtask } from '@modules/task/components/subtask'
 import { capitalize } from 'src/utils'
@@ -73,7 +74,7 @@ export const TaskModal = ({ route, navigation }: Props) => {
   useEffect(() => {
     changeTaskAttribute({
       title,
-      priority: priority.name,
+      priority: priority.name as Priority,
       deadline: date?.toLocaleString(),
       latitude: markerCoords?.latitude,
       longitude: markerCoords?.longitude

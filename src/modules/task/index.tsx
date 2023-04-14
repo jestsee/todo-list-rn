@@ -17,12 +17,12 @@ const Task = () => {
   const { fadeAnim, fadeIn, fadeOut } = useAnimFade(true)
 
   useEffect(() => {
-    if (direction === 'up') return fadeIn()
-    fadeOut()
+    if (direction === 'down') return fadeOut()
+    fadeIn()
   }, [direction])
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <TaskList onScroll={handleScroll} />
       <Animated.View style={{ opacity: fadeAnim }}>
         <TouchableOpacity
@@ -35,7 +35,8 @@ const Task = () => {
             backgroundColor: 'red',
             paddingHorizontal: 16,
             paddingVertical: 4,
-            borderRadius: 100
+            borderRadius: 100,
+            zIndex: 1
           }}
           onPress={() => navigate('SortModal')}
         >

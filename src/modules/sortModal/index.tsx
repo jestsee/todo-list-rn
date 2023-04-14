@@ -4,33 +4,48 @@ import {
   Pressable,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View
 } from 'react-native'
-import { Button, Chip } from '@components'
 import actions, { selectTaskFilter } from '@redux/slice/taskFilterSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { Button } from '@components'
 import { Ionicons } from '@expo/vector-icons'
-import { Priority } from '@custom-types/task'
-import { capitalize } from 'src/utils'
-import { dayjs } from '@hooks/useDayjs'
-import { priorityData } from '@modules/taskModal/composables/usePriorityChip'
-import { useDatePicker } from '@hooks/useDatePicker'
-import { useDispatch } from 'react-redux'
+import { SortValue } from '@custom-types/task'
 import { useNavigation } from '@react-navigation/native'
-import { useSelector } from 'react-redux'
 import { useState } from 'react'
+
+interface SortOption {
+  label: string
+  value: SortValue
+}
+
+const sortOptions: SortOption[] = [
+  {
+    label: 'Closest deadline',
+    value: 'closestDeadline'
+  },
+  {
+    label: 'Furthest deadline',
+    value: 'furthestDeadline'
+  },
+  {
+    label: 'Highest priority',
+    value: 'highestPriority'
+  },
+  {
+    label: 'Lowest priority',
+    value: 'lowestPriority'
+  }
+]
 
 export const SortModal = () => {
   const navigation = useNavigation()
   const currentFilter = useSelector(selectTaskFilter)
-  const { selectPriority, selectDate } = actions
   const dispatch = useDispatch()
+  const [selectedSort, selectSort] = useState<SortValue>(currentFilter.sort)
 
-  const { date, showDatePicker } = useDatePicker(currentFilter.date)
-  const [priority, setPriority] = useState<Priority | undefined>(
-    currentFilter.priority
-  )
+  const { selectSort: sort } = actions
   return (
     <View
       style={{
@@ -61,77 +76,48 @@ export const SortModal = () => {
             borderTopRightRadius: 24
           }}
         >
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: 16
-            }}
-          >
-            <Text style={styles.filterTitle}>Priority</Text>
-            <TouchableOpacity
-              onPress={() => {
-                dispatch(selectDate(undefined))
-                dispatch(selectPriority(undefined))
-                navigation.goBack()
-              }}
-            >
-              <Text
-                style={[
-                  styles.filterTitle,
-                  {
-                    fontSize: 16,
-                    color: 'dodgerblue',
-                    textDecorationLine: 'underline'
-                  }
-                ]}
-              >
-                Reset
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <Text style={[styles.filterTitle, { marginBottom: 12 }]}>
+            Sort task by
+          </Text>
           <FlatList
-            style={{ marginBottom: 20 }}
-            numColumns={3}
-            data={priorityData}
-            keyExtractor={(item) => item.name}
-            renderItem={({ item: { name, color }, index }) => (
-              <Chip
-                text={capitalize(name)}
-                color={color.backgroundColor}
-                style={{ width: 100, marginRight: index < 2 ? 12 : 0 }}
-                onPress={() => setPriority(name as typeof priority)}
-                outline={priority != name}
-              />
+            data={sortOptions}
+            keyExtractor={(item) => item.value}
+            renderItem={({ item: { label, value } }) => (
+              <TouchableOpacity
+                style={{
+                  padding: 12,
+                  backgroundColor:
+                    selectedSort === value ? 'lightsteelblue' : 'transparent',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  borderRadius: 8
+                }}
+                onPress={() => selectSort(value)}
+              >
+                {selectedSort !== value ? (
+                  <Ionicons
+                    name="radio-button-off"
+                    size={20}
+                    color="black"
+                    style={{ marginRight: 12 }}
+                  />
+                ) : (
+                  <Ionicons
+                    name="radio-button-on"
+                    size={20}
+                    color="black"
+                    style={{ marginRight: 12 }}
+                  />
+                )}
+                <Text>{label}</Text>
+              </TouchableOpacity>
             )}
           />
-          <Text style={[styles.filterTitle, { marginBottom: 16 }]}>Date</Text>
-          <TouchableOpacity
-            onPress={showDatePicker}
-            style={{
-              marginBottom: 24,
-              paddingHorizontal: 16,
-              paddingVertical: 8,
-              borderColor: 'lightgrey',
-              borderWidth: 1.5,
-              flexDirection: 'row',
-              borderRadius: 8
-            }}
-          >
-            <TextInput
-              value={date ? dayjs(date).format('DD MMMM YYYY') : undefined}
-              style={{ flex: 1, color: 'black' }}
-              placeholder="Select a date"
-              editable={false}
-            />
-            <Ionicons name="calendar-sharp" size={24} color="grey" />
-          </TouchableOpacity>
           <Button
+            style={{ marginTop: 20 }}
             title="Apply"
             onPress={() => {
-              dispatch(selectPriority(priority))
-              dispatch(selectDate(date?.toISOString()))
+              dispatch(sort(selectedSort))
               navigation.goBack()
             }}
           />
