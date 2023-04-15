@@ -2,6 +2,7 @@ import { AuthStackParamList } from '@custom-types/route'
 import AuthenticatedTab from './AuthenticatedTab'
 import { FilterModal } from '@modules/filterModal'
 import { NameModal } from '@modules/nameModal'
+import { PasswordModal } from '@modules/passwordModal'
 import { SortModal } from '@modules/sortModal'
 import { TaskModal } from '@modules/taskModal'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -28,31 +29,28 @@ const Authenticated = () => {
       <Stack.Group
         screenOptions={{
           presentation: 'transparentModal',
-          animation: 'slide_from_bottom',
           animationDuration: 3000
         }}
       >
         <Stack.Screen
           name="FilterModal"
           component={FilterModal}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, animation: 'fade' }}
         />
         <Stack.Screen
           name="SortModal"
           component={SortModal}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, animation: 'fade' }}
         />
-        {/* TODO */}
         <Stack.Screen
           name="NameModal"
           component={NameModal}
-          options={{ headerShown: false }}
+          options={{ headerShown: false, animation: 'fade' }}
         />
-        {/* TODO */}
         <Stack.Screen
           name="PasswordModal"
-          component={SortModal}
-          options={{ headerShown: false }}
+          component={PasswordModal}
+          options={{ headerShown: false, animation: 'fade' }}
         />
       </Stack.Group>
     </Stack.Navigator>

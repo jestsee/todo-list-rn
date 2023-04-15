@@ -77,6 +77,7 @@ export const Profile = () => {
         icon="lock"
         text="Change password"
         style={{ marginTop: 24 }}
+        onPress={() => navigate('PasswordModal')}
       />
       <CustomButton
         icon="logout"
