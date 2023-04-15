@@ -32,7 +32,7 @@ export const useNotification = () => {
 
   const _getNotif = async () => {
     const res = await getAllScheduledNotificationsAsync()
-    console.log('all notif', res)
+    console.log('[all notif]', res.length)
   }
 
   useEffect(() => {

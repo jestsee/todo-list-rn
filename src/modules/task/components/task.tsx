@@ -24,7 +24,7 @@ export const priorityColor = {
 
 export const Task: React.FC<Props> = (item) => {
   const { style, ...task } = item
-  const { id, title, deadline, subtask, priority } = task
+  const { id, title, deadline, subtask, priority, notificationId } = task
 
   const { navigate } = useNavigation<AuthNavigationType>()
   const [deleteTask] = useDeleteTaskMutation()
@@ -34,7 +34,9 @@ export const Task: React.FC<Props> = (item) => {
       overshootRight={false}
       overshootFriction={8}
       renderRightActions={() => (
-        <RightSwipeActions onDelete={() => deleteTask(id)} />
+        <RightSwipeActions
+          onDelete={() => deleteTask({ id, notificationId })}
+        />
       )}
     >
       <RectButton
