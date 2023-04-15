@@ -52,19 +52,22 @@ export const profileApi = createApi({
         if (error) return { error: { message: error.message } }
         return { data: 'success' }
       }
+    }),
+    updatePassword: builder.mutation<string, UpdatePasswordPayload>({
+      async queryFn({ newPassword, oldPassword }) {
+        const { error } = await supabase.rpc('change_user_password', {
+          current_plain_password: oldPassword,
+          new_plain_password: newPassword
+        })
+        if (error) return { error: { message: error.message } }
+        return { data: 'success' }
+      }
     })
-    // updatePassword: builder.mutation<string, UpdatePasswordPayload>({
-    //   async queryFn({ newPassword, oldPassword }) {
-    //     const { error } = await supabase.rpc('change_user_password', {
-    //       current_plain_password: oldPassword,
-    //       new_plain_password: newPassword
-    //     })
-    //     if (error) return { error: { message: error.message } }
-    //     return { data: 'success' }
-    //   }
-    // })
   })
 })
 
-export const { useUploadProfilePhotoMutation, useUpdateNameMutation } =
-  profileApi
+export const {
+  useUploadProfilePhotoMutation,
+  useUpdateNameMutation,
+  useUpdatePasswordMutation
+} = profileApi

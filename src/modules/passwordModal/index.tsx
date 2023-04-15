@@ -1,39 +1,35 @@
 import { Animated, Pressable, StyleSheet, View } from 'react-native'
-import { Button, Form } from '@components'
-import { UpdateNamePayload } from '@custom-types/profile'
-import { useAuth } from '@hooks/useAuth'
+import { Button, PasswordForm } from '@components'
+import { UpdatePasswordPayload } from '@custom-types/profile'
 import { useForm } from 'react-hook-form'
-import { useGetSessionQuery } from '@redux/api/authApi'
 import { useNavigation } from '@react-navigation/native'
 import { useSnackbar } from '@hooks/useSnackbar'
-import { useUpdateNameMutation } from '@redux/api/profileApi'
+import { useUpdatePasswordMutation } from '@redux/api/profileApi'
 import validationSchema from './validationSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-export const NameModal = () => {
+export const PasswordModal = () => {
   const navigation = useNavigation()
-  const { refetch } = useGetSessionQuery()
-  const { session } = useAuth()
-  const [updateName, { isLoading }] = useUpdateNameMutation()
+  const [updatePassword, { isLoading }] = useUpdatePasswordMutation()
   const { infoSnackbar, showSnackbar } = useSnackbar()
 
   const {
     control,
     handleSubmit,
-    formState: { errors }
-  } = useForm<UpdateNamePayload>({
-    defaultValues: { newName: session?.user.user_metadata['name'] },
+    formState: { errors, dirtyFields }
+  } = useForm<UpdatePasswordPayload>({
     resolver: zodResolver(validationSchema)
   })
 
   const _handleSubmit = handleSubmit((value) => {
     infoSnackbar({ message: 'Loading...' })
-    updateName(value.newName)
+    updatePassword(value)
       .unwrap()
       .then((response) => {
         if (response === 'success') {
-          showSnackbar({ message: 'Your name has been successfully updated' })
-          refetch()
+          showSnackbar({
+            message: 'Your password has been successfully updated'
+          })
           navigation.goBack()
         }
       })
@@ -66,13 +62,23 @@ export const NameModal = () => {
             borderRadius: 24
           }}
         >
-          <Form
+          <PasswordForm
             control={control}
-            name="newName"
-            label="Name"
-            placeholder="eg. John Doe"
-            error={errors.newName}
+            name="oldPassword"
+            label="Old password"
+            placeholder="Old password"
+            error={errors.oldPassword}
             style={{ borderRadius: 8 }}
+            touched={dirtyFields.oldPassword}
+          />
+          <PasswordForm
+            control={control}
+            name="newPassword"
+            label="New password"
+            placeholder="New password"
+            error={errors.newPassword}
+            style={{ borderRadius: 8 }}
+            touched={dirtyFields.newPassword}
           />
           <Button
             loading={isLoading}

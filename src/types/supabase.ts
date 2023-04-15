@@ -108,7 +108,13 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      change_user_password: {
+        Args: {
+          current_plain_password: string
+          new_plain_password: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never
