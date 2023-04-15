@@ -1,6 +1,7 @@
 import { AuthStackParamList } from '@custom-types/route'
 import AuthenticatedTab from './AuthenticatedTab'
 import { FilterModal } from '@modules/filterModal'
+import { NameModal } from '@modules/nameModal'
 import { SortModal } from '@modules/sortModal'
 import { TaskModal } from '@modules/taskModal'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
@@ -38,6 +39,18 @@ const Authenticated = () => {
         />
         <Stack.Screen
           name="SortModal"
+          component={SortModal}
+          options={{ headerShown: false }}
+        />
+        {/* TODO */}
+        <Stack.Screen
+          name="NameModal"
+          component={NameModal}
+          options={{ headerShown: false }}
+        />
+        {/* TODO */}
+        <Stack.Screen
+          name="PasswordModal"
           component={SortModal}
           options={{ headerShown: false }}
         />
