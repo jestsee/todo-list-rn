@@ -11,7 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 export const PasswordModal = () => {
   const navigation = useNavigation()
   const [updatePassword, { isLoading }] = useUpdatePasswordMutation()
-  const { infoSnackbar, showSnackbar } = useSnackbar()
+  const { infoSnackbar, showSnackbar, errorSnackbar } = useSnackbar()
 
   const {
     control,
@@ -22,6 +22,12 @@ export const PasswordModal = () => {
   })
 
   const _handleSubmit = handleSubmit((value) => {
+    if (value.newPassword === value.oldPassword) {
+      errorSnackbar({
+        message: 'Password must be differ from old password'
+      })
+      return
+    }
     infoSnackbar({ message: 'Loading...' })
     updatePassword(value)
       .unwrap()
@@ -32,6 +38,9 @@ export const PasswordModal = () => {
           })
           navigation.goBack()
         }
+      })
+      .catch((error) => {
+        console.error(error)
       })
   })
   return (
