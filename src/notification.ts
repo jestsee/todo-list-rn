@@ -41,6 +41,7 @@ export const scheduleNotification = async (payload: NotificationRequestInput) =>
 export const removeScheduledNotification = async (id: string) =>
   await cancelScheduledNotificationAsync(id)
 
+// TODO rename
 export const getDiffNow = async (data: {
   deadline?: string | undefined
   notificationId?: string | undefined

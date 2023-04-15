@@ -1,16 +1,9 @@
-import {
-  NotificationRequestInput,
-  getAllScheduledNotificationsAsync,
-  scheduleNotificationAsync
-} from 'expo-notifications'
 import { useEffect, useRef } from 'react'
+import { getAllScheduledNotificationsAsync } from 'expo-notifications'
 import { selectCurrentTasks } from '@redux/slice/tasksSlice'
 import { useSelector } from 'react-redux'
 
 // TODO deleting soon
-export const scheduleNotification = async (payload: NotificationRequestInput) =>
-  await scheduleNotificationAsync(payload)
-
 export const useNotification = () => {
   /* TODO
   3. kalo edit harus tau mana yang diedit, notifnya juga diedit
