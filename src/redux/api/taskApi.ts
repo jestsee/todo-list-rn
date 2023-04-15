@@ -9,7 +9,9 @@ import {
 } from './db/task'
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
 import { CustomError } from '@custom-types/auth'
+import { scheduleNotification } from 'src/notification'
 import snackbar from '@redux/slice/snackBarSlice'
+import { dayjs } from '@hooks/useDayjs'
 
 export const taskApi = createApi({
   reducerPath: 'taskApi',
@@ -27,7 +29,21 @@ export const taskApi = createApi({
         const { data, error } = await addTask(newTask)
         if (error) return { error: { message: error.message } }
         dispatch(snackbar.show({ message: 'Task successfully added' }))
-        return { data }
+        let notificationId: string | undefined
+        if (data[0].deadline) {
+          const diff = dayjs(data[0].deadline).diff(dayjs(), 'second')
+          notificationId = await scheduleNotification({
+            content: {
+              title: data[0].title,
+              body: `Due ${data[0].deadline}`
+            },
+            trigger: {
+              seconds: diff - 3600 * 7
+            }
+          })
+          console.log('notif Id:', notificationId, diff)
+        }
+        return { data: [{ ...data[0], notificationId }] }
       }
     }),
     updateTask: builder.mutation<UpdateTaskPayload, UpdateTaskPayload>({

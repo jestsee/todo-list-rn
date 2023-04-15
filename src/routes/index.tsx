@@ -4,10 +4,13 @@ import { SplashScreen } from 'src/routes/components/SplashScreen'
 import Unauthenticated from './components/Unauthenticated'
 import { useAuth } from '@hooks/useAuth'
 import { useGetSessionQuery } from '@redux/api/authApi'
+import { useNotification } from '@hooks/useNotification'
 
 export const Routes = () => {
   const { isFetching } = useGetSessionQuery()
   const { session } = useAuth()
+
+  useNotification()
 
   if (isFetching && !session) {
     return <SplashScreen />

@@ -1,20 +1,27 @@
-import * as Notifications from 'expo-notifications'
+import {
+  AndroidImportance,
+  NotificationRequestInput,
+  getPermissionsAsync,
+  requestPermissionsAsync,
+  scheduleNotificationAsync,
+  setNotificationChannelAsync
+} from 'expo-notifications'
 import { Platform } from 'react-native'
 
 export const registerForPushNotificationsAsync = async () => {
   if (Platform.OS === 'android') {
-    await Notifications.setNotificationChannelAsync('default', {
+    await setNotificationChannelAsync('default', {
       name: 'default',
-      importance: Notifications.AndroidImportance.MAX,
+      importance: AndroidImportance.MAX,
       vibrationPattern: [0, 250, 250, 250],
       lightColor: '#FF231F7C'
     })
   }
 
-  const { status: existingStatus } = await Notifications.getPermissionsAsync()
+  const { status: existingStatus } = await getPermissionsAsync()
   let finalStatus = existingStatus
   if (existingStatus !== 'granted') {
-    const { status } = await Notifications.requestPermissionsAsync()
+    const { status } = await requestPermissionsAsync()
     finalStatus = status
   }
   if (finalStatus !== 'granted') {
@@ -22,3 +29,6 @@ export const registerForPushNotificationsAsync = async () => {
   }
   console.log('Notification permission granted')
 }
+
+export const scheduleNotification = async (payload: NotificationRequestInput) =>
+  await scheduleNotificationAsync(payload)
