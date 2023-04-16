@@ -1,6 +1,5 @@
 import {
   AndroidImportance,
-  NotificationRequestInput,
   cancelScheduledNotificationAsync,
   getPermissionsAsync,
   requestPermissionsAsync,
@@ -35,25 +34,24 @@ export const registerForPushNotificationsAsync = async () => {
   console.log('Notification permission granted')
 }
 
-export const scheduleNotification = async (payload: NotificationRequestInput) =>
-  await scheduleNotificationAsync(payload)
-
 export const removeScheduledNotification = async (id: string) =>
   await cancelScheduledNotificationAsync(id)
 
-// TODO rename
-export const getDiffNow = async (data: {
+export const scheduleNotification = async (data: {
   deadline?: string | undefined
   notificationId?: string | undefined
   title?: string
 }) => {
   if (!data.deadline) return
+
+  console.log('schedule notification called')
+
   const diff =
     dayjs(data.deadline).diff(dayjs(), 'second') -
     (TIMEZONE_OFFSET + PRIOR_OFFSET)
-  console.log('seconds', diff)
+  console.log('[seconds]', diff)
 
-  return await scheduleNotification({
+  return await scheduleNotificationAsync({
     content: {
       title: data.title,
       body: `Due ${dayjs(data.deadline).format('DD MMM YYYY')}`

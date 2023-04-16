@@ -7,7 +7,7 @@ import {
   View
 } from 'react-native'
 import { Task } from './task'
-import { getDiffNow } from 'src/notification'
+import { scheduleNotification } from 'src/notification'
 import { useAuth } from '@hooks/useAuth'
 import { useEffect } from 'react'
 import { useGetTasksQuery } from '@redux/api/taskApi'
@@ -28,9 +28,9 @@ export const TaskList = ({ onScroll }: Props) => {
     const currentNotifications =
       await Notifications.getAllScheduledNotificationsAsync()
 
-    if (currentNotifications.length <= 0) return
+    if (currentNotifications.length > 0) return
     data?.forEach(async (item) => {
-      await getDiffNow(item)
+      await scheduleNotification(item)
     })
   }
 

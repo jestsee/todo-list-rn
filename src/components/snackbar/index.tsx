@@ -49,7 +49,7 @@ export const Snackbar = () => {
   useEffect(() => {
     if (show) return slideUp()
     slideDown()
-  })
+  }, [show])
 
   return (
     <SafeAreaView>

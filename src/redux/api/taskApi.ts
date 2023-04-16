@@ -8,7 +8,10 @@ import {
   updateTask
 } from './db/task'
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
-import { getDiffNow, removeScheduledNotification } from 'src/notification'
+import {
+  removeScheduledNotification,
+  scheduleNotification
+} from 'src/notification'
 import { CustomError } from '@custom-types/auth'
 import snackbar from '@redux/slice/snackBarSlice'
 
@@ -30,7 +33,7 @@ export const taskApi = createApi({
         if (error) return { error: { message: error.message } }
         dispatch(snackbar.show({ message: 'Task successfully added' }))
 
-        const notificationId = await getDiffNow(data[0])
+        const notificationId = await scheduleNotification(data[0])
         return { data: [{ ...data[0], notificationId }] }
       }
     }),
@@ -45,7 +48,7 @@ export const taskApi = createApi({
         if (error) return { error: { message: error.message } }
         dispatch(snackbar.show({ message: 'Task successfully updated' }))
 
-        const notificationId = await getDiffNow(updatedTask)
+        const notificationId = await scheduleNotification(updatedTask)
         return { data: { ...updatedTask, notificationId } }
       }
     }),
@@ -57,7 +60,7 @@ export const taskApi = createApi({
         dispatch(snackbar.info({ message: 'Deleting task...' }))
 
         if (notificationId) {
-          removeScheduledNotification(notificationId)
+          await removeScheduledNotification(notificationId)
         }
 
         const { error } = await deleteTask(id)
