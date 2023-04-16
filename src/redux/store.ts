@@ -3,6 +3,7 @@ import { authApi, profileApi, taskApi } from '@redux/api'
 import { authReducer } from './slice/authSlice'
 import { configureStore } from '@reduxjs/toolkit'
 import { errorHandler } from './middleware/errorHandler'
+import { locationReducer } from './slice/locationSlice'
 import { snackbarReducer } from './slice/snackBarSlice'
 import { taskFilterReducer } from './slice/taskFilterSlice'
 import { tasksReducer } from './slice/tasksSlice'
@@ -15,7 +16,8 @@ export const store = configureStore({
     auth: authReducer,
     snackbar: snackbarReducer,
     tasks: tasksReducer,
-    taskFilter: taskFilterReducer
+    taskFilter: taskFilterReducer,
+    location: locationReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([

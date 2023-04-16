@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { SplashScreen } from 'src/routes/components/SplashScreen'
 import Unauthenticated from './components/Unauthenticated'
 import { useAuth } from '@hooks/useAuth'
+import { useBackgroundLocation } from '@hooks/useBackgroundLocation'
 import { useEffect } from 'react'
 import { useGetSessionQuery } from '@redux/api/authApi'
 import { useNotification } from '@hooks/useNotification'
@@ -11,7 +12,8 @@ export const Routes = () => {
   const { isFetching } = useGetSessionQuery()
   const { session } = useAuth()
 
-  useNotification()
+  useNotification() // deleting soon
+  useBackgroundLocation()
 
   const removeAllNotification = async () => {
     await Notifications.cancelAllScheduledNotificationsAsync()
