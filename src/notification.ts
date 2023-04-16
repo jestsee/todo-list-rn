@@ -44,7 +44,7 @@ export const scheduleNotification = async (data: {
 }) => {
   if (!data.deadline) return
 
-  console.log('schedule notification called')
+  console.log('[schedule notification]')
 
   const diff =
     dayjs(data.deadline).diff(dayjs(), 'second') -

@@ -1,5 +1,4 @@
 /* eslint-disable sort-keys */
-import * as Notifications from 'expo-notifications'
 import { AuthChangeEvent, Session } from '@supabase/supabase-js'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { AuthState } from '@custom-types/auth'
@@ -28,9 +27,6 @@ const authSlice = createSlice({
       .addMatcher(
         authApi.endpoints.getSession.matchFulfilled,
         (_, { payload: { session } }) => {
-          if (!session) {
-            Notifications.cancelAllScheduledNotificationsAsync()
-          }
           return { session, event: session ? 'SIGNED_IN' : 'SIGNED_OUT' }
         }
       )

@@ -19,16 +19,21 @@ interface Props {
 
 export const TaskList = ({ onScroll }: Props) => {
   const { session } = useAuth()
-  const { isFetching, isError, error, data } = useGetTasksQuery(
+  const { isFetching, isError, error, data, refetch } = useGetTasksQuery(
     session?.user.id as string
   )
   const { filteredTask } = useTaskFilter()
+
+  useEffect(() => {
+    if (session) refetch()
+  }, [session])
 
   const setNotifications = async () => {
     const currentNotifications =
       await Notifications.getAllScheduledNotificationsAsync()
 
     if (currentNotifications.length > 0) return
+    console.log('[initial setup notif]')
     data?.forEach(async (item) => {
       await scheduleNotification(item)
     })
