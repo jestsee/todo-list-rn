@@ -1,8 +1,8 @@
 import { FlatList, SafeAreaView, Text, View } from 'react-native'
+import { ContactTile } from './components/contactTile'
 import { baseStyles } from '@constants/styles'
 import { useContact } from '@hooks/useContact'
 import { useEffect } from 'react'
-import { ContactTile } from './components/contactTile'
 
 export const Contact = () => {
   const { contacts, getContacts } = useContact()

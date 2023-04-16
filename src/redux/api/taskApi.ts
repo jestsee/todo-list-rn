@@ -8,6 +8,10 @@ import {
   updateTask
 } from './db/task'
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
+import {
+  removeScheduledNotification,
+  scheduleNotification
+} from 'src/notification'
 import { CustomError } from '@custom-types/auth'
 import snackbar from '@redux/slice/snackBarSlice'
 
@@ -24,23 +28,41 @@ export const taskApi = createApi({
     }),
     addTask: builder.mutation<TasksResponse, AddTaskPayload>({
       async queryFn(newTask, { dispatch }) {
+        delete newTask.notificationId
         const { data, error } = await addTask(newTask)
         if (error) return { error: { message: error.message } }
         dispatch(snackbar.show({ message: 'Task successfully added' }))
-        return { data }
+
+        const notificationId = await scheduleNotification(data[0])
+        return { data: [{ ...data[0], notificationId }] }
       }
     }),
     updateTask: builder.mutation<UpdateTaskPayload, UpdateTaskPayload>({
       async queryFn(updatedTask, { dispatch }) {
+        if (updatedTask.notificationId) {
+          removeScheduledNotification(updatedTask.notificationId)
+        }
+
+        delete updatedTask.notificationId
         const { error } = await updateTask(updatedTask)
         if (error) return { error: { message: error.message } }
         dispatch(snackbar.show({ message: 'Task successfully updated' }))
-        return { data: updatedTask }
+
+        const notificationId = await scheduleNotification(updatedTask)
+        return { data: { ...updatedTask, notificationId } }
       }
     }),
-    deleteTask: builder.mutation<string, string>({
-      async queryFn(id, { dispatch }) {
+    deleteTask: builder.mutation<
+      string,
+      { id: string; notificationId?: string }
+    >({
+      async queryFn({ id, notificationId }, { dispatch }) {
         dispatch(snackbar.info({ message: 'Deleting task...' }))
+
+        if (notificationId) {
+          await removeScheduledNotification(notificationId)
+        }
+
         const { error } = await deleteTask(id)
         if (error) return { error: { message: error.message } }
         dispatch(snackbar.show({ message: 'Task successfully deleted' }))

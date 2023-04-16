@@ -1,6 +1,7 @@
 export interface Task {
   created_at?: string
   created_by: string
+  notificationId?: string
   deadline?: string
   group_id?: number
   id: string

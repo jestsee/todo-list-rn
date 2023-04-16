@@ -40,7 +40,7 @@ export const TaskModal = ({ route, navigation }: Props) => {
   const { show, toggleClick } = useToggle()
   const [title, setTitle] = useState(params?.task?.title ?? '')
   const { priority, switchPriority } = usePriorityChip(params?.task?.priority)
-  const { showDatePicker, showTimePicker, date } = useDatePicker(
+  const { showDatePicker, showTimePicker, setTaskMode, date } = useDatePicker(
     params?.task?.deadline
   )
   const { markerCoords, handleMarkerChange } = useMarkerLocation(
@@ -82,8 +82,9 @@ export const TaskModal = ({ route, navigation }: Props) => {
   }, [title, priority, date, markerCoords])
 
   useEffect(() => {
+    if (isEditing()) setTaskMode('edit')
     setOptions({ headerShown: false })
-  })
+  }, [])
 
   return (
     <SafeAreaView

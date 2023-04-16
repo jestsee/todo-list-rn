@@ -56,6 +56,7 @@ export interface Database {
           created_at?: string
           created_by: string
           deadline?: string
+          notificationId?: string // additional attribute
           group_id?: number
           id: string
           latitude?: number
@@ -68,6 +69,7 @@ export interface Database {
           created_at?: string
           created_by: string
           deadline?: string
+          notificationId?: string // additional attribute
           group_id?: number
           id?: string
           latitude?: number
@@ -80,6 +82,7 @@ export interface Database {
           created_at?: string
           created_by?: string
           deadline?: string
+          notificationId?: string // additional attribute
           group_id?: number
           id?: string
           latitude?: number
