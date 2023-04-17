@@ -48,7 +48,9 @@ export default {
           ],
           category: ['BROWSABLE', 'DEFAULT']
         }
-      ]
+      ],
+      package: 'com.todolist.reactnative',
+      buildNumber: '1.0.0'
     },
     web: {
       favicon: './assets/favicon.png'
@@ -56,7 +58,10 @@ export default {
     extra: {
       supabaseUrl: process.env.SUPABASE_URL,
       supabaseSecret: process.env.SUPABASE_SECRET,
-      redirectLink: process.env.REDIRECT_LINK
+      redirectLink: process.env.REDIRECT_LINK,
+      eas: {
+        projectId: '965da3d7-4bd2-48de-a1dd-5925b0c6e2dd'
+      }
     },
     plugins: [
       [
