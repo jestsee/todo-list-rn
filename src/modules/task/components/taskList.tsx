@@ -1,11 +1,5 @@
 import * as Notifications from 'expo-notifications'
-import {
-  FlatList,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  Text,
-  View
-} from 'react-native'
+import { FlatList, ScrollViewProps, Text, View } from 'react-native'
 import { Task } from './task'
 import { scheduleNotification } from 'src/notification'
 import { useAuth } from '@hooks/useAuth'
@@ -13,11 +7,7 @@ import { useEffect } from 'react'
 import { useGetTasksQuery } from '@redux/api/taskApi'
 import { useTaskFilter } from '@hooks/useTaskFilter'
 
-interface Props {
-  onScroll?: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
-}
-
-export const TaskList = ({ onScroll }: Props) => {
+export const TaskList = (props: ScrollViewProps) => {
   const { session } = useAuth()
   const { isFetching, isError, error, data, refetch } = useGetTasksQuery(
     session?.user.id as string
@@ -47,11 +37,11 @@ export const TaskList = ({ onScroll }: Props) => {
   if (isError) return <Text>{error.message}</Text>
   return (
     <FlatList
-      onScroll={onScroll}
       data={filteredTask}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => <Task {...item} />}
       ItemSeparatorComponent={Separator}
+      {...props}
     />
   )
 }

@@ -1,4 +1,10 @@
-import { Animated, Text, TouchableOpacity, View } from 'react-native'
+import {
+  Animated,
+  Text,
+  TouchableOpacity,
+  View,
+  useWindowDimensions
+} from 'react-native'
 import { useEffect, useState } from 'react'
 import { AuthNavigationType } from '@custom-types/route'
 import { FontAwesome5 } from '@expo/vector-icons'
@@ -15,16 +21,31 @@ const Task = () => {
   const { navigate } = useNavigation<AuthNavigationType>()
   const { handleScroll, direction } = useScroll()
   const { fadeAnim, fadeIn, fadeOut } = useAnimFade(true)
+  const [isScrollable, setIsScrollable] = useState(false)
 
   useEffect(() => {
     if (direction === 'down') return fadeOut()
     fadeIn()
   }, [direction])
 
+  const { height } = useWindowDimensions()
+
+  const handleContentSizeChange = (
+    contentWidth: number,
+    contentHeight: number
+  ) => {
+    console.log('masoook', contentHeight, height)
+
+    setIsScrollable(contentHeight > height - 100)
+  }
+
   return (
     <View style={{ flex: 1 }}>
-      <TaskList onScroll={handleScroll} />
-      <Animated.View style={{ opacity: fadeAnim }}>
+      <TaskList
+        onScroll={handleScroll}
+        onContentSizeChange={handleContentSizeChange}
+      />
+      <Animated.View style={{ opacity: isScrollable ? fadeAnim : 1 }}>
         <TouchableOpacity
           style={{
             alignItems: 'center',

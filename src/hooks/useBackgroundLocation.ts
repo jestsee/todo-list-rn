@@ -23,6 +23,8 @@ export const useBackgroundLocation = () => {
     console.log('berubah')
 
     tasks.forEach((task) => {
+      console.log('masuk loop task')
+
       if (!task.latitude || !task.longitude) return
 
       const distance = haversine(
@@ -32,6 +34,8 @@ export const useBackgroundLocation = () => {
 
       // send notification if there is a task with location <= 2km
       if (distance <= 2) {
+        console.log('masuk <= 2')
+
         Notifications.scheduleNotificationAsync({
           content: {
             title: task.title,
