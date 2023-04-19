@@ -38,8 +38,8 @@ export const removeScheduledNotification = async (id: string) =>
   await cancelScheduledNotificationAsync(id)
 
 export const scheduleNotification = async (data: {
-  deadline?: string | undefined
-  notificationId?: string | undefined
+  deadline?: string
+  notificationId?: string
   title?: string
 }) => {
   if (!data.deadline) return
@@ -58,6 +58,7 @@ export const scheduleNotification = async (data: {
     },
     trigger: {
       seconds: diff
-    }
+    },
+    identifier: data.notificationId
   })
 }

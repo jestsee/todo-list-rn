@@ -2,20 +2,27 @@ import * as Notifications from 'expo-notifications'
 import { FlatList, ScrollViewProps, Text, View } from 'react-native'
 import { Task } from './task'
 import { scheduleNotification } from 'src/notification'
+import { selectCurrentTasks } from '@redux/slice/tasksSlice'
 import { useAuth } from '@hooks/useAuth'
 import { useEffect } from 'react'
 import { useGetTasksQuery } from '@redux/api/taskApi'
+import { useSelector } from 'react-redux'
 import { useTaskFilter } from '@hooks/useTaskFilter'
 
-export const TaskList = (props: ScrollViewProps) => {
+interface Props extends ScrollViewProps {
+  count?: number
+}
+
+export const TaskList = ({ count, ...props }: Props) => {
   const { session } = useAuth()
+  const { filteredTask } = useTaskFilter()
+  const tasks = useSelector(selectCurrentTasks)
   const { isFetching, isError, error, data, refetch } = useGetTasksQuery(
     session?.user.id as string
   )
-  const { filteredTask } = useTaskFilter()
 
   useEffect(() => {
-    if (session) refetch()
+    if (session && tasks.length === 0) refetch()
   }, [session])
 
   const setNotifications = async () => {
@@ -37,7 +44,7 @@ export const TaskList = (props: ScrollViewProps) => {
   if (isError) return <Text>{error.message}</Text>
   return (
     <FlatList
-      data={filteredTask}
+      data={count ? filteredTask.slice(0, count) : filteredTask}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => <Task {...item} />}
       ItemSeparatorComponent={Separator}

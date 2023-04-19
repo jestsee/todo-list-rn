@@ -1,15 +1,16 @@
 import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import { AuthNavigationType } from '@custom-types/route'
 import { CustomButton } from './components/customButton'
 import { Ionicons } from '@expo/vector-icons'
 import { MaterialIcons } from '@expo/vector-icons'
 import { RectButton } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import actions from '@redux/slice/tasksSlice'
 import { baseStyles } from '@constants/styles'
 import { selectCurrentTasks } from '@redux/slice/tasksSlice'
 import { useAuth } from '@hooks/useAuth'
 import { useNavigation } from '@react-navigation/native'
-import { useSelector } from 'react-redux'
 import { useSignOutMutation } from '@redux/api/authApi'
 import { useState } from 'react'
 import { useUploadPhoto } from './composables/useUploadPhoto'
@@ -20,8 +21,17 @@ export const Profile = () => {
   const { session } = useAuth()
   const [signOut] = useSignOutMutation()
   const { uploadPhoto } = useUploadPhoto()
-
+  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
+
+  const _signOut = () => {
+    signOut()
+      .unwrap()
+      .then((item) => {
+        if (item !== 'success') return
+        dispatch(actions.emptyTask())
+      })
+  }
 
   return (
     <SafeAreaView
@@ -83,7 +93,7 @@ export const Profile = () => {
         icon="logout"
         text="Logout"
         style={{ marginTop: 24 }}
-        onPress={signOut}
+        onPress={_signOut}
       />
     </SafeAreaView>
   )

@@ -7,7 +7,9 @@ const initialState: Task[] = []
 const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
-  reducers: {},
+  reducers: {
+    emptyTask: () => []
+  },
   extraReducers(builder) {
     builder
       .addMatcher(
@@ -33,5 +35,6 @@ const tasksSlice = createSlice({
   }
 })
 
+export default tasksSlice.actions
 export const { reducer: tasksReducer } = tasksSlice
 export const selectCurrentTasks = (state: RootState) => state.tasks

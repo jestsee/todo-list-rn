@@ -34,8 +34,7 @@ const Task = () => {
     contentWidth: number,
     contentHeight: number
   ) => {
-    console.log('masoook', contentHeight, height)
-
+    // TODO berapa height dari bottom nav bar nya?
     setIsScrollable(contentHeight > height - 100)
   }
 
