@@ -28,6 +28,7 @@ export const Contact = () => {
               phoneNumber={phoneNumbers ? phoneNumbers[0].number : undefined}
             />
           )}
+          nestedScrollEnabled
         />
       </ScrollView>
     </SafeAreaView>

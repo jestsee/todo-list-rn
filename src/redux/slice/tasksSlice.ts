@@ -1,6 +1,6 @@
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { RootState } from '@redux/store'
 import { Task } from '@custom-types/task'
-import { createSlice } from '@reduxjs/toolkit'
 import { taskApi } from '@redux/api'
 
 const initialState: Task[] = []
@@ -8,7 +8,12 @@ const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    emptyTask: () => []
+    emptyTask: () => [],
+    updateTask: (state, { payload }: PayloadAction<Task>) => [
+      ...state.map((item) =>
+        item.id === payload.id ? { ...item, ...payload } : item
+      )
+    ]
   },
   extraReducers(builder) {
     builder
