@@ -22,7 +22,6 @@ TaskManager.defineTask(
       if (!locations) return console.log('there is no locations')
       const location = locations[0]
       if (location) {
-        console.log('Location in background', location.coords)
         store.dispatch(setLocation(location.coords))
       }
     }

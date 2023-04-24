@@ -13,11 +13,7 @@ export const useBackgroundLocation = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    console.log('berubah')
-
     tasks.forEach(async (task) => {
-      console.log('masuk loop task')
-
       if (!task.latitude || !task.longitude) return
 
       const distance = haversine(
@@ -27,16 +23,12 @@ export const useBackgroundLocation = () => {
 
       // send notification if there is a task with location <= 2km
       if (distance <= 2) {
-        console.log('masuk <= 2')
-
         // check if there is existing locationNotification and has diff < 5
         if (
           task.locationNotification &&
           !checkTimeDiff(task.locationNotification, 5 * 60 * 60)
         )
           return
-
-        console.log('bikin notif')
 
         await Notifications.scheduleNotificationAsync({
           content: {

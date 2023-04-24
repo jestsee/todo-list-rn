@@ -58,7 +58,7 @@ export const scheduleNotification = async (data: {
   return await scheduleNotificationAsync({
     content: {
       title: data.title,
-      body: `Due ${dayjs(data.deadline).format('DD MMM YYYY')}`
+      body: `Due ${dayjs(data.deadline).format('DD MMM YYYY hh.mm')}`
     },
     trigger: { seconds: diff },
     identifier: data.notificationId

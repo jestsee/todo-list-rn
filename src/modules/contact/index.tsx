@@ -13,24 +13,18 @@ export const Contact = () => {
 
   return (
     <SafeAreaView style={baseStyles.contentStyle}>
-      <ScrollView>
-        <Text style={baseStyles.pageTitle}>Contacts</Text>
-        <Text style={baseStyles.pageSubtitle}>
-          You have {contacts.length} contact{contacts.length > 1 ? 's' : ''}
-        </Text>
-        <FlatList
-          data={contacts}
-          keyExtractor={(item) => item.id}
-          ItemSeparatorComponent={Separator}
-          renderItem={({ item: { name, phoneNumbers } }) => (
-            <ContactTile
-              name={name}
-              phoneNumber={phoneNumbers ? phoneNumbers[0].number : undefined}
-            />
-          )}
-          nestedScrollEnabled
-        />
-      </ScrollView>
+      <FlatList
+        data={contacts}
+        keyExtractor={(item) => item.id}
+        ItemSeparatorComponent={Separator}
+        renderItem={({ item: { name, phoneNumbers } }) => (
+          <ContactTile
+            name={name}
+            phoneNumber={phoneNumbers ? phoneNumbers[0].number : undefined}
+          />
+        )}
+        nestedScrollEnabled
+      />
     </SafeAreaView>
   )
 }
