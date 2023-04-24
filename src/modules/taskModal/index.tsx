@@ -115,73 +115,76 @@ export const TaskModal = ({ route, navigation }: Props) => {
           size={24}
         />
       </View>
-      <View>
-        <FlatList
-          data={subtask}
-          keyExtractor={(_, index) => index.toString()}
-          ItemSeparatorComponent={Separator}
-          keyboardShouldPersistTaps="handled"
-          renderItem={({ item, index: idx }) => (
-            <Subtask
-              key={idx}
-              placeholder="Subtask"
-              onSubmit={() => insertAt(idx + 1)}
-              ref={(e) => setSubtaskRef(idx, e ?? undefined)}
-              onChangeText={(val) => editText(idx, val)}
-              onPress={() => check(idx, item)}
-              onRemove={() => remove(idx)}
-              {...item}
-            />
-          )}
-        />
-      </View>
-      <TouchableOpacity
-        style={{
-          flexDirection: 'row',
-          marginBottom: 12,
-          marginTop: 16,
-          alignItems: 'center'
-        }}
-        onPress={() => add()}
-      >
-        <>
-          <FontAwesome5 name="plus" size={12} color="grey" />
-          <Text style={{ marginLeft: 10, color: 'grey' }}>New subtask</Text>
-        </>
-      </TouchableOpacity>
-      {checkedSubtask.length > 0 && (
-        <View
-          style={{
-            borderTopWidth: 0.5,
-            borderColor: 'grey',
-            paddingTop: 20,
-            marginTop: 16
-          }}
-        >
+      <View style={{ flex: 1 }}>
+        <View>
           <FlatList
-            data={checkedSubtask}
-            ItemSeparatorComponent={Separator}
+            data={subtask}
             keyExtractor={(_, index) => index.toString()}
+            ItemSeparatorComponent={Separator}
+            keyboardShouldPersistTaps="handled"
+            scrollEnabled={false}
             renderItem={({ item, index: idx }) => (
               <Subtask
                 key={idx}
                 placeholder="Subtask"
-                onSubmit={() => insertChecked(idx + 1)}
-                ref={(e) => setRefChecked(idx, e ?? undefined)}
-                onChangeText={(val) => editTextChecked(idx, val)}
-                onPress={() => uncheck(idx, item)}
-                onRemove={() => removeChecked(idx)}
+                onSubmit={() => insertAt(idx + 1)}
+                ref={(e) => setSubtaskRef(idx, e ?? undefined)}
+                onChangeText={(val) => editText(idx, val)}
+                onPress={() => check(idx, item)}
+                onRemove={() => remove(idx)}
                 {...item}
               />
             )}
           />
         </View>
-      )}
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            marginBottom: 12,
+            marginTop: 16,
+            alignItems: 'center'
+          }}
+          onPress={() => add()}
+        >
+          <>
+            <FontAwesome5 name="plus" size={12} color="grey" />
+            <Text style={{ marginLeft: 10, color: 'grey' }}>New subtask</Text>
+          </>
+        </TouchableOpacity>
+        {checkedSubtask.length > 0 && (
+          <View
+            style={{
+              borderTopWidth: 0.5,
+              borderColor: 'grey',
+              paddingTop: 20,
+              marginTop: 16
+            }}
+          >
+            <FlatList
+              data={checkedSubtask}
+              ItemSeparatorComponent={Separator}
+              keyExtractor={(_, index) => index.toString()}
+              scrollEnabled={false}
+              renderItem={({ item, index: idx }) => (
+                <Subtask
+                  key={idx}
+                  placeholder="Subtask"
+                  onSubmit={() => insertChecked(idx + 1)}
+                  ref={(e) => setRefChecked(idx, e ?? undefined)}
+                  onChangeText={(val) => editTextChecked(idx, val)}
+                  onPress={() => uncheck(idx, item)}
+                  onRemove={() => removeChecked(idx)}
+                  {...item}
+                />
+              )}
+            />
+          </View>
+        )}
+      </View>
       <View
         style={{
-          position: 'absolute',
           alignSelf: 'center',
-          bottom: 20,
+          marginBottom: 12,
           width: '100%'
         }}
       >
@@ -209,15 +212,27 @@ export const TaskModal = ({ route, navigation }: Props) => {
           />
           <View style={{ flexDirection: 'row' }}>
             <BaseButton onPress={showDatePicker} style={styles.attributeButton}>
-              <Ionicons name="calendar-sharp" size={24} color="dimgrey" />
+              <Ionicons
+                name="calendar-sharp"
+                size={24}
+                color={date ? 'dodgerblue' : 'dimgrey'}
+              />
             </BaseButton>
             <Gap />
             <BaseButton onPress={showTimePicker} style={styles.attributeButton}>
-              <Ionicons name="ios-time" size={24} color="dimgrey" />
+              <Ionicons
+                name="ios-time"
+                size={24}
+                color={date ? 'dodgerblue' : 'dimgrey'}
+              />
             </BaseButton>
             <Gap />
             <BaseButton onPress={toggleClick} style={styles.attributeButton}>
-              <Ionicons name="ios-location-sharp" size={24} color="dimgrey" />
+              <Ionicons
+                name="ios-location-sharp"
+                size={24}
+                color={markerCoords ? 'dodgerblue' : 'dimgrey'}
+              />
             </BaseButton>
           </View>
         </View>
@@ -227,7 +242,7 @@ export const TaskModal = ({ route, navigation }: Props) => {
 }
 
 const Gap = () => {
-  return <View style={{ width: 16 }}></View>
+  return <View style={{ width: 12 }}></View>
 }
 const Separator = () => {
   return <View style={{ height: 8 }}></View>

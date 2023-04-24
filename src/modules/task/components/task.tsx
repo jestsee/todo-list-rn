@@ -43,7 +43,7 @@ export const Task: React.FC<Props> = (item) => {
         style={[styles.container, style]}
         onPress={() => navigate('TaskModal', { task })}
       >
-        <View style={styles.taskNameContainer}>
+        <View style={styles.taskNameContainer} pointerEvents="none">
           <Text
             style={[styles.taskName, { marginRight: 16 }]}
             numberOfLines={1}

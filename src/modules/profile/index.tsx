@@ -71,7 +71,14 @@ export const Profile = () => {
           <MaterialIcons name="edit" size={20} color="white" />
         </RectButton>
       </View>
-      <Text style={{ fontSize: 40, fontWeight: 'bold', marginTop: 20 }}>
+      <Text
+        style={{
+          fontSize: 40,
+          fontWeight: 'bold',
+          marginTop: 20,
+          textAlign: 'center'
+        }}
+      >
         {session?.user.user_metadata['name']}
       </Text>
       <Text style={{ fontSize: 18, color: 'dimgrey' }}>

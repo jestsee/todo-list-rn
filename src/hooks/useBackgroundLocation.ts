@@ -1,11 +1,10 @@
 import * as Notifications from 'expo-notifications'
 import actions, { selectCurrentTasks } from '@redux/slice/tasksSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import { checkTimeDiff } from 'src/notification'
 import { haversine } from 'src/utils'
 import { selectCurrentLocation } from '@redux/slice/locationSlice'
-import { useDispatch } from 'react-redux'
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 
 export const useBackgroundLocation = () => {
   const currentLocation = useSelector(selectCurrentLocation)

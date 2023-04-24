@@ -56,7 +56,6 @@ const useSubtask = (subtaskType?: boolean, existingSubtask?: Subtask[]) => {
         return item
       })
     })
-    console.log('masoook', subtask)
   }
 
   const editCheck = (idx: number) => {
