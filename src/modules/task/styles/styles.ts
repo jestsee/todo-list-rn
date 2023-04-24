@@ -27,6 +27,7 @@ export const styles = StyleSheet.create({
     marginBottom: gap
   },
   taskName: {
+    flex: 1,
     fontSize: 22,
     fontWeight: 'bold'
   },
@@ -35,6 +36,7 @@ export const styles = StyleSheet.create({
     marginBottom: gap * 0.5
   },
   taskText: {
+    flex: 1,
     marginLeft: 12
   }
 })

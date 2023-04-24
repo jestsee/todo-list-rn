@@ -103,6 +103,7 @@ export const TaskModal = ({ route, navigation }: Props) => {
       />
       <View style={styles.titleContainer}>
         <TextInput
+          multiline={true}
           style={styles.taskTitle}
           placeholder="Task title "
           onChangeText={(text) => setTitle(text)}
@@ -242,6 +243,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20
   },
   taskTitle: {
+    flex: 1,
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 12

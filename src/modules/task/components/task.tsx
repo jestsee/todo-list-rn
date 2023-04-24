@@ -44,7 +44,13 @@ export const Task: React.FC<Props> = (item) => {
         onPress={() => navigate('TaskModal', { task })}
       >
         <View style={styles.taskNameContainer}>
-          <Text style={styles.taskName}>{title}</Text>
+          <Text
+            style={[styles.taskName, { marginRight: 16 }]}
+            numberOfLines={1}
+            ellipsizeMode="tail"
+          >
+            {title}
+          </Text>
           <Badge
             style={priorityColor[priority as keyof typeof priorityColor]}
             text="Priority"
@@ -63,7 +69,7 @@ export const Task: React.FC<Props> = (item) => {
             </View>
           )}
         </View>
-        {subtask?.map((item, idx) => (
+        {subtask?.slice(0, 2).map((item, idx) => (
           <SubtaskType
             {...item}
             key={idx}

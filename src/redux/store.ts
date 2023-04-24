@@ -20,7 +20,10 @@ export const store = configureStore({
     location: locationReducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat([
+    getDefaultMiddleware({
+      serializableCheck: false,
+      immutableCheck: false
+    }).concat([
       authApi.middleware,
       profileApi.middleware,
       taskApi.middleware,
