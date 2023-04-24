@@ -5,9 +5,11 @@ import { TextInput } from 'react-native'
 type CustomTextInput = TextInput | undefined
 
 const useSubtask = (subtaskType?: boolean, existingSubtask?: Subtask[]) => {
-  const [subtask, setSubtask] = useState<Subtask[]>([])
   const [isLastIdx, setIsLastIdx] = useState(false)
   const subtaskRefs = useRef<CustomTextInput[]>([])
+  const [subtask, setSubtask] = useState<Subtask[]>(
+    existingSubtask?.filter((item) => item.checked === subtaskType) ?? []
+  )
 
   useEffect(() => {
     subtaskRefs.current = subtaskRefs.current.slice(0, subtask.length)
@@ -22,9 +24,6 @@ const useSubtask = (subtaskType?: boolean, existingSubtask?: Subtask[]) => {
 
   useEffect(() => {
     if (!subtaskType && !existingSubtask) add()
-    if (existingSubtask) {
-      setSubtask(existingSubtask.filter((item) => item.checked === subtaskType))
-    }
   }, [])
 
   const setSubtaskRef = (idx: number, e?: TextInput) => {
@@ -52,10 +51,12 @@ const useSubtask = (subtaskType?: boolean, existingSubtask?: Subtask[]) => {
 
   const editText = (idx: number, newText: string) => {
     setSubtask((prevSubtask) => {
-      const newSubtask = [...prevSubtask]
-      newSubtask[idx].text = newText
-      return newSubtask
+      return prevSubtask.map((item, i) => {
+        if (i === idx) return { ...item, text: newText }
+        return item
+      })
     })
+    console.log('masoook', subtask)
   }
 
   const editCheck = (idx: number) => {
