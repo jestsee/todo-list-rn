@@ -1,5 +1,12 @@
 import * as Notifications from 'expo-notifications'
-import { FlatList, ScrollViewProps, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  ScrollViewProps,
+  Text,
+  View
+} from 'react-native'
 import actions, { selectCurrentTasks } from '@redux/slice/tasksSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { Task } from './task'
@@ -42,7 +49,7 @@ export const TaskList = ({ count, ...props }: Props) => {
     setNotifications()
   }, [data])
 
-  if (isFetching) return <Text>Loading</Text>
+  if (isFetching) return <ActivityIndicator style={{ flex: 1 }} size="large" />
   if (isError) return <Text>{error.message}</Text>
   return (
     <FlatList
@@ -50,6 +57,9 @@ export const TaskList = ({ count, ...props }: Props) => {
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => <Task {...item} />}
       ItemSeparatorComponent={Separator}
+      refreshControl={
+        <RefreshControl refreshing={isFetching} onRefresh={refetch} />
+      }
       {...props}
     />
   )

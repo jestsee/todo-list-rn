@@ -7,14 +7,12 @@ export default {
     slug: 'todo_list_rn',
     version: '1.0.0',
     orientation: 'portrait',
-    icon: './assets/icon.png',
+    icon: './assets/react.png',
     userInterfaceStyle: 'light',
     scheme: 'io.supabase.todolist',
     splash: {
-      image: './assets/splash.png',
-
+      image: './assets/react-splash.png',
       resizeMode: 'contain',
-
       backgroundColor: '#ffffff'
     },
     updates: {
@@ -26,7 +24,7 @@ export default {
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: './assets/adaptive-icon.png',
+        foregroundImage: './assets/react.png',
 
         backgroundColor: '#FFFFFF'
       },
@@ -51,7 +49,7 @@ export default {
       ]
     },
     web: {
-      favicon: './assets/favicon.png'
+      favicon: './assets/react.png'
     },
     extra: {
       supabaseUrl: process.env.SUPABASE_URL,
