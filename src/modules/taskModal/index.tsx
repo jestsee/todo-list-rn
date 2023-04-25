@@ -1,6 +1,6 @@
+import { BaseButton, ScrollView } from 'react-native-gesture-handler'
 import { Button, Chip } from '@components'
 import {
-  FlatList,
   StyleSheet,
   Text,
   TextInput,
@@ -10,7 +10,6 @@ import {
 import { useAddTaskMutation, useUpdateTaskMutation } from '@redux/api/taskApi'
 import { useEffect, useState } from 'react'
 import { AuthStackParamList } from '@custom-types/route'
-import { BaseButton } from 'react-native-gesture-handler'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
 import MapModal from './components/mapModal'
@@ -115,27 +114,21 @@ export const TaskModal = ({ route, navigation }: Props) => {
           size={24}
         />
       </View>
-      <View style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1 }}>
         <View>
-          <FlatList
-            data={subtask}
-            keyExtractor={(_, index) => index.toString()}
-            ItemSeparatorComponent={Separator}
-            keyboardShouldPersistTaps="handled"
-            scrollEnabled={false}
-            renderItem={({ item, index: idx }) => (
-              <Subtask
-                key={idx}
-                placeholder="Subtask"
-                onSubmit={() => insertAt(idx + 1)}
-                ref={(e) => setSubtaskRef(idx, e ?? undefined)}
-                onChangeText={(val) => editText(idx, val)}
-                onPress={() => check(idx, item)}
-                onRemove={() => remove(idx)}
-                {...item}
-              />
-            )}
-          />
+          {subtask.map((item, idx) => (
+            <Subtask
+              key={idx}
+              style={{ marginBottom: idx !== subtask.length - 1 ? 8 : 0 }}
+              placeholder="Subtask"
+              onSubmit={() => insertAt(idx + 1)}
+              ref={(e) => setSubtaskRef(idx, e ?? undefined)}
+              onChangeText={(val) => editText(idx, val)}
+              onPress={() => check(idx, item)}
+              onRemove={() => remove(idx)}
+              {...item}
+            />
+          ))}
         </View>
         <TouchableOpacity
           style={{
@@ -160,27 +153,24 @@ export const TaskModal = ({ route, navigation }: Props) => {
               marginTop: 16
             }}
           >
-            <FlatList
-              data={checkedSubtask}
-              ItemSeparatorComponent={Separator}
-              keyExtractor={(_, index) => index.toString()}
-              scrollEnabled={false}
-              renderItem={({ item, index: idx }) => (
-                <Subtask
-                  key={idx}
-                  placeholder="Subtask"
-                  onSubmit={() => insertChecked(idx + 1)}
-                  ref={(e) => setRefChecked(idx, e ?? undefined)}
-                  onChangeText={(val) => editTextChecked(idx, val)}
-                  onPress={() => uncheck(idx, item)}
-                  onRemove={() => removeChecked(idx)}
-                  {...item}
-                />
-              )}
-            />
+            {checkedSubtask.map((item, idx) => (
+              <Subtask
+                key={idx}
+                style={{
+                  marginBottom: idx !== checkedSubtask.length - 1 ? 8 : 0
+                }}
+                placeholder="Subtask"
+                onSubmit={() => insertChecked(idx + 1)}
+                ref={(e) => setRefChecked(idx, e ?? undefined)}
+                onChangeText={(val) => editTextChecked(idx, val)}
+                onPress={() => uncheck(idx, item)}
+                onRemove={() => removeChecked(idx)}
+                {...item}
+              />
+            ))}
           </View>
         )}
-      </View>
+      </ScrollView>
       <View
         style={{
           alignSelf: 'center',
