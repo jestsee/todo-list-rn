@@ -9,6 +9,10 @@ const tasksSlice = createSlice({
   initialState,
   reducers: {
     emptyTask: () => [],
+    addTasks: (state, { payload }: PayloadAction<Task[]>) => [
+      ...state,
+      ...payload
+    ],
     updateTask: (state, { payload }: PayloadAction<Task>) => [
       ...state.map((item) =>
         item.id === payload.id ? { ...item, ...payload } : item

@@ -10,6 +10,7 @@ import actions from '@redux/slice/tasksSlice'
 import { baseStyles } from '@constants/styles'
 import { selectCurrentTasks } from '@redux/slice/tasksSlice'
 import { useAuth } from '@hooks/useAuth'
+import useFaker from '@hooks/useFaker'
 import { useNavigation } from '@react-navigation/native'
 import { useSignOutMutation } from '@redux/api/authApi'
 import { useState } from 'react'
@@ -23,6 +24,7 @@ export const Profile = () => {
   const { uploadPhoto } = useUploadPhoto()
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
+  const { generateTask } = useFaker()
 
   const _signOut = () => {
     signOut()
@@ -31,6 +33,14 @@ export const Profile = () => {
         if (item !== 'success') return
         dispatch(actions.emptyTask())
       })
+  }
+
+  const _generateTask = () => {
+    if (!session?.user.id) return
+    const generatedTasks = Array.from({ length: 50 }, () =>
+      generateTask(session?.user.id)
+    )
+    dispatch(actions.addTasks(generatedTasks))
   }
 
   return (
@@ -93,13 +103,19 @@ export const Profile = () => {
       <CustomButton
         icon="lock"
         text="Change password"
-        style={{ marginTop: 24 }}
+        style={{ marginTop: 20 }}
         onPress={() => navigate('PasswordModal')}
+      />
+      <CustomButton
+        icon="code"
+        text="Generate dummy data"
+        style={{ marginTop: 20 }}
+        onPress={() => _generateTask()}
       />
       <CustomButton
         icon="logout"
         text="Logout"
-        style={{ marginTop: 24 }}
+        style={{ marginTop: 20 }}
         onPress={_signOut}
       />
     </SafeAreaView>
