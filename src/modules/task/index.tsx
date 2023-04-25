@@ -41,6 +41,7 @@ const Task = () => {
   return (
     <View style={{ flex: 1, paddingHorizontal: 16 }}>
       <TaskList
+        style={{ marginHorizontal: -16, paddingHorizontal: 16 }}
         onScroll={handleScroll}
         onContentSizeChange={handleContentSizeChange}
       />
