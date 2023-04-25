@@ -7,13 +7,11 @@ import { useAuth } from '@hooks/useAuth'
 import { useBackgroundLocation } from '@hooks/useBackgroundLocation'
 import { useEffect } from 'react'
 import { useGetSessionQuery } from '@redux/api/authApi'
-import { useNotification } from '@hooks/useNotification'
 
 export const Routes = () => {
   const { isFetching } = useGetSessionQuery()
   const { session } = useAuth()
 
-  useNotification() // deleting soon
   useBackgroundLocation()
 
   const removeAllNotification = async () => {

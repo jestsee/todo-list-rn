@@ -1,12 +1,12 @@
 import * as Notifications from 'expo-notifications'
 import { FlatList, ScrollViewProps, Text, View } from 'react-native'
+import actions, { selectCurrentTasks } from '@redux/slice/tasksSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import { Task } from './task'
 import { scheduleNotification } from 'src/notification'
-import { selectCurrentTasks } from '@redux/slice/tasksSlice'
 import { useAuth } from '@hooks/useAuth'
 import { useEffect } from 'react'
 import { useGetTasksQuery } from '@redux/api/taskApi'
-import { useSelector } from 'react-redux'
 import { useTaskFilter } from '@hooks/useTaskFilter'
 
 interface Props extends ScrollViewProps {
@@ -17,6 +17,7 @@ export const TaskList = ({ count, ...props }: Props) => {
   const { session } = useAuth()
   const { filteredTask } = useTaskFilter()
   const tasks = useSelector(selectCurrentTasks)
+  const dispatch = useDispatch()
   const { isFetching, isError, error, data, refetch } = useGetTasksQuery(
     session?.user.id as string
   )
@@ -32,7 +33,8 @@ export const TaskList = ({ count, ...props }: Props) => {
     if (currentNotifications.length > 0) return
     console.log('[initial setup notif]')
     data?.forEach(async (item) => {
-      await scheduleNotification(item)
+      const notificationId = await scheduleNotification(item)
+      dispatch(actions.updateTask({ ...item, notificationId }))
     })
   }
 
