@@ -29,26 +29,31 @@ export const taskApi = createApi({
     addTask: builder.mutation<TasksResponse, AddTaskPayload>({
       async queryFn(newTask, { dispatch }) {
         delete newTask.notificationId
+        delete newTask.locationNotification
+
         const { data, error } = await addTask(newTask)
         if (error) return { error: { message: error.message } }
         dispatch(snackbar.show({ message: 'Task successfully added' }))
 
+        // schedule notification
         const notificationId = await scheduleNotification(data[0])
+
         return { data: [{ ...data[0], notificationId }] }
       }
     }),
     updateTask: builder.mutation<UpdateTaskPayload, UpdateTaskPayload>({
       async queryFn(updatedTask, { dispatch }) {
-        if (updatedTask.notificationId) {
-          removeScheduledNotification(updatedTask.notificationId)
-        }
-
+        const notificationId = updatedTask.notificationId
         delete updatedTask.notificationId
+        delete updatedTask.locationNotification
+
         const { error } = await updateTask(updatedTask)
         if (error) return { error: { message: error.message } }
         dispatch(snackbar.show({ message: 'Task successfully updated' }))
 
-        const notificationId = await scheduleNotification(updatedTask)
+        // update notification
+        await scheduleNotification({ ...updatedTask, notificationId })
+
         return { data: { ...updatedTask, notificationId } }
       }
     }),

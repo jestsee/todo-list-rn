@@ -1,18 +1,17 @@
 import * as Notifications from 'expo-notifications'
+import { ActivityIndicator } from 'react-native'
 import Authenticated from './components/Authenticated'
 import { NavigationContainer } from '@react-navigation/native'
-import { SplashScreen } from 'src/routes/components/SplashScreen'
 import Unauthenticated from './components/Unauthenticated'
 import { useAuth } from '@hooks/useAuth'
 import { useBackgroundLocation } from '@hooks/useBackgroundLocation'
 import { useEffect } from 'react'
 import { useGetSessionQuery } from '@redux/api/authApi'
-import { useNotification } from '@hooks/useNotification'
+
 export const Routes = () => {
   const { isFetching } = useGetSessionQuery()
   const { session } = useAuth()
 
-  useNotification() // deleting soon
   useBackgroundLocation()
 
   const removeAllNotification = async () => {
@@ -25,7 +24,7 @@ export const Routes = () => {
   }, [session])
 
   if (isFetching && !session) {
-    return <SplashScreen />
+    return <ActivityIndicator style={{ flex: 1 }} size={40} />
   }
 
   return (

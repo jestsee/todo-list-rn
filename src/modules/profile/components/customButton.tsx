@@ -6,7 +6,7 @@ interface Props {
   text: string
   onPress?: () => void
   style?: StyleProp<ViewStyle>
-  icon: 'edit' | 'lock' | 'logout'
+  icon: 'edit' | 'lock' | 'logout' | 'code'
 }
 
 export const CustomButton = ({ text, onPress, style, icon }: Props) => {

@@ -93,8 +93,8 @@ export const FilterModal = () => {
           </View>
           <FlatList
             style={{ marginBottom: 20 }}
-            numColumns={3}
             data={priorityData}
+            horizontal={true}
             keyExtractor={(item) => item.name}
             renderItem={({ item: { name, color }, index }) => (
               <Chip

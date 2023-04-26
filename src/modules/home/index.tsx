@@ -17,7 +17,7 @@ export const Home = () => {
   const { isLoading } = useGetTasksQuery(session?.user.id as string)
 
   return (
-    <SafeAreaView style={baseStyles.contentStyle}>
+    <SafeAreaView style={[baseStyles.contentStyle, { paddingTop: 32 }]}>
       <View style={{ marginBottom: 32 }}>
         <Text style={styles.title}>
           Hi, {session?.user.user_metadata['name']}!
@@ -36,7 +36,7 @@ export const Home = () => {
           <Text style={styles.seeAll}>See all</Text>
         </TouchableOpacity>
       </View>
-      <TaskList />
+      <TaskList count={2} />
     </SafeAreaView>
   )
 }

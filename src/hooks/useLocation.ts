@@ -16,15 +16,14 @@ TaskManager.defineTask(
     locations?: Array<Location.LocationObject>
   }>) => {
     if (error) return console.error(error)
-    if (!data) return
-
-    // Extract location coordinates from data
-    const { locations } = data
-    if (!locations) return console.log('there is no locations')
-    const location = locations[0]
-    if (location) {
-      console.log('Location in background', location.coords)
-      store.dispatch(setLocation(location.coords))
+    if (data) {
+      // Extract location coordinates from data
+      const { locations } = data
+      if (!locations) return console.log('there is no locations')
+      const location = locations[0]
+      if (location) {
+        store.dispatch(setLocation(location.coords))
+      }
     }
   }
 )

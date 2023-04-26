@@ -1,10 +1,13 @@
+import { Image } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Text } from 'react-native'
 
 export const SplashScreen = () => {
   return (
     <SafeAreaView>
-      <Text>splash screen</Text>
+      <Image
+        style={{ height: 160, width: 160 }}
+        source={require('@assets/react.png')}
+      />
     </SafeAreaView>
   )
 }

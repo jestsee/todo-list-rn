@@ -1,15 +1,17 @@
 import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import { AuthNavigationType } from '@custom-types/route'
 import { CustomButton } from './components/customButton'
 import { Ionicons } from '@expo/vector-icons'
 import { MaterialIcons } from '@expo/vector-icons'
 import { RectButton } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import actions from '@redux/slice/tasksSlice'
 import { baseStyles } from '@constants/styles'
 import { selectCurrentTasks } from '@redux/slice/tasksSlice'
 import { useAuth } from '@hooks/useAuth'
+import useFaker from '@hooks/useFaker'
 import { useNavigation } from '@react-navigation/native'
-import { useSelector } from 'react-redux'
 import { useSignOutMutation } from '@redux/api/authApi'
 import { useState } from 'react'
 import { useUploadPhoto } from './composables/useUploadPhoto'
@@ -20,8 +22,26 @@ export const Profile = () => {
   const { session } = useAuth()
   const [signOut] = useSignOutMutation()
   const { uploadPhoto } = useUploadPhoto()
-
+  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
+  const { generateTask } = useFaker()
+
+  const _signOut = () => {
+    signOut()
+      .unwrap()
+      .then((item) => {
+        if (item !== 'success') return
+        dispatch(actions.emptyTask())
+      })
+  }
+
+  const _generateTask = () => {
+    if (!session?.user.id) return
+    const generatedTasks = Array.from({ length: 50 }, () =>
+      generateTask(session?.user.id)
+    )
+    dispatch(actions.addTasks(generatedTasks))
+  }
 
   return (
     <SafeAreaView
@@ -61,7 +81,14 @@ export const Profile = () => {
           <MaterialIcons name="edit" size={20} color="white" />
         </RectButton>
       </View>
-      <Text style={{ fontSize: 40, fontWeight: 'bold', marginTop: 20 }}>
+      <Text
+        style={{
+          fontSize: 40,
+          fontWeight: 'bold',
+          marginTop: 20,
+          textAlign: 'center'
+        }}
+      >
         {session?.user.user_metadata['name']}
       </Text>
       <Text style={{ fontSize: 18, color: 'dimgrey' }}>
@@ -76,14 +103,20 @@ export const Profile = () => {
       <CustomButton
         icon="lock"
         text="Change password"
-        style={{ marginTop: 24 }}
+        style={{ marginTop: 20 }}
         onPress={() => navigate('PasswordModal')}
+      />
+      <CustomButton
+        icon="code"
+        text="Generate dummy data"
+        style={{ marginTop: 20 }}
+        onPress={() => _generateTask()}
       />
       <CustomButton
         icon="logout"
         text="Logout"
-        style={{ marginTop: 24 }}
-        onPress={signOut}
+        style={{ marginTop: 20 }}
+        onPress={_signOut}
       />
     </SafeAreaView>
   )

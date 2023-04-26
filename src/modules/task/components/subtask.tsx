@@ -40,9 +40,10 @@ const Subtask = forwardRef<TextInput, Props>((props, ref) => {
     <View
       style={[styles.taskContainer, style, { justifyContent: 'space-between' }]}
     >
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{ flexDirection: 'row', flex: 1 }}>
         <Checkbox onPress={onPress} {...rest} />
         <TextInput
+          multiline={true}
           style={[styles.taskText, rest.checked ? styles.taskDone : undefined]}
           defaultValue={text}
           placeholder={placeholder}
