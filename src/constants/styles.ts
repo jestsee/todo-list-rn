@@ -9,8 +9,7 @@ export const Red = '#ff0000'
 export const baseStyles = StyleSheet.create({
   contentStyle: {
     flex: 1,
-    padding: 36,
-    paddingTop: 52
+    padding: 18
   },
 
   pageTitle: {

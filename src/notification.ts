@@ -37,9 +37,13 @@ export const registerForPushNotificationsAsync = async () => {
 export const removeScheduledNotification = async (id: string) =>
   await cancelScheduledNotificationAsync(id)
 
+export const checkTimeDiff = (time: string, diff: number) => {
+  return Math.abs(dayjs(time).diff(dayjs(), 'second')) >= diff
+}
+
 export const scheduleNotification = async (data: {
-  deadline?: string | undefined
-  notificationId?: string | undefined
+  deadline?: string
+  notificationId?: string
   title?: string
 }) => {
   if (!data.deadline) return
@@ -54,10 +58,9 @@ export const scheduleNotification = async (data: {
   return await scheduleNotificationAsync({
     content: {
       title: data.title,
-      body: `Due ${dayjs(data.deadline).format('DD MMM YYYY')}`
+      body: `Due ${dayjs(data.deadline).format('DD MMM YYYY hh.mm')}`
     },
-    trigger: {
-      seconds: diff
-    }
+    trigger: { seconds: diff },
+    identifier: data.notificationId
   })
 }
